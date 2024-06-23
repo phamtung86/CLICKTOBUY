@@ -14,7 +14,6 @@ const getInformationProduct = (product, cart, setCart) => {
     setCart(newCart);
   } else {
     const newProduct = {id, image,name, unit, price,priceSale, note, sale, quantity};
-    console.log(cart)
     setCart([...cart,newProduct]);
   }
 };
