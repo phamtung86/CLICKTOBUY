@@ -16,11 +16,13 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev": "concurrently \"npm start\" \"npm run backendProvinces\" \"npm run backendDistricts\" \"npm run backendWards\"",
+    "dev": "concurrently \"npm start\" \"npm run backendProvinces\" \"npm run backendDistricts\" \"npm run backendWards\" \"npm run backendProductSaleTet\" \"npm run backendProductToday\" \"npm run backendMenu\"",
     "backendProvinces":"node src/backend/myAPI/apiProvinces/index.js",
     "backendDistricts":"node src/backend/myAPI/apiDistricts/index.js",
-    "backendWards":"node src/backend/myAPI/apiWards/index.js"
-
+    "backendWards":"node src/backend/myAPI/apiWards/index.js",
+    "backendProductSaleTet" : "node src/backend/myAPI/apiProducts/apiProductSaleTet/index.js",
+    "backendProductToday" : "node src/backend/myAPI/apiProducts/apiProductToday/index.js",
+    "backendMenu" : "node src/backend/myAPI/apiMenu/index.js"
   },
   "eslintConfig": {
     "extends": [

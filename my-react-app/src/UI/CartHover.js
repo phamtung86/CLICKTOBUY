@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import '../index.css'
+import '../Style/carthover.css'
 function getElementHover() {
     var cartStorage = JSON.parse(localStorage.getItem("cart"));
     var cart = [];
