@@ -1,0 +1,130 @@
+.services__nav {
+  height: 3rem;
+  width: 100%;
+  background-color: rgb(241, 240, 241);
+  border-bottom: 1px solid rgb(184, 184, 184);
+}
+
+.nav--all {
+  height: 100%;
+  width: 75rem;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.menu--title--icon {
+  height: 100%;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu--list--component {
+  width: 75rem;
+  z-index: 3;
+  border-radius: 10px 10px 10px 10px;
+  display: none;
+  position: absolute;
+  bottom: 5px;
+}
+
+.main--menu--component {
+  width: 100%;
+  display: flex
+}
+
+.nav--menu:hover .menu--list--component {
+  display: flex;
+}
+
+.menu--main {
+  background-color: #fff;
+  border: 1px inset black;
+}
+
+.menu--list {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu--item {
+  width: 100%;
+  list-style-type: none;
+  font-weight: 500;
+  border-radius: 10px;
+}
+
+.menu--item--click {
+  padding: 5px 5px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  color: black;
+}
+
+.menu--item--click:hover {
+  background-color: rgb(0, 183, 255);
+}
+
+.nav--support {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.support--news,
+.support--advise {
+  display: flex;
+  gap: 10px;
+}
+
+.menu--component {
+  height: 100%;
+  width: 63rem;
+}
+
+.component--all {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  background-color: #fff;
+  padding: 10px 10px;
+  border-radius: 10px;
+  box-shadow: 2px 0px 2px rgba(0, 0, 0, 0.368), 0px 2px 2px rgba(0, 0, 0, 0.368), -2px 0px 2px rgba(0, 0, 0, 0.368), 0px -2px 2px rgba(0, 0, 0, 0.368);
+  ;
+}
+
+.component--title {
+  height: 100%;
+  width: 31rem;
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+}
+
+.component--title--click {
+  text-decoration: none;
+  color: black;
+}
+
+.component--image {
+  height: 100%;
+}
+
+.image--component {
+  height: 100%;
+  width: 100%;
+}

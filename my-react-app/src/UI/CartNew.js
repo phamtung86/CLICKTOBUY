@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import '../index.css';
+import '../Style/cart.css';
 
 const getInformationProduct = (product, cart, setCart) => {
   const {id,image, name, unit, price, priceSale = price,note, sale, quantity = 1} = product;

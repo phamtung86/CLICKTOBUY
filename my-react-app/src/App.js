@@ -6,7 +6,7 @@ import Services from './UI/Services';
 import ProductTodayNew from './UI/ProductTodayNew';
 import ProductSaleTetNew from './UI/ProductSaleTetNew';
 import CartNew from './UI/CartNew';
-
+import './Style/body.css'
 
 function App() {
   const [cart, setCart] = useState(() => {
@@ -24,10 +24,10 @@ function App() {
     <Services />
     <Banner />
     <ProductTodayNew cart ={cart} setCart= {setCart}/>
-      <ProductSaleTetNew cart={cart} setCart={setCart} />
-      <CartNew cart={cart} setCart={setCart} />
+    <ProductSaleTetNew cart={cart} setCart={setCart} />
+    <CartNew cart={cart} setCart={setCart} />
     </div>
-  );
-}
+    );
+  }
 
 export default App;

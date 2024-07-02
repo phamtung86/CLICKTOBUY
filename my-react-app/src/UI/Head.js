@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import CartHover from "./CartHover";
 import LocatedNew from "./LocatedNew";
-import { Link } from 'react-router-dom';
 import { LoadDataHover } from "./CartHover";
+import '../Style/header.css'
+
 
 const Head = () => {
   const [current, setCurrent] = useState(1);
