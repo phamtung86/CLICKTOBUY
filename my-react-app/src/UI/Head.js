@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import CartHover from "./CartHover";
 import LocatedNew from "./LocatedNew";
-import { LoadDataHover } from "./CartHover";
 import '../Style/header.css'
 
 
@@ -30,14 +29,13 @@ const Head = () => {
         <div className="located--default" onClick={changeCurrent}>
           <span><i className="fa-solid fa-location-dot"></i></span>
           <button className="located--click">Giao hàng</button>
-
         </div>
         <span className="located--display"></span>
         {current % 2 === 0 && <LocatedNew />}
       </div>
       <div className="header__cart" onMouseEnter={changeHover}>
-        <div className="cart--icon" onMouseEnter={LoadDataHover}><i className="fa-solid fa-cart-shopping"></i></div>
-        <div className="cart--title">Giỏ hàng</div>
+        <div className="cart--icon" ><i className="fa-solid fa-cart-shopping"></i></div>
+        <div className="cart--title" >Giỏ hàng</div>
         {hover % 2 === 0 && <CartHover />}
       </div>
       <div className="header__account">
