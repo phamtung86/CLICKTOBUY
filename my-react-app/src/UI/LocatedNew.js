@@ -106,9 +106,7 @@ const LocatedNew = () => {
                     {renderDataLocated()}
                     <div className="click--select">
                         <input className="submit" type="submit" value="Xác nhận"  onClick={handleChange} name='value'/>
-                        <button className="cancel" type="button" onClick={changeClass}>
-                            Thoát
-                        </button>
+                        <button className="cancel" type="button" onClick={changeClass}>Thoát</button>
                     </div>
                 </div>
             )}

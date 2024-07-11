@@ -6,9 +6,10 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "font-awesome": "^4.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -17,12 +18,12 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "concurrently \"npm start\" \"npm run backendProvinces\" \"npm run backendDistricts\" \"npm run backendWards\" \"npm run backendProductSaleTet\" \"npm run backendProductToday\" \"npm run backendMenu\"",
-    "backendProvinces":"node src/backend/myAPI/apiProvinces/index.js",
-    "backendDistricts":"node src/backend/myAPI/apiDistricts/index.js",
-    "backendWards":"node src/backend/myAPI/apiWards/index.js",
-    "backendProductSaleTet" : "node src/backend/myAPI/apiProducts/apiProductSaleTet/index.js",
-    "backendProductToday" : "node src/backend/myAPI/apiProducts/apiProductToday/index.js",
-    "backendMenu" : "node src/backend/myAPI/apiMenu/index.js"
+    "backendProvinces": "node src/backend/myAPI/apiProvinces/index.js",
+    "backendDistricts": "node src/backend/myAPI/apiDistricts/index.js",
+    "backendWards": "node src/backend/myAPI/apiWards/index.js",
+    "backendProductSaleTet": "node src/backend/myAPI/apiProducts/apiProductSaleTet/index.js",
+    "backendProductToday": "node src/backend/myAPI/apiProducts/apiProductToday/index.js",
+    "backendMenu": "node src/backend/myAPI/apiMenu/index.js"
   },
   "eslintConfig": {
     "extends": [
@@ -41,5 +42,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^6.5.2",
+    "concurrently": "^8.2.2",
+    "source-map-loader": "^5.0.0"
   }
 }

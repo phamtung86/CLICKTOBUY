@@ -74,7 +74,6 @@ const CartNew = ({cart,setCart}) => {
   if (!Array.isArray(cart)) {
     cart = [];
   }
-  // const [cart, setCart] = useCart();
   const totalBill = cart.reduce((sum, item) => (item.priceSale) ? sum + item.priceSale * item.quantity: sum + item.price * item.quantity, 0).toLocaleString('en-US', { maximumFractionDigits: 3 });
   const totalSale = cart.reduce((sum, item) => sum + (item.price - item.priceSale) * item.quantity, 0).toLocaleString('en-US', { maximumFractionDigits: 3 });
   const feeShip = (totalBill > 0) ? (5000 * Math.floor(Math.random() * 10) * 0.001).toLocaleString('en-US', { maximumFractionDigits: 3 }) : 0;
