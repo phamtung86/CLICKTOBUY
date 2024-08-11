@@ -1,0 +1,91 @@
+.page__forgot--pass {
+    background-color: rgb(197, 230, 250);
+}
+
+.forgot--pass {
+    width: 35rem;
+    height: 70rem;
+    background-color: rgb(255, 255, 255);
+    margin: auto;
+    padding: 20px 20px;
+    display: block;
+}
+
+.forgot--pass__header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.header--back {
+    color: black;
+    padding: 10px 10px;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.shop__name {
+    font-weight: 900;
+}
+
+.forgot--pass__title {
+    font-size: 20px;
+    width: 50%;
+    margin: auto;
+    text-align: center;
+    padding: 10px 10px;
+}
+
+.forgot--pass__form {
+    margin-top: 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+}
+.forgot--pass__button {
+    width: 70%;
+    padding: 10px 10px;
+    background-color: rgb(78, 175, 255);
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    color: #fff;
+}
+.forgot--pass__other {
+    width: 70%;
+    border-bottom: 1px solid gray;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.forgot--pass__other__title {
+    position: absolute;
+    bottom: -12px;
+    text-align: center;
+    background-color: #fff;
+    padding: 0px 10px ;
+}
+.account__title,
+.password__title {
+    position: absolute;
+    left: 10px;
+    top: 15px;
+    background-color: white;
+    padding: 0 5px;
+    transition: all 0.3s ease;
+    color: #999;
+}
+
+/* Hiệu ứng khi input được chọn */
+.account__title1,.password__title1 {
+    position: absolute;
+    top: -15px;
+    left: 10px;
+    font-size: 12px;
+    background-color: white;
+    color: rgb(78, 175, 255);
+    transition: all 0.3s ease;
+}

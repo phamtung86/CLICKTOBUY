@@ -9,6 +9,7 @@
     box-shadow: 2px 0px 2px rgba(0, 0, 0, 0.368), 0px 2px 2px rgba(0, 0, 0, 0.368), -2px 0px 2px rgba(0, 0, 0, 0.368), 0px -2px 2px rgba(0, 0, 0, 0.368);
     padding: 2px 5px 2px 5px;
     z-index: 4;
+    display: none;
   }
   
   .cart--infor--show {
@@ -88,4 +89,9 @@
     display: none;
   }
   
-  
+  .cart__detail--click{
+    text-decoration: none;
+  }
+  .cart__detail--click:hover{
+    color: red;
+  }

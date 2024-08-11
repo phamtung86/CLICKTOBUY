@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../Style/carthover.css'
+import { Link } from 'react-router-dom';
 
 const CartHover = () => {
 
@@ -17,7 +18,7 @@ const CartHover = () => {
                     return (
                         <div className="cart--infor" key={index}>
                             <div className="cart--image">
-                                <img className="image--cart" alt="product" src={product.image}></img>
+                                <img className="image--cart" alt="product" src={product.Image}></img>
                             </div>
                             <div className="cart--name">{product.name}</div>
                             <div className="cart--price">{product.price}</div>
@@ -29,7 +30,7 @@ const CartHover = () => {
             </div>
             <div className="cart--all">
                 <div className="cart--all--text">Có tống cộng: {products.length}</div>
-                <a className="cart--click" href='./Cart.js'>Xem chi tiết </a>
+                <Link className='cart__detail--click' to="/cart">Xem chi tiết</Link>
             </div>
         </div>
     )
