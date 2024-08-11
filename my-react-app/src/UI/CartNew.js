@@ -1,25 +1,28 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import '../Style/cart.css';
+import Head from './Head';
+import CartContext from './CartContext';
+import { Link } from 'react-router-dom';
 
 const getInformationProduct = (product, cart, setCart) => {
-  const {id,image, name, unit, price, priceSale = price,note, sale, quantity = 1} = product;
+  const { id, Image, name, unit, price, priceSale = price, note, sale, quantity = 1 } = product;
+
   if (!Array.isArray(cart)) {
     cart = [];
   }
 
   const productIndex = cart.findIndex(item => item.id === id);
-  if(productIndex !== -1){
+  if (productIndex !== -1) {
     const newCart = [...cart];
     newCart[productIndex].quantity += quantity;
     setCart(newCart);
   } else {
-    const newProduct = {id, image,name, unit, price,priceSale, note, sale, quantity};
-    setCart([...cart,newProduct]);
+    const newProduct = { id, Image, name, unit, price, priceSale, note, sale, quantity };
+    setCart([...cart, newProduct]);
   }
 };
 
 const CartProduct = ({ item, setCart }) => {
-  
   const handleRemove = useCallback((itemId) => {
     setCart(cart => {
       const newCart = cart.filter(item => item.id !== itemId);
@@ -32,7 +35,7 @@ const CartProduct = ({ item, setCart }) => {
       const newCart = [...cart];
       const index = newCart.findIndex(item => item.id === itemId);
       if (index !== -1) {
-        const newQuantity = newCart[index].quantity + delta ;
+        const newQuantity = newCart[index].quantity + delta;
         if (newQuantity > 0) {
           newCart[index].quantity = newQuantity;
         } else if (window.confirm("Bạn có muốn xóa sản phẩm không")) {
@@ -45,8 +48,8 @@ const CartProduct = ({ item, setCart }) => {
 
   return (
     <div className="cart__product--component" key={item.id}>
-      <div className="cart__product--image">
-        <img className="image--cart__product" src={item.image} alt={item.name} />
+      <div className="cart__product--I">
+        <img className="image--cart__product" src={item.Image} alt={item.name} />
       </div>
       <div className="cart__product--infor">
         <div className="cart__product--infor--name">{item.name}</div>
@@ -55,7 +58,7 @@ const CartProduct = ({ item, setCart }) => {
           <div className='cart__product--infor--price'>{(item.priceSale) ? item.priceSale.toLocaleString('en-US', { maximumFractionDigits: 3 }) : item.price.toLocaleString('en-US', { maximumFractionDigits: 3 })} ₫</div>
         </div>
         <div className="cart__product--infor--note">
-          <img className="image--infor--note" src={item.image} alt={item.name} />
+          <img className="image--infor--note" src={item.Image} alt={item.name} />
           <span className="infor--text">{item.note}</span>
         </div>
       </div>
@@ -69,22 +72,24 @@ const CartProduct = ({ item, setCart }) => {
   );
 };
 
-
-const CartNew = ({cart,setCart}) => {
-  if (!Array.isArray(cart)) {
-    cart = [];
-  }
-  const totalBill = cart.reduce((sum, item) => (item.priceSale) ? sum + item.priceSale * item.quantity: sum + item.price * item.quantity, 0).toLocaleString('en-US', { maximumFractionDigits: 3 });
+const CartNew = () => {
+  const { cart, setCart } = useContext(CartContext);
+  const totalBill = cart.reduce((sum, item) => (item.priceSale) ? sum + item.priceSale * item.quantity : sum + item.price * item.quantity, 0).toLocaleString('en-US', { maximumFractionDigits: 3 });
   const totalSale = cart.reduce((sum, item) => sum + (item.price - item.priceSale) * item.quantity, 0).toLocaleString('en-US', { maximumFractionDigits: 3 });
   const feeShip = (totalBill > 0) ? (5000 * Math.floor(Math.random() * 10) * 0.001).toLocaleString('en-US', { maximumFractionDigits: 3 }) : 0;
   const intoMoney = (totalBill > 0) ? totalBill : 0;
+
   return (
     <>
+      <Head />
+      <div className='home__back'>
+      <Link className='home__back--click' to={"/"}><i class="fa-solid fa-house"></i> Trang chủ</Link>
+      </div>
       <div className='cart__product__pay'>
         <div className="cart__product">
-        {cart.length > 0 ? cart.map(item => (
-          <CartProduct key={item.id} item={item} setCart={setCart} />
-        )) : <div className='empty__image'>Chưa có sản phẩm</div>}
+          {cart.length > 0 ? cart.map(item => (
+            <CartProduct key={item.id} item={item} setCart={setCart} />
+          )) : <div className='empty__image'>Chưa có sản phẩm</div>}
         </div>
         <div className="cart__pay">
           <div className="pay--infor">
@@ -130,5 +135,5 @@ const CartNew = ({cart,setCart}) => {
   );
 };
 
-export {getInformationProduct,CartProduct};
+export { getInformationProduct, CartProduct };
 export default CartNew;

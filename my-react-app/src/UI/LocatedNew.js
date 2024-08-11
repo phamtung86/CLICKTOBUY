@@ -55,6 +55,14 @@ const LocatedNew = () => {
         setChange(c => c + 1);
     };
 
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setDataLocated({
+            ...dataLocated,
+            [name]: value
+        });
+    };
+
     const renderDataLocated = () => {      
         const filteredDistricts = districts.filter(itemDistricts => itemDistricts.parent_code === dataLocated.dataProvice);
         const filteredWards = wards.filter(itemWards => itemWards.parent_code === dataLocated.dataDistrict);
@@ -89,14 +97,6 @@ const LocatedNew = () => {
             </form>
         )
     }
-
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setDataLocated({
-            ...dataLocated,
-            [name]: value
-        });
-    };
 
     return (
         <>

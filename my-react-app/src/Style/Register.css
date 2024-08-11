@@ -1,0 +1,188 @@
+.page__register {
+    background-color: rgb(197, 230, 250);
+}
+
+.register {
+    width: 35rem;
+    background-color: rgb(255, 255, 255);
+    margin: auto;
+    padding: 20px 20px;
+    display: block;
+}
+
+.register__header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.header--back {
+    color: black;
+    padding: 10px 10px;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.shop__name {
+    font-weight: 900;
+}
+
+.register__title {
+    font-size: 20px;
+    width: 50%;
+    margin: auto;
+    text-align: center;
+    padding: 10px 10px;
+}
+
+.register__form {
+    margin-top: 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+}
+
+.label__account,
+.label__password,
+.label__email,
+.label__fullname,
+.label__phonenumber {
+    width: 70%;
+    position: relative;
+}
+
+.account__input,
+.password__input,
+.email__input,
+.fullname__input,
+.phonenumber__input {
+    padding: 15px 15px;
+    width: 100%;
+    outline: none;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    /* Màu border mặc định */
+    position: relative;
+}
+
+.account__input:focus,
+.password__input:focus,
+.email__input:focus,
+.fullname__input:focus,
+.phonenumber__input:focus {
+    border: 1px solid rgb(78, 175, 255);
+    /* Màu border khi input được chọn */
+}
+
+.account__title,
+.password__title,
+.email__title,
+.fullname__title,
+.phonenumber__title {
+    position: absolute;
+    left: 10px;
+    top: 15px;
+    background-color: white;
+    padding: 0 5px;
+    transition: all 0.3s ease;
+    color: #4b4b4b;
+}
+
+/* Hiệu ứng khi input được chọn */
+.account__title1,
+.password__title1,
+.email__title1,
+.fullname__title1,
+.phonenumber__title1 {
+    position: absolute;
+    top: -15px;
+    left: 10px;
+    font-size: 12px;
+    background-color: white;
+    color: rgb(78, 175, 255);
+    transition: all 0.3s ease;
+}
+
+/* Đảm bảo tiêu đề nằm trên cùng của input */
+.label__account,
+.label__password,
+.label__email,
+.label__fullname,
+.label__phonenumber {
+    width: 70%;
+    position: relative;
+}
+
+.register__button {
+    width: 70%;
+    padding: 10px 10px;
+    background-color: rgb(78, 175, 255);
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.register__forgot_password {
+    text-decoration: none;
+}
+
+.register__other {
+    width: 70%;
+    border-bottom: 1px solid gray;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.register__other__title {
+    position: absolute;
+    bottom: -12px;
+    text-align: center;
+    background-color: #fff;
+    padding: 0px 10px;
+}
+
+.register_button {
+    width: 70%;
+    padding: 10px 10px;
+    background-color: transparent;
+    border: 2px solid rgb(78, 175, 255);
+    border-radius: 10px;
+    font-weight: 700;
+    color: rgb(78, 175, 255);
+    text-decoration: none;
+    text-align: center;
+}
+
+.register__error {
+    color: red;
+    font-size: 13px;
+}
+
+.located--form--select {
+    width: 70%;
+    border-radius: 10px;
+    padding: 15px 15px;
+    border: 1px solid #ccc;
+    color: #4b4b4b;
+}
+.click--select {
+    height: 3rem;
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.located--form--note{
+    width: 70%;
+    border: 1px solid #ccc;
+    color: #4b4b4b;
+}
+.input__error{
+    color: red;
+    font-size: 13px;
+}
