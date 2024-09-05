@@ -91,6 +91,7 @@
   
   .cart__detail--click{
     text-decoration: none;
+    font-weight: 600;
   }
   .cart__detail--click:hover{
     color: red;

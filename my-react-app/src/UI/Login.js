@@ -43,14 +43,18 @@ const Login = () => {
             accountLogin.user === account.userName && 
             accountLogin.password === account.password
         );
-
+        
         if (account) {
+            const accountInforSession = {
+                id: account.userID,
+                fullName: account.fullName
+            };
             alert("Đăng nhập thành công");
-            sessionStorage.setItem("fullName", account.fullName);
+            sessionStorage.setItem("account", JSON.stringify(accountInforSession));
             navigate('/');
         } else {
             setLoginError("Tên đăng nhập hoặc mật khẩu không đúng");
-            alert(loginError)
+            alert("Tên đăng nhập hoặc mật khẩu không đúng");
         }
     };
 

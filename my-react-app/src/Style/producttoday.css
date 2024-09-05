@@ -1,3 +1,10 @@
+
+.product__today {
+  width: 100%;
+  height: auto;
+  background-color: rgb(241, 240, 241);
+  padding: 0rem 1rem
+}
 .products {
   border: 2px solid transparent;
   background-color: white;
@@ -8,7 +15,7 @@
   justify-content: center;
   border-radius: 10px;
   position: relative;
-
+  cursor: pointer;
 }
 
 .products:hover {
@@ -109,13 +116,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.product__today {
-  width: 100%;
-  height: auto;
-  background-color: rgb(241, 240, 241);
-  padding: 1rem 1rem
 }
 
 .product__today--title--time {

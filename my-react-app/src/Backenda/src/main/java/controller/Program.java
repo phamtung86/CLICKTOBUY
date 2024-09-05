@@ -1,7 +1,6 @@
 package controller;
 
-import Servlet.Productservlet;
-import Servlet.UsersServlet;
+import Servlet.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -11,7 +10,7 @@ import org.eclipse.jetty.servlets.CrossOriginFilter;
 import javax.servlet.DispatcherType;
 import java.util.EnumSet;
 
-public class Test {
+public class Program {
     public static void main(String[] args) throws Exception {
         Server server = new Server(8080);
 
@@ -27,11 +26,16 @@ public class Test {
         context.addFilter(cors, "/*", EnumSet.of(DispatcherType.REQUEST));
 
         // Đăng ký servlet
-        context.addServlet(new ServletHolder(new Productservlet()), "/api/products/*");
+        context.addServlet(new ServletHolder(new Productservlet()), "/api/Products/*");
         context.addServlet(new ServletHolder(new UsersServlet()), "/api/Users/*");
-
+        context.addServlet(new ServletHolder(new VoucherServlet()), "/api/Vouchers/*");
+        context.addServlet(new ServletHolder(new OrderServlet()), "/api/Orders/*");
+        context.addServlet(new ServletHolder(new ProductDetailServlet()), "/api/ProductDetail/*");
+        context.addServlet(new ServletHolder(new CategoriesServlet()), "/api/Categories");
         // Bắt đầu server
         server.start();
+//    SendMail sendMail = new SendMail();
+//    sendMail.sendEmail();
         server.join();
     }
 }

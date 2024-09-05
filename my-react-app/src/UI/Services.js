@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import '../Style/services.css';
 
 import axios from "axios";
+import { Link } from "react-router-dom";
 const Services = () => {
 
     const [dataMenu, setDataMenu] = useState([]);
@@ -9,8 +10,8 @@ const Services = () => {
     useEffect(() => {
         const fetchDataMenu = async () => {
             try {
-                const responseDataMenu = await axios.get('http://localhost:5006/api/menutitle');
-                setDataMenu(responseDataMenu.data.data.data);
+                const responseDataMenu = await axios.get('http://localhost:8080/api/Categories');
+                setDataMenu(responseDataMenu.data);
             } catch (error) {
                 console.error('Error fetching data: ' + error);
             }
@@ -42,6 +43,7 @@ const Services = () => {
 
     const filteredDataContent = dataMenuContent.filter(itemDataContent => itemDataContent.parentCode === filterCode + 1)
     return (
+
         <div className="services__nav">
             <div className="nav--all">
                 <div className="nav--menu">
@@ -54,10 +56,10 @@ const Services = () => {
                             <div className="menu--main">
                                 <ul className="menu--list">
                                     {dataMenu.map((item) => (
-                                        <li className="menu--item item--1" key={item.id} onMouseEnter={hanldeGetData}>
-                                            <a className="menu--item--click" href="#" key={item.id}>
-                                                <div className="item--name" >{item.name}</div>
-                                            </a>
+                                        <li className="menu--item item--1" key={item.categoryId} onMouseEnter={hanldeGetData}>
+                                            <Link className="menu--item--click" href="#" key={item.categoryId}>
+                                                <div className="item--name" >{item.categoryName}</div>
+                                            </Link>
                                         </li>
                                     ))}
                                 </ul>
@@ -67,33 +69,31 @@ const Services = () => {
                                     <div className='component--all' key={itemDataContent.id}>
                                         <div className='component--title'>
                                             {itemDataContent.name.map(itemName => (
-                                                <a className='component--title--click' href='#' key={itemName.id}>{itemName.name}</a>
+                                                <Link className='component--title--click' href='#' key={itemName.id}>{itemName.name}</Link>
                                             ))}
                                         </div>
                                         <div className='component--image'>
-                                            <img className='image--component' src= {itemDataContent.image} alt="Hình ảnh" />
+                                            <img className='image--component' src={itemDataContent.image} alt="Hình ảnh" />
                                         </div>
                                     </div>
                                 ))}
                             </div>
-
                         </div>
                     </div>
 
                 </div>
                 <div className="nav--support">
                     <div className="support--news">
-                        <div className="news--icon"><i class="fa-regular fa-envelope"></i></div>
+                        <div className="news--icon"><i className="fa-regular fa-envelope"></i></div>
                         <div className="news--title">Tin tức CLICKTOBUY</div>
                     </div>
                     <div className="support--advise">
-                        <div className="advise--icon"><i class="fa-solid fa-headset"></i></div>
+                        <div className="advise--icon"><i className="fa-solid fa-headset"></i></div>
                         <div className="advise--title">Tư vấn bán hàng</div>
                     </div>
                 </div>
             </div>
         </div>
-
     )
 
 }

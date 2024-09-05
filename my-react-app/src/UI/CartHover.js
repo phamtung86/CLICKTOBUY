@@ -1,27 +1,23 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../Style/carthover.css'
 import { Link } from 'react-router-dom';
+import CartContext from './CartContext';
 
 const CartHover = () => {
 
-        const [products,setProduct] = useState(() => {
-            const saveProduct = JSON.parse(localStorage.getItem("cart"));
-            return saveProduct || [];
-        })
-
-    
+    const { cart, setCart } = useContext(CartContext);
     return (
         <div className="cart">
             <div className="cart--infor--show" >
-                {products.map((product, index) => {
+                {cart.map((product, index) => {
                     return (
                         <div className="cart--infor" key={index}>
                             <div className="cart--image">
                                 <img className="image--cart" alt="product" src={product.Image}></img>
                             </div>
                             <div className="cart--name">{product.name}</div>
-                            <div className="cart--price">{product.price}</div>
+                            <div className="cart--price">{(product.priceSale) ? product.priceSale.toLocaleString('en-US', { maximumFractionDigits: 3 }) : product.price.toLocaleString('en-US', { maximumFractionDigits: 3 })} ₫</div>
                             <div className="cart--unit">{product.unit}</div>
                             <div className="cart--total">x {product.quantity}</div>
                         </div>
@@ -29,7 +25,7 @@ const CartHover = () => {
                 })}
             </div>
             <div className="cart--all">
-                <div className="cart--all--text">Có tống cộng: {products.length}</div>
+                <div className="cart--all--text">Có tống cộng: {cart.length}</div>
                 <Link className='cart__detail--click' to="/cart">Xem chi tiết</Link>
             </div>
         </div>

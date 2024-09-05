@@ -139,6 +139,7 @@
   color: #fff;
   font-weight: 600;
   padding: 5px 5px;
+  text-decoration: none;
 }
 
 .cart__product__pay {
@@ -148,6 +149,7 @@
   display: flex;
   justify-content: center;
   border-top: 1px solid rgb(211, 211, 211);
+  /* height: 100vh; */
 }
 
 .pay--click {
@@ -161,6 +163,10 @@
   font-size: 17px;
   font-weight: 700;
   margin-top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
 }
 
 .home__back {

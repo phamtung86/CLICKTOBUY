@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "date-fns": "^3.6.0",
     "font-awesome": "^4.7.0",
     "my-react-app": "file:",
     "react": "^18.3.1",
@@ -22,8 +23,7 @@
     "dev": "concurrently \"npm start\" \"npm run backendProvinces\" \"npm run backendDistricts\" \"npm run backendWards\" \"npm run backendMenu\"",
     "backendProvinces": "node src/backend/myAPI/apiProvinces/index.js",
     "backendDistricts": "node src/backend/myAPI/apiDistricts/index.js",
-    "backendWards": "node src/backend/myAPI/apiWards/index.js",
-    "backendMenu": "node src/backend/myAPI/apiMenu/index.js"
+    "backendWards": "node src/backend/myAPI/apiWards/index.js"
   },
   "eslintConfig": {
     "extends": [
