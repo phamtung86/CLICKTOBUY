@@ -1,18 +1,19 @@
 package controller;
 
-import Services.Productservice;
+import Services.IProductServices;
+import Services.ProductServicesimpl;
 
 import java.util.List;
 
 public class Productcontroller {
-    private Services.Productservice productservice;
+    private IProductServices iProductServices;
 
-    public Productcontroller(Productservice productservice) {
-        this.productservice = productservice;
+    public Productcontroller() {
+        iProductServices = new ProductServicesimpl();
     }
 
-    public List<modal.Products> getAllProductsSale() {
-        return productservice.selectAllProducts();
+    public List<Entity.Products> getAllListProduct() {
+        return iProductServices.getAllListProduct();
     }
 
 }

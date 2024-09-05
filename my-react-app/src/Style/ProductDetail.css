@@ -1,0 +1,133 @@
+.product__detail {
+    width: 100%;
+    background-color: rgba(212, 212, 212, 0.589);
+}
+.node__page {
+    width: 80%;
+    margin: auto;
+    padding: 10px 10px;
+}
+.node__page--click {
+    text-decoration: none;
+    color: black;
+}
+.product__info{
+    width: 80%;
+    padding: 10px 10px;
+    margin: auto;
+    display: flex;
+    background-color: #fff;
+}
+.product__info--image{
+    width: 35%;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.image__product__infor{
+    height: 65%;
+    width: 65%;
+}
+.product__info--detail{
+    padding: 10px 10px;
+    width: 65%;
+}
+.product__info--name{
+    font-size: 20px;
+}
+.product__info--price,
+.product__info--status,
+.product__info--ship,
+.product__info--sale,
+.product__info--unit,
+.product__info--button{
+    display: flex;
+    align-items: center;
+    padding: 10px 10px;
+}
+.product__info--price,
+.product__info--status{
+    background-image: linear-gradient(10deg,rgba(184, 184, 184, 0.815),rgb(255, 255, 255));
+}
+.product__infor--price--title,
+.product__info--status--title,
+.product__info--ship--title,
+.product__info--sale--title,
+.product__info--unit--title,
+.product__info--button--title{
+    width: 30%;
+}
+.product__infor--price--value{
+    color: red;
+}
+.quantity{
+padding: 0px 10px;
+font-weight: 600;
+}
+.button--minus,.button--plus{
+    border: none;
+    background-color: rgb(0,183,255);
+    color: #fff;
+    font-weight: 900;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.button--add--cart{
+    padding: 5px 5px;
+    background-color: rgb(0,183,255);
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 5px;
+}
+.product__description{
+    width: 80%;
+    margin: auto;
+    display: flex;
+    background-color: #fff;
+}
+.box1{
+    width: 40%;
+}
+.box1__title,.box2__title{
+    font-size: 20px;
+    font-weight: 700;
+    background-color: #e6e6e6;
+    padding: 10px 10px 10px 30px;
+}
+.box2{
+    width: 60%;
+}
+.box1__content,
+.box2__content{
+    padding: 10px 10px;
+}
+.box1__content--expiry,
+.box1__content--manufacture{
+    display: flex;
+    gap: 10px;
+}
+.box2__content--origin,
+.box2__content--igredient,
+.box2__content--instruction,
+.box2__content--preserve{
+    display: flex;
+    padding: 5px 5px 5px 30px;
+}
+.box2__content--origin--title,
+.box2__content--igredient--title,
+.box2__content--instruction--title,
+.box2__content--preserve--title{
+    width: 30%;
+}
+.box2__content--origin--value,
+.box2__content--igredient--value,
+.box2__content--instruction--value,
+.box2__content--preserve--value{
+    width: 70%;
+}

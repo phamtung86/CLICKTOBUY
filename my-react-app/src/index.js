@@ -8,6 +8,8 @@ import Login from './UI/Login';
 import { CartProvider } from './UI/CartContext';
 import Register from './UI/Register';
 import ForgotPass from './UI/ForgotPass';
+import Voucher from './UI/Voucher';
+import ProductDetail from './UI/ProductDetail';
 
 const Main = () => {
   return (
@@ -19,6 +21,8 @@ const Main = () => {
           <Route path="/Login" element={<Login />} />
           <Route path="/Register" element={<Register />} />
           <Route path="/Forgot-pass" element={<ForgotPass />} />
+          <Route path="/Voucher" element={<Voucher/>} />
+          <Route path = "/ProductDetail" element = {<ProductDetail/>}/>
         </Routes>
       </CartProvider>
     </BrowserRouter>

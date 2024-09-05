@@ -1,19 +1,18 @@
-package modal;
+package Entity;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Categories {
     private int categoryId;
     private String categoryName;
     private Date createAt;
+    private String categoryImageLink;
 
-
-
-    public Categories(int categoryId, String categoryName, Date createAt) {
+    public Categories(int categoryId, String categoryName, Date createAt, String categoryImageLink) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.createAt = createAt;
+        this.categoryImageLink = categoryImageLink;
     }
 
     public int getCategoryId() {
@@ -40,12 +39,21 @@ public class Categories {
         this.createAt = createAt;
     }
 
+    public String getCategoryImageLink() {
+        return categoryImageLink;
+    }
+
+    public void setCategoryImageLink(String categoryImageLink) {
+        this.categoryImageLink = categoryImageLink;
+    }
+
     @Override
     public String toString() {
         return "Categories{" +
                 "categoryId=" + categoryId +
                 ", categoryName='" + categoryName + '\'' +
                 ", createAt=" + createAt +
+                ", categoryImageLink='" + categoryImageLink + '\'' +
                 '}';
     }
 }

@@ -1,27 +1,33 @@
 package controller;
 
-import Services.Usersservice;
-import modal.Users;
+import Services.IUserServices;
+import Services.UserServicesimpl;
+import Entity.Users;
 
 import java.util.ArrayList;
 
 public class UsersController {
-    private final Usersservice usersservice;
+    private IUserServices iUserServices;
 
-    public UsersController(Usersservice usersservice) {
-        this.usersservice = usersservice;
+    public UsersController() {
+        iUserServices = new UserServicesimpl();
     }
 
     public ArrayList<Users> getAllUsers() {
-        return usersservice.getAllUsers();
+        return iUserServices.getAllUsers();
     }
 
     public void addUser(Users user) {
-        usersservice.insertUser(user);
+        iUserServices.insertUser(user);
     }
 
     public Users getInfoFromPhoneNumber(String phoneNumber) {
-        return usersservice.getInfoFromPhoneNumber(phoneNumber);
+        return iUserServices.getInfoFromPhoneNumber(phoneNumber);
     }
+
+    public int getIDFromUsername(String username) {
+        return iUserServices.getIdFromUserName(username);
+    }
+
 
 }

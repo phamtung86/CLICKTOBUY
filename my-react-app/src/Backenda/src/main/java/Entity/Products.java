@@ -1,4 +1,4 @@
-package modal;
+package Entity;
 
 import java.util.Date;
 
@@ -7,27 +7,23 @@ public class Products {
     public String productName;
     public String productDescription;
     public double productPrice;
-    public int productStock;
     public Date productCreateAt;
     public String productNote;
     public String productUnit;
     public int productDiscount;
     public String productImageLink;
-    public int categoriesID;
     public Categories categories;
 
-    public Products(int productId, String productName, String productDescription, double productPrice, int productStock, Date productCreateAt, String productNote, String productUnit, int productDiscount, String productImageLink, int categoriesID, Categories categories) {
+    public Products(int productId, String productName, String productDescription, double productPrice, Date productCreateAt, String productNote, String productUnit, int productDiscount, String productImageLink, Categories categories) {
         this.productId = productId;
         this.productName = productName;
         this.productDescription = productDescription;
         this.productPrice = productPrice;
-        this.productStock = productStock;
         this.productCreateAt = productCreateAt;
         this.productNote = productNote;
         this.productUnit = productUnit;
         this.productDiscount = productDiscount;
         this.productImageLink = productImageLink;
-        this.categoriesID = categoriesID;
         this.categories = categories;
     }
 
@@ -61,14 +57,6 @@ public class Products {
 
     public void setProductPrice(double productPrice) {
         this.productPrice = productPrice;
-    }
-
-    public int getProductStock() {
-        return productStock;
-    }
-
-    public void setProductStock(int productStock) {
-        this.productStock = productStock;
     }
 
     public Date getProductCreateAt() {
@@ -111,14 +99,6 @@ public class Products {
         this.productImageLink = productImageLink;
     }
 
-    public int getCategoriesID() {
-        return categoriesID;
-    }
-
-    public void setCategoriesID(int categoriesID) {
-        this.categoriesID = categoriesID;
-    }
-
     public Categories getCategories() {
         return categories;
     }
@@ -134,13 +114,11 @@ public class Products {
                 ", productName='" + productName + '\'' +
                 ", productDescription='" + productDescription + '\'' +
                 ", productPrice=" + productPrice +
-                ", productStock=" + productStock +
                 ", productCreateAt=" + productCreateAt +
                 ", productNote='" + productNote + '\'' +
                 ", productUnit='" + productUnit + '\'' +
                 ", productDiscount=" + productDiscount +
                 ", productImageLink='" + productImageLink + '\'' +
-                ", categoriesID=" + categoriesID +
                 ", categories=" + categories +
                 '}';
     }

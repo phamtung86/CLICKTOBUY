@@ -1,33 +1,22 @@
-package Services;
+package Reponsitory;
 
-import com.google.gson.Gson;
-import controller.UsersController;
-import modal.Users;
+import Ultils.JdbcConnection;
+import Entity.Users;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class Usersservice {
-    private final Usersservice usersservice = new Usersservice();
-    private final UsersController usersController = new UsersController(usersservice);
-    private final Gson gson = new Gson();
-    static final String URL = "jdbc:mysql://localhost:3306/book";
-    static final String USER = "root";
-    static final String PASS = "root";
-    static final String SELECT_ALL_USERS = "SELECT * FROM Users";
-    static final String INSERT_USER = "INSERT INTO Users (Username,Password,FullName,Email,PhoneNumber,Address) VALUES(?,?,?,?,?,?)";
-
+public class UserReponsitoryimpl implements IUserReponsitory {
+    @Override
     public ArrayList<Users> getAllUsers() {
+        String SELECT_ALL_USERS = "SELECT * FROM Users";
         ArrayList<Users> listUsers = new ArrayList<>();
         Connection connection = null;
         PreparedStatement psta = null;
         ResultSet rs = null;
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(URL, USER, PASS);
+
+            connection = JdbcConnection.getConnection();
             psta = connection.prepareStatement(SELECT_ALL_USERS);
             rs = psta.executeQuery();
             while (rs.next()) {
@@ -45,18 +34,19 @@ public class Usersservice {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        } finally {
+            JdbcConnection.closeConnection(connection, psta, rs);
         }
         return listUsers;
     }
 
-    public void insertUser(Users user) {
+    @Override
+    public boolean insertUser(Users user) {
+        String INSERT_USER = "INSERT INTO Users (Username,Password,FullName,Email,PhoneNumber,Address) VALUES(?,?,?,?,?,?)";
         Connection connection = null;
         PreparedStatement psta = null;
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(URL, USER, PASS);
+            connection = JdbcConnection.getConnection();
             psta = connection.prepareStatement(INSERT_USER);
 
             // Thiết lập giá trị cho các tham so
@@ -67,23 +57,20 @@ public class Usersservice {
             psta.setString(5, user.getPhoneNumber());
             psta.setString(6, user.getAddress());
             // Thực hiện câu lệnh SQL
-            psta.executeUpdate();
-
+            int count = psta.executeUpdate();
+            if (count > 0) {
+                return true;
+            }
         } catch (SQLException e) {
             throw new RuntimeException("Error inserting user", e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("JDBC Driver not found", e);
         } finally {
-            // Đảm bảo tài nguyên được đóng đúng cách
-            try {
-                if (psta != null) psta.close();
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                throw new RuntimeException("Error closing resources", e);
-            }
+            JdbcConnection.closeConnection(connection, psta, null);
+
         }
+        return false;
     }
 
+    @Override
     public boolean checkPhoneNumber(String phoneNumber) {
         for (Users user : getAllUsers()) {
             if (phoneNumber.equals(user.getPhoneNumber())) {
@@ -93,17 +80,25 @@ public class Usersservice {
         return false;
     }
 
+    @Override
     public Users getInfoFromPhoneNumber(String phoneNumber) {
-        Users user = null;
-        System.out.println(getAllUsers());
-        System.out.println(phoneNumber);
         if (checkPhoneNumber(phoneNumber)) {
             for (Users u : getAllUsers()) {
                 if (phoneNumber.equals(u.getPhoneNumber())) {
-                    user = new Users(u.getUserID(),u.getUserName(),u.getPassword(),u.getFullName(),u.getEmail(),u.getPhoneNumber(),u.getAddress(),u.getRole(),u.getCreateAt());
+                    return u;
                 }
             }
         }
-        return user;
+        return null;
+    }
+
+    @Override
+    public int getIdFromUserName(String userName) {
+        for (Users user : getAllUsers()) {
+            if (user.getUserName().equals(userName)) {
+                return user.getUserID();
+            }
+        }
+        return -1;
     }
 }

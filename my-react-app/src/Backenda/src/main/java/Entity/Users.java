@@ -1,4 +1,4 @@
-package modal;
+package Entity;
 
 import java.util.Date;
 

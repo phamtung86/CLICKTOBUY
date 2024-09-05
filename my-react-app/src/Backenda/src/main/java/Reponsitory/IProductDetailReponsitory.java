@@ -1,0 +1,11 @@
+package Reponsitory;
+
+import Entity.ProductDetail;
+import Entity.Products;
+
+import java.util.ArrayList;
+
+public interface IProductDetailReponsitory {
+    public ArrayList<ProductDetail> getListAllProductDetail(ArrayList<Products> listProducts);
+    public ProductDetail getProductDetailFromProductId(ArrayList<ProductDetail> listProductDetail,int id);
+}

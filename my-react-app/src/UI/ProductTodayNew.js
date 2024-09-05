@@ -3,16 +3,35 @@ import axios from 'axios';
 import CountdownTime from './CountdownTime'; // Import CountdownTimer
 import '../Style/producttoday.css';
 import { getInformationProduct } from './CartNew';
+import { useNavigate } from 'react-router-dom';
 
-const Product = ({ id, Image, name, unit, price, priceSale, note, sale, saleHidden, cart, setCart }) => {
+const Product = ({ id, Image, name, unit, price, priceSale, note, sale, cart, setCart }) => {
+  const navigate = useNavigate();
+
+  const getProductDetail = async () => {
+    try {
+      const url = `http://localhost:8080/api/ProductDetail?Code=${id}`;
+      
+      const response = await axios.get(url, {
+        action : "getProductDetail"
+      });
+      console.log(response);
+      sessionStorage.setItem("dataProductDetail", JSON.stringify(response.data));
+      navigate('/ProductDetail');
+    } catch (error) {
+      console.error("Error fetching product details:", error);
+      alert("Không thể lấy thông tin sản phẩm. Vui lòng thử lại.");
+    }
+  };
+
   const handleClick = () => {
-    getInformationProduct({ id, Image, name, unit, price, priceSale, note, sale, saleHidden }, cart, setCart);
+    getInformationProduct({ id, Image, name, unit, price, priceSale, note, sale }, cart, setCart);
   };
 
   return (
     <>
-      {sale === 0 &&
-        <div className="products" key={id}>
+      {sale === 0 && (
+        <div className="products" key={id} onClick={getProductDetail}>
           <div className="product--image">
             <img className="image--product" src={Image} alt="San pham hom nay" />
             <div className={sale ? "product__discount" : "product__discount__none"}>{sale}</div>
@@ -26,34 +45,37 @@ const Product = ({ id, Image, name, unit, price, priceSale, note, sale, saleHidd
             </div>
             <div className='product--price'>
               <div className='product__today--price--real'>
-                {(sale) ? price.toLocaleString('en-US', { maximumFractionDigits: 3 }) + " ₫" : price.toLocaleString('en-US', { maximumFractionDigits: 3 }) + " ₫"}
+                {price.toLocaleString('en-US', { maximumFractionDigits: 3 }) + " ₫"}
               </div>
-              <div className="product__today--price--sale">{(sale) ? priceSale.toLocaleString('en-US', { maximumFractionDigits: 3 }) + " ₫" : ""}</div>
+              <div className="product__today--price--sale">
+                {sale ? priceSale.toLocaleString('en-US', { maximumFractionDigits: 3 }) + " ₫" : ""}
+              </div>
             </div>
           </div>
           <button className="product--click--add" onClick={handleClick}>
             <i className="fa-solid fa-cart-plus"></i> Thêm vào giỏ hàng
           </button>
         </div>
-      }
+      )}
     </>
   );
-}
+};
 
 const ProductTodayNew = ({ cart, setCart }) => {
   const [dataProductToday, setDataProductToday] = useState([]);
-  const targetDate = new Date(2024, 11, 20, 12,0, 0,0);
-  targetDate.setHours(targetDate.getHours() + 1); 
+  const targetDate = new Date(2024, 11, 20, 12, 0, 0, 0);
+  targetDate.setHours(targetDate.getHours() + 1);
 
   useEffect(() => {
     const fetchDataProductToday = async () => {
       try {
-        const responseDataProductToday = await axios.get('http://localhost:8080/api/products');
-        setDataProductToday(responseDataProductToday.data);
+        const response = await axios.get('http://localhost:8080/api/Products');
+        setDataProductToday(response.data);
       } catch (error) {
-        console.log("Error fetching data: " + error);
+        console.error("Error fetching data:", error);
+        alert("Không thể lấy dữ liệu sản phẩm. Vui lòng thử lại.");
       }
-    }
+    };
     fetchDataProductToday();
   }, []);
 
@@ -67,7 +89,7 @@ const ProductTodayNew = ({ cart, setCart }) => {
         </div>
       </div>
       <div className='product__today--sell'>
-        {dataProductToday.map(product =>
+        {dataProductToday.map(product => (
           <Product
             key={product.productId}
             id={product.productId}
@@ -81,10 +103,20 @@ const ProductTodayNew = ({ cart, setCart }) => {
             cart={cart}
             setCart={setCart}
           />
-        )}
+        ))}
       </div>
     </div>
   );
-}
+};
 
 export default ProductTodayNew;
+// const getProductDetail = async () => {
+  //   const response = await axios.post("http://localhost:8080/api/ProductDetail&Code=", {
+  //     action: "getProductDetail",
+  //     value: id
+  //   })
+    
+  //   navigate('/ProductDetail');
+  //   setDataProductDetail(response.data);
+  //   sessionStorage.setItem("dataProductDetail", JSON.stringify(response.data))
+  // };

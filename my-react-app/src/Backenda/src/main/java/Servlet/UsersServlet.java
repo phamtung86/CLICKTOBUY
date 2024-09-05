@@ -1,9 +1,8 @@
 package Servlet;
 
-import Services.Usersservice;
 import com.google.gson.Gson;
 import controller.UsersController;
-import modal.Users;
+import Entity.Users;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,23 +17,20 @@ import org.json.JSONObject;
 
 @WebServlet("/api/Users/*")
 public class UsersServlet extends HttpServlet {
-    private final Usersservice usersservice = new Usersservice();
-    private final UsersController usersController = new UsersController(usersservice);
+    private final UsersController usersController = new UsersController();
     private final Gson gson = new Gson();
-    public static ArrayList<Users> listDataUsers = new ArrayList<>();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String pathInfo = req.getPathInfo();
+        String pathInfo = req.getRequestURI();
         resp.setContentType("application/json");
 
-        if (pathInfo == null || pathInfo.equals("/Users")) {
+        if (pathInfo == null || pathInfo.equals("/api/Users")) {
             try {
                 ArrayList<Users> listUsers = usersController.getAllUsers();
-                listDataUsers = listUsers;
                 resp.getWriter().write(gson.toJson(listUsers));
             } catch (Exception e) {
-                e.printStackTrace(); // In lỗi để dễ chẩn đoán
+                e.printStackTrace();
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request.");
             }
         } else {
@@ -44,9 +40,9 @@ public class UsersServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String pathInfo = req.getPathInfo();
+        String pathInfo = req.getRequestURI();
 
-        if (pathInfo == null || pathInfo.equals("/Users")) {
+        if (pathInfo.equals("/api/Users")) {
             try {
                 // Đọc dữ liệu JSON từ yêu cầu
                 StringBuilder jsonString = new StringBuilder();
@@ -67,7 +63,6 @@ public class UsersServlet extends HttpServlet {
                         JSONObject valueObject = jsonObject.getJSONObject("value");
                         // Chuyển đổi từ JSONObject thành đối tượng User (hoặc sử dụng đối tượng tương ứng)
                         Users newUser = gson.fromJson(valueObject.toString(), Users.class);
-                        System.out.println(newUser);
                         usersController.addUser(newUser); // Thực hiện chèn người dùng
                         break;
 
@@ -82,6 +77,16 @@ public class UsersServlet extends HttpServlet {
                             resp.sendError(HttpServletResponse.SC_NOT_FOUND, "No user found with the given phone number.");
                         }
                         break;
+
+                    case "getIDFromUsername" :
+                        String username = jsonObject.getString("value");
+                        int id = usersController.getIDFromUsername(username);
+                        resp.setContentType("application/json");
+                        if (id != -1) {
+                            resp.getWriter().write(gson.toJson(id));
+                        } else {
+                            resp.sendError(HttpServletResponse.SC_NOT_FOUND, "No user found with the given username.");
+                        }
 
                     default:
                         resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid action.");

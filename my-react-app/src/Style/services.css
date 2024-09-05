@@ -3,15 +3,19 @@
   width: 100%;
   background-color: rgb(241, 240, 241);
   border-bottom: 1px solid rgb(184, 184, 184);
+  display: flex;
+  justify-content: space-around;
 }
 
 .nav--all {
+  width: 80%;
   height: 100%;
-  width: 75rem;
   margin: auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; 
+  padding: 0px 10px;
+
 }
 
 .menu--title--icon {
@@ -25,19 +29,29 @@
 .menu--list--component {
   width: 75rem;
   z-index: 3;
-  border-radius: 10px 10px 10px 10px;
   display: none;
   position: absolute;
-  bottom: 5px;
 }
 
 .main--menu--component {
   width: 100%;
+  gap: 10px;
+  background-color: rgba(77, 77, 77, 0.63);
   display: flex
 }
+/* .menu--all{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(128, 128, 128, 0.397);
+  position: absolute;
+  z-index: 4;
+} */
 
 .nav--menu:hover .menu--list--component {
   display: flex;
+}
+.nav-menu:hover .services__nav{
+  background-color: gray;
 }
 
 .menu--main {
@@ -101,8 +115,6 @@
   display: flex;
   background-color: #fff;
   padding: 10px 10px;
-  border-radius: 10px;
-  box-shadow: 2px 0px 2px rgba(0, 0, 0, 0.368), 0px 2px 2px rgba(0, 0, 0, 0.368), -2px 0px 2px rgba(0, 0, 0, 0.368), 0px -2px 2px rgba(0, 0, 0, 0.368);
   ;
 }
 

@@ -128,7 +128,6 @@ const Register = () => {
                 }
             }));
         }
-        console.log(dataAccountRegister);
         
     };
 
