@@ -17,7 +17,7 @@ import { ProductTypeProvider } from './UI/ProductTypeContext';
 
 const Main = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/CLICKTOBUY">
       <CartProvider>
         <SearchProvider>
           <ProductTypeProvider>
