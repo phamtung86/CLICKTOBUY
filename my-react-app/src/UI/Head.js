@@ -5,6 +5,7 @@ import '../Style/header.css';
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import CartContext from "./CartContext";
+import SearchContext from "./SearchContext";
 
 const Head = () => {
   const [dataProduct, setDataProduct] = useState([]);
@@ -19,7 +20,7 @@ const Head = () => {
   useEffect(() => {
     const fetchDataProduct = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/Products');
+        const response = await axios.get('http://localhost:8080/api/Products/getDataProducts');
         setDataProduct(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -35,35 +36,33 @@ const Head = () => {
       setAccountLogined(storedUsername);
     }
   }, []);
-
-  // Fetch product detail
   const getProductDetail = useCallback(async () => {
     try {
-      const response = await axios.post("http://localhost:8080/api/ProductDetail", {
-        action: "getProductDetail",
-        value: dataIdProduct
-      });
-      setDataProductDetail(response.data);
+      const url = `http://localhost:8080/api/ProductDetail?Code=${dataIdProduct}`;
+      const response = await axios.get(url);
       sessionStorage.setItem("dataProductDetail", JSON.stringify(response.data));
       navigate('/ProductDetail');
     } catch (error) {
-      console.error("Request failed with status code 400:", error.response.data || error.message);
+      console.log(error);
     }
   }, [dataIdProduct, navigate]);
 
-  // Handle search input change
-  const handleChange = (event) => {
-    setGetValueSearch(event.target.value);
-  };
+  // Handle lưu data search khi thay đổi
+  // const handleChange = (event) => {
+  //   setGetValueSearch(event.target.value);
+  // };
+  useEffect(() => {
+    sessionStorage.setItem("valueSearch", JSON.stringify(getValueSearch));
+  }, [getValueSearch]);
+  
 
-  // Remove session and log out
+  // Xóa session và đăng xuất
   const removeSession = () => {
     sessionStorage.removeItem("account");
     setAccountLogined("");
     alert("Đăng xuất thành công");
   };
 
-  // Perform product search
   const searchProduct = useCallback(() => {
     if (getValueSearch.trim().length === 0) {
       return null;
@@ -99,20 +98,26 @@ const Head = () => {
       <Link className="header__signout" onClick={removeSession}>Đăng xuất</Link>
     </div>
   );
-
+  const { valueSearch,dataResultProductsSearch,handleInputChange } = useContext(SearchContext);
+    const changePage = () => {
+      if(dataResultProductsSearch) {
+        navigate("/ResultProductSearch")
+        sessionStorage.removeItem("valueSearch")
+      }
+    }
   return (
     <div className="header">
       <div className="header__title">CLICKTOBUY</div>
       <div className="header__search">
-        <form className="search--form">
-          <span className="search__icon"><i className="fa-solid fa-magnifying-glass"></i></span>
+        <form className="search--form">      
           <input
             className="search--text"
             type="text"
             name="search--product"
             placeholder="Giao nhanh trong 2h"
-            onChange={handleChange}
+            onChange={handleInputChange}
           />
+          <button className="search--button"onClick={changePage}>Tìm kiếm</button>
         </form>
         <div className="header__search-results">
           {searchProduct()}

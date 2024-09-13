@@ -2,6 +2,7 @@
   "name": "my-react-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://phamtung86.github.io/CLICKTOBUY/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -23,7 +24,9 @@
     "dev": "concurrently \"npm start\" \"npm run backendProvinces\" \"npm run backendDistricts\" \"npm run backendWards\" \"npm run backendMenu\"",
     "backendProvinces": "node src/backend/myAPI/apiProvinces/index.js",
     "backendDistricts": "node src/backend/myAPI/apiDistricts/index.js",
-    "backendWards": "node src/backend/myAPI/apiWards/index.js"
+    "backendWards": "node src/backend/myAPI/apiWards/index.js",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -46,6 +49,7 @@
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^6.5.2",
     "concurrently": "^8.2.2",
+    "gh-pages": "^5.0.0",
     "source-map-loader": "^5.0.0"
   }
 }

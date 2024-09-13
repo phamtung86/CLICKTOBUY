@@ -7,12 +7,14 @@ public class Categories {
     private String categoryName;
     private Date createAt;
     private String categoryImageLink;
+    private String categoryNameEng;
 
-    public Categories(int categoryId, String categoryName, Date createAt, String categoryImageLink) {
+    public Categories(int categoryId, String categoryName, Date createAt, String categoryImageLink, String categoryNameEng) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.createAt = createAt;
         this.categoryImageLink = categoryImageLink;
+        this.categoryNameEng = categoryNameEng;
     }
 
     public int getCategoryId() {
@@ -47,6 +49,14 @@ public class Categories {
         this.categoryImageLink = categoryImageLink;
     }
 
+    public String getCategoryNameEng() {
+        return categoryNameEng;
+    }
+
+    public void setCategoryNameEng(String categoryNameEng) {
+        this.categoryNameEng = categoryNameEng;
+    }
+
     @Override
     public String toString() {
         return "Categories{" +
@@ -54,6 +64,7 @@ public class Categories {
                 ", categoryName='" + categoryName + '\'' +
                 ", createAt=" + createAt +
                 ", categoryImageLink='" + categoryImageLink + '\'' +
+                ", categoryNameEng='" + categoryNameEng + '\'' +
                 '}';
     }
 }

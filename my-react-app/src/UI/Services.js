@@ -2,34 +2,21 @@ import { useEffect, useState } from "react";
 import '../Style/services.css';
 
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const Services = () => {
-
+    const navigate = useNavigate();
     const [dataMenu, setDataMenu] = useState([]);
-    const [dataMenuContent, setDataMenuContent] = useState([]);
     useEffect(() => {
         const fetchDataMenu = async () => {
             try {
                 const responseDataMenu = await axios.get('http://localhost:8080/api/Categories');
                 setDataMenu(responseDataMenu.data);
+
             } catch (error) {
                 console.error('Error fetching data: ' + error);
             }
         }
         fetchDataMenu();
-    }, [])
-
-    useEffect(() => {
-        const fetchDataMenuContent = async () => {
-            try {
-                const responseDataMenuContent = await axios.get('http://localhost:5006/api/menucontent');
-                setDataMenuContent(responseDataMenuContent.data.data.data)
-            } catch (error) {
-                console.error('Error fetching data: ' + error)
-
-            }
-        }
-        fetchDataMenuContent();
     }, [])
 
 
@@ -38,10 +25,6 @@ const Services = () => {
         const value = event.target.innerText
         setSaveSelect(value);
     }
-
-    const filterCode = dataMenu.findIndex(itemDataMenu => itemDataMenu.name === saveSelect)
-
-    const filteredDataContent = dataMenuContent.filter(itemDataContent => itemDataContent.parentCode === filterCode + 1)
     return (
 
         <div className="services__nav">
@@ -56,27 +39,18 @@ const Services = () => {
                             <div className="menu--main">
                                 <ul className="menu--list">
                                     {dataMenu.map((item) => (
-                                        <li className="menu--item item--1" key={item.categoryId} onMouseEnter={hanldeGetData}>
-                                            <Link className="menu--item--click" href="#" key={item.categoryId}>
+                                        <li className="menu--item item--1" key={item.categoryId} onMouseEnter={hanldeGetData}
+                                            onClick={() => {
+                                                sessionStorage.setItem("ProductType", JSON.stringify(item.categoryNameEng));
+                                                navigate('/Product');
+                                            }}
+                                        >
+                                            <Link className="menu--item--click" key={item.categoryId} >
                                                 <div className="item--name" >{item.categoryName}</div>
                                             </Link>
                                         </li>
                                     ))}
                                 </ul>
-                            </div>
-                            <div className="menu--component">
-                                {filteredDataContent.map(itemDataContent => (
-                                    <div className='component--all' key={itemDataContent.id}>
-                                        <div className='component--title'>
-                                            {itemDataContent.name.map(itemName => (
-                                                <Link className='component--title--click' href='#' key={itemName.id}>{itemName.name}</Link>
-                                            ))}
-                                        </div>
-                                        <div className='component--image'>
-                                            <img className='image--component' src={itemDataContent.image} alt="Hình ảnh" />
-                                        </div>
-                                    </div>
-                                ))}
                             </div>
                         </div>
                     </div>
@@ -98,3 +72,17 @@ const Services = () => {
 
 }
 export default Services
+// <div className="menu--component">
+//     {dataMenu.map(itemDataContent => (
+//         <div className='component--all' key={itemDataContent.categoryId}>
+//             <div className='component--title'>
+//                 {itemDataContent.name.map(itemName => (
+//                     <Link className='component--title--click' href='#' key={itemName.id}>{itemName.name}</Link>
+//                 ))}
+//             </div>
+//             <div className='component--image'>
+//                 <img className='image--component' src={itemDataContent.CategoryImageLink} alt="Hình ảnh" />
+//             </div>
+//         </div>
+//     ))}
+// </div>
