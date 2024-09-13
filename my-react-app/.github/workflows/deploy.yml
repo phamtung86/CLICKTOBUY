@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main # Hoặc nhánh mà bạn muốn theo dõi
+      - master # Hoặc nhánh mà bạn muốn theo dõi
 
 jobs:
   deploy:
