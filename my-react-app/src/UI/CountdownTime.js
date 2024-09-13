@@ -1,6 +1,6 @@
 // CountdownTimer.js
 import React, { useState, useEffect } from 'react';
-import "../Style/producttoday.css"
+import "../Style/product.css"
 const CountdownTimer = ({ targetDate }) => {
     const [timeLeft, setTimeLeft] = useState(getTimeRemaining(targetDate));
 
@@ -30,10 +30,10 @@ const CountdownTimer = ({ targetDate }) => {
     }
 
     return (
-        <div className="product__today--time--reverse">
-            <div className="product__today--time--hours">{String(timeLeft.hours).padStart(2, '0')}  </div>
-            <div className="product__today--time--minutes">{String(timeLeft.minutes).padStart(2, '0')}  </div>
-            <div className="product__today--time--seconds">{String(timeLeft.seconds).padStart(2, '0')}</div>
+        <div className="product--time--reverse">
+            <div className="product--time--hours">{String(timeLeft.hours).padStart(2, '0')}  </div>
+            <div className="product--time--minutes">{String(timeLeft.minutes).padStart(2, '0')}  </div>
+            <div className="product--time--seconds">{String(timeLeft.seconds).padStart(2, '0')}</div>
         </div>
     );
 };

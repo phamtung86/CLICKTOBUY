@@ -26,6 +26,16 @@ const Footer = () => {
                <div className='services--detail--company'>
                   <div className='company__name'>CLICKTOBUY</div>
                   <div className='company__name--detail'>Công ty cổ phần dịch vụ thương mại tổng hợp PVT </div>
+                  <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d391.380037232614!2d105.76201649258778!3d21.0544660507328!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313455d59dbfcddb%3A0x243763f507f51e54!2zTmjDoCB2xINuIGhvw6EgdOG7lSAxNCBQaMO6IERp4buFbg!5e0!3m2!1svi!2s!4v1726043449735!5m2!1svi!2s"
+                  width="300"
+                  height="300"
+                  style={{ border: 0 }}
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+                
                </div>
                <div className='services--detail--support'>
                   <h6 className='support--type'>Về chúng tôi</h6>
@@ -74,10 +84,10 @@ const Footer = () => {
                   <h6 className='support--type'>Chăm sóc khách hàng</h6>
                   <ul className='support__type--detail'>
                      <li className='support--about'>
-                        <Link className='support--about--click'>Mua online: 0344508700</Link>
+                        <Link className='support--about--click' to={"tel: +84344509700"}>Mua online: 0344508700</Link>
                      </li>
                      <li className='support--about'>
-                        <Link className='support--about--click'>Email: phamvantung149@gmail.com</Link>
+                        <Link className='support--about--click' to={"mailto: phamvantung149@gmail.com"}>Email: phamvantung149@gmail.com</Link>
                      </li>
                   </ul>
                   <div className='services--detail--support'>

@@ -1,9 +1,9 @@
 
-.product__today {
+.product {
   width: 100%;
   height: auto;
   background-color: rgb(241, 240, 241);
-  padding: 0rem 1rem
+  padding: 0.5rem 1rem
 }
 .products {
   border: 2px solid transparent;
@@ -34,10 +34,10 @@
 
 .product--item {
   width: 100%;
-  height: 35%;
+  height: auto;
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-end;
+  flex-direction: column;
 }
 
 .product--name {
@@ -67,8 +67,6 @@
 }
 
 .product--price {
-  font-weight: 650;
-  color: red;
   display: flex;
   align-items: flex-end;
   gap: 10px;
@@ -86,11 +84,11 @@
   color: red;
 }
 
-.product__today--time--days,
-.product__today--time--hours,
-.product__today--time--seconds,
-.product__today--time--minutes,
-.product__today--time--session {
+.product--time--days,
+.product--time--hours,
+.product--time--seconds,
+.product--time--minutes,
+.product--time--session {
   height: 2rem;
   width: 2rem;
   background-color: rgb(255, 63, 63);
@@ -102,7 +100,7 @@
   font-weight: 600;
 }
 
-.product__today--sell {
+.product--sell {
   height: auto;
   width: 75rem;
   margin: auto;
@@ -112,13 +110,13 @@
   margin-top: 1rem;
 }
 
-.product__today--time--reverse {
+.product--time--reverse {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.product__today--title--time {
+.product--title--time {
   height: 3rem;
   width: 75rem;
   margin: auto;
@@ -130,20 +128,65 @@
   border-radius: 10px;
 }
 
-.product__today--title {
+.product--title {
   color: #fff;
   font-weight: 700;
   font-size: 19px;
 }
 
-.product__today--time {
+.product--time {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.product__today--time--text {
+.product--time--text {
   color: #fff;
   font-weight: 700;
 
+}
+.product--price--sale {
+  font-weight: 650;
+  color: red;
+}
+
+.product--price--real {
+  font-size: 13px;
+  text-decoration-line: line-through;
+}
+.product--discovery {
+  border: none;
+  padding: 5px 5px;
+  background-color: red;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: 500;
+}
+.product--title--time {
+  height: 3rem;
+  width: 75rem;
+  margin: auto;
+  background-image: linear-gradient(90deg, rgb(0, 183, 255), rgb(255, 238, 0));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 10px 0px 10px;
+  border-radius: 10px;
+}
+.product--title {
+  height: auto;
+  color: black;
+  font-size: 20px;
+  font-weight: 700;
+}
+.product__discount{
+  position: absolute;
+  padding: 5px 5px;
+  background-color: red;
+  z-index: 1;
+  left: 0;
+  top: 2rem;
+  color: #fff;
+  border-radius: 5px 0px 5px 0px;
+  font-size: 13px;
 }

@@ -5,7 +5,6 @@ import CartContext from './CartContext';
 import { Link, useNavigate } from 'react-router-dom';
 import Voucher from './Voucher';
 import axios from 'axios';
-import { min } from 'date-fns';
 
 const getInformationProduct = (product, cart, setCart) => {
     const { id, Image, name, unit, price, priceSale = price, note, sale, quantity = 1 } = product;

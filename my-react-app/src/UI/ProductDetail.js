@@ -19,13 +19,37 @@ const ProductDetail = () => {
         }
     });
 
+
+    // lấy data thông tin sản phẩm từ session
     const [dataProductDetail, setDataProductDetail] = useState(() => {
         const savedData = sessionStorage.getItem("dataProductDetail");
         return savedData ? JSON.parse(savedData) : {};
     });
 
+    // check sự thay đổi của session sau mỗi 0.2s
+    useEffect(() => {
+        const checkSessionStorage = () => {
+            try {
+                const savedSession = sessionStorage.getItem("dataProductDetail");
+                if (savedSession) {
+                    const updatedSession = JSON.parse(savedSession);
+                    setDataProductDetail(updatedSession);
+                }
+            } catch (error) {
+                console.error("Failed to parse data from sessionStorage:", error);
+            }
+        };
+    
+        checkSessionStorage();
+        const intervalId = setInterval(checkSessionStorage, 200);
+    
+        return () => clearInterval(intervalId);
+    }, []);
+    
+    // State quản lý số lượng sản phẩm
     const [quantity, setQuantity] = useState(1);
 
+    // Lưu cart vào localStorage mỗi khi cart thay đổi
     useEffect(() => {
         localStorage.setItem("cart", JSON.stringify(cart));
     }, [cart]);
@@ -35,7 +59,7 @@ const ProductDetail = () => {
 
         const { productId, productImageLink, productName, productUnit, productPrice, productDiscount, productNote } = dataProductDetail.products;
         const priceSale = productPrice - (productPrice * productDiscount / 100);
-        
+
         const product = {
             id: productId,
             Image: productImageLink,
@@ -51,6 +75,7 @@ const ProductDetail = () => {
         getInformationProduct(product, cart, setCart);
     };
 
+    // format date
     const formattedManufactureDate = dataProductDetail.productDate
         ? format(new Date(dataProductDetail.productDate), 'dd MMMM yyyy', { locale: vi })
         : '';
@@ -90,7 +115,7 @@ const ProductDetail = () => {
                         <div className='product__info--sale--value'>
                             {dataProductDetail.products?.productDiscount === 0
                                 ? "Không có khuyến mại"
-                                : dataProductDetail.products?.productDiscount+ "%"} 
+                                : dataProductDetail.products?.productDiscount + "%"}
                         </div>
                     </div>
                     <div className='product__info--unit'>
@@ -121,6 +146,12 @@ const ProductDetail = () => {
                             <div className='box1__content--expiry'>
                                 <div className='box1__content--expiry--title'>Hạn sử dụng:</div>
                                 <div className='box1__content--expiry--value'>{dataProductDetail.expiry}</div>
+                            </div>
+                        }
+                        {dataProductDetail.note &&
+                            <div className='box1__content--note'>
+                                <div className='box1__content--note--title'>Lưu ý</div>
+                                <div className='box1__content--note--value'>{dataProductDetail.note}</div>
                             </div>
                         }
                     </div>
