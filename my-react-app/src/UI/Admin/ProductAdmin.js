@@ -10,14 +10,14 @@ const ProductAdmin = () => {
     const [statusProductModify, setStatusModify] = useState(0); // Khởi tạo 0 là ẩn
     const [productInforSend, setProductInforSend] = useState();
     const [getLastIDInArray, setGetLastIdInArray] = useState(0);
+    const [valueSearch, setValueSearch] = useState(''); // Giá trị tìm kiếm
+    const [resultProductSearchByName, setResultProductSearchByName] = useState([]);
 
     useEffect(() => {
         fetchDataProduct();
     }, []);
 
-    useEffect(() => {
-    }, [getLastIDInArray]);
-
+    // GET data product
     const fetchDataProduct = async () => {
         const url = 'http://localhost:8080/api/Products/getDataProducts';
         try {
@@ -28,12 +28,12 @@ const ProductAdmin = () => {
                 const [lastElement] = [...response.data].reverse(); // Đảo mảng sao chép
                 setGetLastIdInArray(lastElement.productId);
             }
-
         } catch (error) {
             console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
         }
     };
 
+    // DELETE sản phẩm
     const handleDelete = async (productID) => {
         try {
             const responseDelete = await axios.delete(`http://localhost:8080/api/Products/DeleteProduct?ID=${productID}`);
@@ -44,6 +44,27 @@ const ProductAdmin = () => {
             console.error("Lỗi khi xóa sản phẩm:", error);
         }
     };
+
+    // Lưu giá trị của input tìm kiếm và thực hiện tìm kiếm ngay khi người dùng gõ phím
+    const handleChangeValue = async (event) => {
+        const searchValue = event.target.value;
+        setValueSearch(searchValue);
+        
+        // Gọi API tìm kiếm 
+        if (searchValue) {
+            try {
+                const response = await axios.post(`http://localhost:8080/api/Products/getDataProductsSearch?productName=${searchValue}`);
+                setResultProductSearchByName(response.data);
+            } catch (error) {
+                console.log("Lỗi khi tìm kiếm sản phẩm: " + error);
+            }
+        } else {
+            setResultProductSearchByName([]); // Reset kết quả tìm kiếm nếu chuỗi tìm kiếm quá ngắn
+        }
+    };
+
+    // Xác định sản phẩm nào sẽ hiển thị (kết quả tìm kiếm hoặc toàn bộ sản phẩm)
+    const productsToDisplay = resultProductSearchByName.length > 0 ? resultProductSearchByName : dataProduct;
 
     return (
         <div className="productadmin">
@@ -67,10 +88,10 @@ const ProductAdmin = () => {
                         className='fieldset__input'
                         type="text"
                         name="search"
-                        id="search"
                         placeholder='Nhập sản phẩm cần tìm'
+                        onChange={handleChangeValue} // Gọi tìm kiếm khi gõ phím
+                        value={valueSearch}
                     />
-                    <button className='search__button--click'>Tìm kiếm</button>
                 </div>
                 <div className='fieldset__button'>
                     <button className='action--add--button' onClick={() => setStatusModify(2)}>
@@ -87,7 +108,7 @@ const ProductAdmin = () => {
                 <div className='item--title'>Loại</div>
                 <div className='item--title'>Hành động</div>
             </div>
-            {dataProduct.map((item) => (
+            {productsToDisplay.map((item) => (
                 <div className='productadmin__item' key={item.productId}>
                     <img className='productadmin__image' src={item.productImageLink} alt={item.productName} />
                     <div className='productadmin--element productadmin__name'>{item.productName}</div>
@@ -100,7 +121,7 @@ const ProductAdmin = () => {
                     <div className='productadmin--element action__option'>
                         <div className='productadmin__action'>
                             <button className='action--delete--button' onClick={() => 
-                                window.confirm("Bạn có muốn xóa sản phẩm " + item.productName + " không ?") 
+                                window.confirm("Bạn có muốn xóa sản phẩm " + item.productName + " không?") 
                                 && handleDelete(item.productId)}>
                                 <i className="fa-solid fa-trash-can"></i> Xóa
                             </button>
@@ -114,7 +135,7 @@ const ProductAdmin = () => {
                                     productPrice: item.productPrice,
                                     productNote: item.productNote,
                                     productDiscount: item.productDiscount,
-                                    categoryID: item.categories.categoryId
+                                    categoryID: item.categories?.categoryId
                                 };
                                 setProductInforSend(product);
                             }}>

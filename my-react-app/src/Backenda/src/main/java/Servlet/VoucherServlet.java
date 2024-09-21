@@ -1,7 +1,7 @@
 package Servlet;
 
 import com.google.gson.Gson;
-import controller.VoucherController;
+import Backend.PresentationLayer.VoucherController;
 import Entity.VoucherDetail;
 
 import javax.servlet.annotation.WebServlet;

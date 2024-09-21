@@ -1,7 +1,7 @@
 package Servlet;
 
 import com.google.gson.Gson;
-import controller.UsersController;
+import Backend.PresentationLayer.UsersController;
 import Entity.Users;
 
 import javax.servlet.ServletException;

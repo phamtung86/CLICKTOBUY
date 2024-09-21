@@ -2,8 +2,8 @@ package Servlet;
 
 import Entity.Categories;
 import com.google.gson.Gson;
-import controller.CategoriesController;
-import controller.Productcontroller;
+import Backend.PresentationLayer.CategoriesController;
+import Backend.PresentationLayer.Productcontroller;
 import Entity.Products;
 import org.json.JSONObject;
 
@@ -16,7 +16,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,13 +48,8 @@ public class Productservlet extends HttpServlet {
                     break;
                 case "/getDataProductsType":
                     int id = Integer.parseInt(req.getParameter("CategoryID"));
-                    List<Products> listProductsType= productcontroller.getListProductType(id);
+                    List<Products> listProductsType = productcontroller.getListProductType(id);
                     resp.getWriter().write(gson.toJson(listProductsType));
-                    break;
-                case "/getDataProductsSearch":
-                    String productName = req.getParameter("productName");
-                    List<Products> listResultProductsSearchByName = productcontroller.listProductSearchByName(productName);
-                    resp.getWriter().write(gson.toJson(listResultProductsSearchByName));
                     break;
 
                 default:
@@ -81,9 +75,9 @@ public class Productservlet extends HttpServlet {
                 while ((line = reader.readLine()) != null) {
                     jsonString.append(line);
                 }
-                JSONObject jsonObject = new JSONObject(jsonString.toString());
                 switch (pathInfo) {
                     case "/InsertProduct":
+                        JSONObject jsonObject = new JSONObject(jsonString.toString());
                         int productId = jsonObject.getInt("productId");
                         String ImageLink = jsonObject.getString("productImage");
                         String Name = jsonObject.getString("productName");
@@ -93,8 +87,13 @@ public class Productservlet extends HttpServlet {
                         String Unit = jsonObject.getString("productUnit");
                         int Discount = jsonObject.getInt("productDiscount");
                         int categoryID = jsonObject.getInt("productCategoryId");
-                        Products p = new Products(productId,Name, Price, timestamp, Note, Unit, Discount, ImageLink, null);
+                        Products p = new Products(productId, Name, Price, timestamp, Note, Unit, Discount, ImageLink, null);
                         boolean isInsert = productcontroller.insertProduct(p, categoryID);
+                        break;
+                    case "/getDataProductsSearch":
+                        String productName = req.getParameter("productName");
+                        List<Products> listResultProductsSearchByName = productcontroller.listProductSearchByName(productName);
+                        resp.getWriter().write(gson.toJson(listResultProductsSearchByName));
                         break;
 
                 }
