@@ -26,6 +26,15 @@ public class ProductDetail {
         this.note = note;
         this.products = products;
     }
+    public ProductDetail(String origin, String igredient, String instruction, String preserve, String description,  String expiry, String note) {
+        this.origin = origin;
+        this.igredient = igredient;
+        this.instruction = instruction;
+        this.preserve = preserve;
+        this.description = description;
+        this.expiry = expiry;
+        this.note = note;
+    }
 
     public int getId() {
         return id;

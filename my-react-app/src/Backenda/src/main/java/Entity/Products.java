@@ -5,7 +5,6 @@ import java.util.Date;
 public class Products {
     public int productId;
     public String productName;
-    public String productDescription;
     public double productPrice;
     public Date productCreateAt;
     public String productNote;
@@ -14,10 +13,9 @@ public class Products {
     public String productImageLink;
     public Categories categories;
 
-    public Products(int productId, String productName, String productDescription, double productPrice, Date productCreateAt, String productNote, String productUnit, int productDiscount, String productImageLink, Categories categories) {
+    public Products(int productId, String productName, double productPrice, Date productCreateAt, String productNote, String productUnit, int productDiscount, String productImageLink, Categories categories) {
         this.productId = productId;
         this.productName = productName;
-        this.productDescription = productDescription;
         this.productPrice = productPrice;
         this.productCreateAt = productCreateAt;
         this.productNote = productNote;
@@ -41,14 +39,6 @@ public class Products {
 
     public void setProductName(String productName) {
         this.productName = productName;
-    }
-
-    public String getProductDescription() {
-        return productDescription;
-    }
-
-    public void setProductDescription(String productDescription) {
-        this.productDescription = productDescription;
     }
 
     public double getProductPrice() {
@@ -112,7 +102,6 @@ public class Products {
         return "Products{" +
                 "productId=" + productId +
                 ", productName='" + productName + '\'' +
-                ", productDescription='" + productDescription + '\'' +
                 ", productPrice=" + productPrice +
                 ", productCreateAt=" + productCreateAt +
                 ", productNote='" + productNote + '\'' +

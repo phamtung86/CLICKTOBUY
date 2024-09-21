@@ -1,0 +1,116 @@
+.productadminaddhome {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.733);
+    position: fixed;   
+    top: 0;
+    right: 0;
+    display: flex;     /* Sử dụng flexbox */
+    justify-content: center;  /* Canh giữa theo chiều ngang */
+    align-items: center;      /* Canh giữa theo chiều dọc */
+    z-index: 2;  
+}
+.productadminadd{
+    background-color: rgb(255, 255, 255);
+    border-radius: 8px;   /* Bo tròn các góc */
+    z-index: 3; 
+    width: 80%;
+}
+.productadminadd__title{
+    width: 100%;
+    background-color: rgb(0,183,255);
+    padding: 10px;
+    text-align: center;
+    font-weight: 700;
+    color: #fff;
+}
+.productadminadd__interface{
+    width: 100%;
+    padding: 10px ;
+    align-items: center;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.productadminadd__image{
+    padding: 5px 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+.productadminadd__image--input{
+    border: 1px solid gray;
+    border-radius: 20px;
+}
+#upload{
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+}
+.productadminadd__image--display{
+    width: 100%;
+    height: 200px;
+    border: 1px dotted black;
+    /* border-style: ; */
+}
+.display__title{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.image__display{
+    height: 100%;
+    width: 100%;
+}
+.productadminadd__information{
+    width: 100%;
+    display: grid;
+    grid-template-columns:  1fr 1fr 1fr;
+    gap: 10px;
+}
+.information__add{
+    padding: 10px ;
+    border-radius: 10px;
+}
+.productadminadd__button{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px;
+}
+.productadminadd__button--submit{
+    color: #fff;
+    background-color:  rgb(0,183,255);
+    border: 1px solid  rgb(0,183,255);
+    border-radius: 10px;
+    font-weight:600 ;
+    padding: 5px 5px;
+    width: 120px;
+}
+.productadminadd__button--cancel{
+    color: #fff;
+    background-color:  red;
+    border: 1px solid  red;
+    border-radius: 10px;
+    font-weight:600 ;
+    padding: 5px 5px;
+    width: 120px;
+}
+.information__add--list{
+    padding: 10px ;
+    border-radius: 10px;
+}
+.productadminadd__button--reset{
+    color: #fff;
+    background-color:  green;
+    border: 1px solid  green;
+    border-radius: 10px;
+    font-weight:600 ;
+    padding: 5px 5px;
+    width: 120px;
+}

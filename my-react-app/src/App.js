@@ -1,15 +1,15 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import Head from './UI/Head';
-import Banner from './UI/Banner';
-import Services from './UI/Services';
-import ProductTodayNew from './UI/ProductTodayNew';
-import ProductSale from './UI/ProductSale';
-import Footer from './UI/Footer';
-import ProductMilk from './UI/ProductMilk';
-import ProductVegetable from './UI/ProductVegetable';
-import ProductCleanChemical from './UI/ProductCleanChemical';
-import ProductTakeCare from './UI/ProductTakeCare';
+import Head from './UI/Customer/Head';
+import Banner from './UI/Customer/Banner';
+import Services from './UI/Customer/Services';
+import ProductTodayNew from './UI/Customer/ProductTodayNew';
+import ProductSale from './UI/Customer/ProductSale';
+import Footer from './UI/Customer/Footer';
+import ProductMilk from './UI/Customer/ProductMilk';
+import ProductVegetable from './UI/Customer/ProductVegetable';
+import ProductCleanChemical from './UI/Customer/ProductCleanChemical';
+import ProductTakeCare from './UI/Customer/ProductTakeCare';
 
 const App = () => {
   const [cart, setCart] = useState(() => {

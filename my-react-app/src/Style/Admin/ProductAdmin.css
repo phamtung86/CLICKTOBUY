@@ -1,0 +1,120 @@
+.productadmin {
+    position: relative;
+}
+.productadmin--title{
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid black;
+    font-size: 20px;
+    font-weight: 500;
+    font-family: 'Times New Roman', Times, serif;
+    padding: 10px 10px;
+    gap: 10px;
+}
+.item--title--image{
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.item--title{
+    width: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.productadmin__item{
+    display: flex;
+    padding: 10px 10px;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid black;
+}
+.productadmin--element{
+    width: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.productadmin__image{
+    height: 100px;
+    width: 100px;
+}
+.productadmin__name{
+  
+}
+.productadmin__price{
+    color: red;
+   
+}
+.productadmin__note{
+   
+}
+.productadmin__discount{
+  
+}
+.productadmin__unit{
+    
+}
+.action--add--button{
+    background-color: green;
+    border: 1px solid green;
+    font-weight: 500;
+    padding: 10px ;
+    border-radius: 10px;
+    color: #fff;
+    float: right;
+}
+.action--modify--button{
+    background-color: yellow;
+    border: 1px solid yellow;
+    font-weight: 500;
+    padding: 10px ;
+    border-radius: 10px;
+    color: #000000;
+}
+.action--delete--button{
+    background-color: red;
+    border: 1px solid red;
+    font-weight: 500;
+    padding: 10px ;
+    border-radius: 10px;
+    color: #fff;
+}
+.productadmin__action{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 10px;
+}
+.fieldset__function{
+    background-color: rgb(233,232,240);
+    padding: 10px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.fieldset__form{
+    display: flex;
+    gap: 20px;
+    width: 75%;
+}
+.fieldset__input{
+    width: 80%;
+    border: none;
+    background-color: rgb(233,232,240);
+    border-bottom: 1px solid gray ;
+    border-radius: 10px;
+    padding: 10px;
+}
+.search__button--click{
+    border: none;
+    background-color: rgb(0,183,255);
+    border-radius: 10px;
+    font-weight: 500;
+    color: #fff;
+}
+.fieldset__button{
+    width: 25%;
+    
+}
