@@ -2,8 +2,8 @@ package Servlet;
 
 import Entity.Users;
 import com.google.gson.Gson;
-import controller.AuthController;
-import controller.UsersController;
+import Backend.PresentationLayer.AuthController;
+import Backend.PresentationLayer.UsersController;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;

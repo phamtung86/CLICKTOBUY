@@ -3,9 +3,8 @@ package Servlet;
 import Entity.ProductDetail;
 import Entity.Products;
 import com.google.gson.Gson;
-import controller.ProductDetailController;
-import controller.Productcontroller;
-import org.json.JSONException;
+import Backend.PresentationLayer.ProductDetailController;
+import Backend.PresentationLayer.Productcontroller;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -15,9 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 
 @WebServlet("/api/ProductDetail")
 public class ProductDetailServlet extends HttpServlet {

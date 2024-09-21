@@ -2,7 +2,7 @@ package Servlet;
 
 import Entity.Categories;
 import com.google.gson.Gson;
-import controller.CategoriesController;
+import Backend.PresentationLayer.CategoriesController;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
