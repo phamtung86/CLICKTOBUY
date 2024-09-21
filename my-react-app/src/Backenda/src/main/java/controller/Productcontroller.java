@@ -21,20 +21,20 @@ public class Productcontroller {
     public ArrayList<Products> getListProductSale() {
         return iProductServices.getListProductSale();
     }
-    public ArrayList<Products> getListProductMilk (){
-        return iProductServices.getListProductMilk();
-    }
-    public ArrayList<Products> getListProductVegetable (){
-        return iProductServices.getListProductVegetable();
-    }
-    public ArrayList<Products> getListProductCleanChemical (){
-        return iProductServices.getListProductCleanChemical();
-    }
-    public ArrayList<Products> getListProductTakeCare (){
-        return iProductServices.getListProductTakeCare();
+    public ArrayList<Products> getListProductType(int categoryIDType){
+        return iProductServices.getListProductType(categoryIDType);
     }
     public ArrayList<Products> listProductSearchByName(String productName){
         return iProductServices.listProductSearchByName(productName);
+    }
+    public boolean modifyProduct(Products product){
+        return iProductServices.modifyProduct(product);
+    }
+    public boolean insertProduct(Products product,int categoryID){
+        return iProductServices.insertProduct(product,categoryID);
+    }
+    public boolean deleteProduct(int productID){
+        return iProductServices.deleteProduct(productID);
     }
 }
 

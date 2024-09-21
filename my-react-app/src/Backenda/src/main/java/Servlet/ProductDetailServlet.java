@@ -13,8 +13,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 
 @WebServlet("/api/ProductDetail")
 public class ProductDetailServlet extends HttpServlet {
@@ -56,4 +59,43 @@ public class ProductDetailServlet extends HttpServlet {
         }
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String pathInfo = req.getPathInfo();
+        resp.setContentType("application/json");
+        try {
+            if (pathInfo == null || pathInfo.equals("/")) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing action");
+            } else {
+                BufferedReader reader = req.getReader();
+                StringBuilder jsonString = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    jsonString.append(line);
+                }
+                JSONObject jsonObject = new JSONObject(jsonString.toString());
+                switch (pathInfo) {
+                    case "/InsertProductDetail":
+                       String origin = jsonObject.getString("productOrigin");
+                       String ingredient = jsonObject.getString("productIngredient");
+                       String instruction = jsonObject.getString("productInstruction");
+                       String preserve = jsonObject.getString("productPreseve");
+                       String discription = jsonObject.getString("productDescription");
+                       String expiryDate = jsonObject.getString("productExpiry");
+                       String productDetailNote = jsonObject.getString("productDetailNote");
+                       int productId = jsonObject.getInt("productId");
+                       ProductDetail productDetail = new ProductDetail(origin,ingredient,instruction,preserve,discription,expiryDate,productDetailNote);
+                        boolean isInserted = productDetailController.insertProductDetail(productDetail,productId);
+                        resp.getWriter().write(gson.toJson(isInserted));
+                        break;
+
+                }
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (NumberFormatException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

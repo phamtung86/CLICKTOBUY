@@ -20,4 +20,7 @@ public class ProductDetailController {
     public ProductDetail getProductDetailFromProductId(ArrayList<ProductDetail> listProductDetail,int id){
         return iProductDetailServices.getProductDetailFromProductId(listProductDetail,id);
     }
+    public boolean insertProductDetail(ProductDetail productDetail, int productID){
+        return iProductDetailServices.insertProductDetail(productDetail,productID);
+    }
 }

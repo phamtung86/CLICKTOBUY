@@ -57,5 +57,30 @@ public class ProductDetailReponsitoryimpl implements IProductDetailReponsitory {
         return null;
     }
 
+    @Override
+    public boolean insertProductDetail(ProductDetail productDetail, int productID) {
+        String INSERT_PRODUCTDETAIL_SQL = "INSERT INTO product_detail (origin,ingredient,intruction, preserve,description,expiry,Note,productID) VALUES (?,?,?,?,?,?,?,?)";
+        Connection con = null;
+        PreparedStatement ps = null;
+        try {
+            con = JdbcConnection.getConnection();
+            ps = con.prepareStatement(INSERT_PRODUCTDETAIL_SQL);
+            ps.setString(1, productDetail.getOrigin());
+            ps.setString(2,productDetail.getIgredient());
+            ps.setString(3,productDetail.getInstruction());
+            ps.setString(4,productDetail.getPreserve());
+            ps.setString(5,productDetail.getDescription());
+            ps.setString(6,productDetail.getExpiry());
+            ps.setString(7,productDetail.getNote());
+            ps.setInt(8,productID);
+            int count = ps.executeUpdate();
+            return count > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            JdbcConnection.closeConnection(con, ps, null);
+        }
+    }
+
 
 }

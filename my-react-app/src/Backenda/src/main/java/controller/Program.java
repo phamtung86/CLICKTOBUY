@@ -21,7 +21,7 @@ public class Program {
         // Đăng ký CORS filter
         FilterHolder cors = new FilterHolder(new CrossOriginFilter());
         cors.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "*");
-        cors.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "GET,POST,HEAD,OPTIONS");
+        cors.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "GET,POST,HEAD,OPTIONS,PUT,DELETE");
         cors.setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM, "X-Requested-With,Content-Type,Accept,Origin");
         context.addFilter(cors, "/*", EnumSet.of(DispatcherType.REQUEST));
 
@@ -31,7 +31,8 @@ public class Program {
         context.addServlet(new ServletHolder(new VoucherServlet()), "/api/Vouchers/*");
         context.addServlet(new ServletHolder(new OrderServlet()), "/api/Orders/*");
         context.addServlet(new ServletHolder(new ProductDetailServlet()), "/api/ProductDetail/*");
-        context.addServlet(new ServletHolder(new CategoriesServlet()), "/api/Categories");
+        context.addServlet(new ServletHolder(new CategoriesServlet()), "/api/Categories/*");
+        context.addServlet(new ServletHolder(new AuthServlet()), "/api/Auth/*");
         // Bắt đầu server
         server.start();
 //    SendMail sendMail = new SendMail();

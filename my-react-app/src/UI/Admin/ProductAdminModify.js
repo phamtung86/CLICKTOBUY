@@ -1,0 +1,112 @@
+import '../../Style/Admin/ProductAdminModify.css';
+import { useState } from 'react';
+import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+
+
+const ProductAdminmodify = ({ dataProduct, setStatusModify, updateProductInState }) => {
+    const [categoryID, setCategoryID] = useState(dataProduct.categoryID);
+    const [productImage, setProductImage] = useState(dataProduct.productImageLink);
+    const [productId, setProductId] = useState(dataProduct.productId);
+    const [productName, setProductName] = useState(dataProduct.productName);
+    const [productPrice, setProductPrice] = useState(dataProduct.productPrice);
+    const [productNote, setProductNote] = useState(dataProduct.productNote);
+    const [productDiscount, setProductDiscount] = useState(dataProduct.productDiscount);
+    const [productUnit, setProductUnit] = useState(dataProduct.productUnit);
+    const [statusSuggess, setStatusSuggess] = useState(false);
+    const handleSave = async () => {
+        const updatedProduct = {
+            categoryID,
+            productId,
+            productImage,
+            productName,
+            productPrice,
+            productNote,
+            productDiscount,
+            productUnit
+        };
+        const url = `http://localhost:8080/api/Products/updateProduct`;
+        try {
+            const response = await axios.put(url, updatedProduct);
+            if (response.status) {
+                setStatusSuggess(true)
+                alert("Sửa sản phẩm thành công")
+                setStatusModify(0) 
+                updateProductInState();
+            }
+        } catch (error) {
+            console.error("Lỗi khi cập nhật sản phẩm:", error);
+        }
+    }
+
+    return (
+        <div className="productadminmodifyhome">
+            {statusSuggess === true && <div className='productadminmodify__suggess'>
+                <FontAwesomeIcon icon={faCircleCheck} size="2xl" style={{ color: "#74C0FC" }} />
+                Sửa thành công
+            </div>}
+            <div className="productadminmodify">
+                <h2 className='productadminmodify__title'>Chỉnh sửa sản phẩm</h2>
+                <div className='producadminmodify__image__infor'>
+                    <div className='productadminmodify__image'>
+                        <img className='image__productadminmodify' src={productImage} alt={productName} />
+                    </div>
+                    <div className='productadminmodify__infor'>
+                        <div className='productadminmodify__element'>
+                            <label className='productadminmodify__label'>Tên sản phẩm:</label>
+                            <input
+                                className="productadminmodify__input"
+                                type="text"
+                                value={productName}
+                                onChange={(e) => setProductName(e.target.value)}
+                            />
+                        </div>
+                        <div className='productadminmodify__element'>
+                            <label className='productadminmodify__label'>Giá sản phẩm:</label>
+                            <input
+                                className="productadminmodify__input"
+                                type="number"
+                                value={productPrice}
+                                onChange={(e) => setProductPrice(e.target.value)}
+                            />
+                        </div>
+                        <div className='productadminmodify__element'>
+                            <label className='productadminmodify__label'>Ghi chú:</label>
+                            <input
+                                className="productadminmodify__input"
+                                // type="text"
+                                value={productNote}
+                                onChange={(e) => setProductNote(e.target.value)}
+                            />
+                        </div>
+                        <div className='productadminmodify__element'>
+                            <label className='productadminmodify__label'>Giảm giá (%):</label>
+                            <input
+                                className="productadminmodify__input"
+                                type="number"
+                                value={productDiscount}
+                                onChange={(e) => setProductDiscount(e.target.value)}
+                            />
+                        </div>
+                        <div className='productadminmodify__element'>
+                            <label className='productadminmodify__label'>Loại sản phẩm:</label>
+                            <input
+                                className="productadminmodify__input"
+                                type="text"
+                                value={productUnit}
+                                onChange={(e) => setProductUnit(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div className='productadminmodify__button'>
+                    <button className='productadminmodify__button--cancel' onClick={() => setStatusModify(0)}>Hủy</button>
+                    <button className='productadminmodify__button--save' onClick={handleSave}>Lưu thay đổi</button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default ProductAdminmodify;
