@@ -18,6 +18,10 @@
 .ads--title{
     font-weight: 700;
 }
+.ads--image{
+    width: 100px;
+    height: 100px;
+}
 .footer__services--detail {
      background-color: rgb(44,44,44);
      color: #fff;

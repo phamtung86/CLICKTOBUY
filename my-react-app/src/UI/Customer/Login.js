@@ -62,13 +62,13 @@ const Login = () => {
         if (!checkInputUser() || !checkInputPassword()) {
             return;
         }
-        
+
         if (isSubmitting) return;  // Nếu đang gửi form thì không thực hiện thêm hành động nào nữa
 
         setIsSubmitting(true);  // Đánh dấu trạng thái đang gửi form
 
         const token = await getTokenAccount();
-        
+
         if (token) {
             try {
                 const [encodeHeader, encodePayload, encodeSignature] = token.split(".");
@@ -78,15 +78,28 @@ const Login = () => {
                 const accountInforSession = {
                     id: decodedPayload.id,
                     fullName: decodedPayload.fullName,
-                    role: decodedPayload.role
+                    role: decodedPayload.role,
+                    status : decodedPayload.status
                 };
-                const userData = { username: accountInforSession.id, role: accountInforSession.role };
+                const userData = { username: accountInforSession.id, role: accountInforSession.role, status : accountInforSession.status };
                 login(userData);
                 sessionStorage.setItem("account", JSON.stringify(accountInforSession));
                 if (userData.role === "ADMIN") {
-                    navigate('/DashBoard')
+                    navigate('/Admin')
                 } else {
-                    navigate('/');
+                    if(userData.status === -5) {
+                        setLoginError("Tài khoản đã bị vô hiệu hóa. Vui lòng thử đăng nhập tài khoản khác");
+                    }
+                    else if (userData.status === -1) {
+                        setLoginError("Tài khoản đã bị khóa. Vui lòng thử đăng nhập tài khoản khác");
+                    } 
+                    else if (userData.status === -9){
+                        alert("Tài khoản của quý khách đang trong mức cảnh báo. Vui lòng mua sắm cẩn thận hơn nhé")
+                        navigate('/')
+                    }
+                    else {
+                        navigate('/');
+                    }
                 }
             } catch (error) {
                 console.error('Error decoding JWT: ', error);
@@ -101,52 +114,58 @@ const Login = () => {
 
     return (
         <div className='page__login'>
-            <div className='login'>
-                <div className='login__header'>
+            <div className='login__regester'>
+
+                <div className='login'>
+                    <div className='login__header'>
                     <Link to={"/"} className='header--back'><i className="fa-solid fa-arrow-left"></i></Link>
-                    <h1 className='shop__name'>CLICKTOBUY</h1>
                     <Link to={"/"} className='header--back'><i className="fa-solid fa-house"></i></Link>
-                </div>
-                <div className='login__title'>Đăng nhập</div>
-                <form className='login__form' onSubmit={(e) => e.preventDefault()}>
-                    <label className='label__account'>
-                        <input
-                            type="text"
-                            className='account__input'
-                            name='user'
-                            value={accountLogin.user}
-                            onChange={handleChange}
-                            onBlur={checkInputUser}
-                        />
-                        <span className={accountLogin.user.length > 0 ? 'account__title1' : 'account__title'}>Tên đăng nhập</span>
-                        {userError && <div className='login__error'>{userError}</div>}
-                    </label>
-                    <label className='label__password'>
-                        <input
-                            type="password"
-                            className='password__input'
-                            name='password'
-                            value={accountLogin.password}
-                            onChange={handleChange}
-                            onBlur={checkInputPassword}
-                        />
-                        <span className={accountLogin.password.length > 0 ? 'password__title1' : 'password__title'}>Mật khẩu</span>
-                        {passwordError && <div className='login__error'>{passwordError}</div>}
-                    </label>
-                    <input
-                        className='login__button'
-                        type='button'
-                        value="Đăng nhập"
-                        onClick={handleLogin}
-                        disabled={isSubmitting}  // Vô hiệu hóa nút khi đang gửi form
-                    />
-                    <Link to={"/Forgot-pass"} className='login__forgot_password'>Quên mật khẩu ?</Link>
-                    <div className='login__other'>
-                        <span className='login__other__title'>Hoặc</span>
                     </div>
-                    <Link className='register_button' to={'/Register'}>Đăng kí</Link>
-                </form>
-                {loginError && <div className='login__error'>{loginError}</div>}
+                    <div className='login__title'>Đăng nhập</div>
+                    <form className='login__form' onSubmit={(e) => e.preventDefault()}>
+                        <label className='label__account'>
+                            <input
+                                type="text"
+                                className='account__input'
+                                name='user'
+                                value={accountLogin.user}
+                                onChange={handleChange}
+                                onBlur={checkInputUser}
+                            />
+                            <span className={accountLogin.user.length > 0 ? 'account__title1' : 'account__title'}>Tên đăng nhập</span>
+                            {userError && <div className='login__error'>{userError}</div>}
+                        </label>
+                        <label className='label__password'>
+                            <input
+                                type="password"
+                                className='password__input'
+                                name='password'
+                                value={accountLogin.password}
+                                onChange={handleChange}
+                                onBlur={checkInputPassword}
+                            />
+                            <span className={accountLogin.password.length > 0 ? 'password__title1' : 'password__title'}>Mật khẩu</span>
+                            {passwordError && <div className='login__error'>{passwordError}</div>}
+                        </label>
+                        <Link to={"/Forgot-pass"} className='login__forgot_password'>Quên mật khẩu ?</Link>
+                        <input
+                            className='login__button'
+                            type='button'
+                            value="Đăng nhập"
+                            onClick={handleLogin}
+                            disabled={isSubmitting}  // Vô hiệu hóa nút khi đang gửi form
+                        />
+                    </form>
+                    {loginError && <div className='login__error'>{loginError}</div>}
+                </div>
+                <div className='page__login--register'>
+
+                    <div class="page__login--register--text--button">
+                        <h1 className='shop__name'>CLICKTOBUY</h1>
+                        <p>Chúc bạn có những giây phút mua sắm vui vẻ</p>
+                        <Link className='page__login--register--button' to={'/Register'}>Đăng kí</Link>
+                    </div>
+                </div>
             </div>
         </div>
     );

@@ -111,7 +111,8 @@ const Head = () => {
     </div>
   );
   const { valueSearch, dataResultProductsSearch, handleInputChange } = useContext(SearchContext);
-  const changePage = () => {
+  const changePage = (event) => {
+    event.preventDefault();
     if (dataResultProductsSearch) {
       navigate("/ResultProductSearch")
       sessionStorage.removeItem("valueSearch")

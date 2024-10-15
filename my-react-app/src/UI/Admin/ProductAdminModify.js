@@ -4,18 +4,19 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 
-
-const ProductAdminmodify = ({ dataProduct, setStatusModify, updateProductInState }) => {
+const ProductAdminmodify = ({ dataProduct, setStatusModify, valueSearch,updateProductInState , updateProductInSearch}) => {
     const [categoryID, setCategoryID] = useState(dataProduct.categoryID);
     const [productImage, setProductImage] = useState(dataProduct.productImageLink);
     const [productId, setProductId] = useState(dataProduct.productId);
     const [productName, setProductName] = useState(dataProduct.productName);
     const [productPrice, setProductPrice] = useState(dataProduct.productPrice);
-    const [productNote, setProductNote] = useState(dataProduct.productNote);
+    const [productNote, setProductNote] = useState(dataProduct.productNote ? dataProduct.productNote : "");
     const [productDiscount, setProductDiscount] = useState(dataProduct.productDiscount);
     const [productUnit, setProductUnit] = useState(dataProduct.productUnit);
     const [statusSuggess, setStatusSuggess] = useState(false);
+
     const handleSave = async () => {
+        console.log(updateProductInState);
         const updatedProduct = {
             categoryID,
             productId,
@@ -26,27 +27,32 @@ const ProductAdminmodify = ({ dataProduct, setStatusModify, updateProductInState
             productDiscount,
             productUnit
         };
+        console.log(updatedProduct);
         const url = `http://localhost:8080/api/Products/updateProduct`;
         try {
             const response = await axios.put(url, updatedProduct);
             if (response.status) {
-                setStatusSuggess(true)
-                alert("Sửa sản phẩm thành công")
-                setStatusModify(0) 
-                updateProductInState();
+                setStatusSuggess(true);
+                setTimeout(() => {
+                    setStatusSuggess(false);
+                    setStatusModify(0); // Quay lại trạng thái ban đầu
+                    // updateProductInState(); // Cập nhật lại danh sách sản phẩm
+                    {valueSearch ? updateProductInSearch(valueSearch) : updateProductInState()}
+                }, 2000);
             }
         } catch (error) {
             console.error("Lỗi khi cập nhật sản phẩm:", error);
         }
-    }
+    };
 
     return (
         <div className="productadminmodifyhome">
-            {statusSuggess === true && <div className='productadminmodify__suggess'>
-                <FontAwesomeIcon icon={faCircleCheck} size="2xl" style={{ color: "#74C0FC" }} />
-                Sửa thành công
-            </div>}
             <div className="productadminmodify">
+            {statusSuggess && (
+                <div class="success-animation">
+                    <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" /><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" /></svg>
+                </div>
+            )}
                 <h2 className='productadminmodify__title'>Chỉnh sửa sản phẩm</h2>
                 <div className='producadminmodify__image__infor'>
                     <div className='productadminmodify__image'>
@@ -75,7 +81,6 @@ const ProductAdminmodify = ({ dataProduct, setStatusModify, updateProductInState
                             <label className='productadminmodify__label'>Ghi chú:</label>
                             <input
                                 className="productadminmodify__input"
-                                // type="text"
                                 value={productNote}
                                 onChange={(e) => setProductNote(e.target.value)}
                             />

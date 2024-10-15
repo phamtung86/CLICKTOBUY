@@ -1,6 +1,6 @@
 package Backend.PresentationLayer;
 
-import Servlet.*;
+//import SwaggerUI.SwaggerGenerator;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -26,17 +26,20 @@ public class Program {
         context.addFilter(cors, "/*", EnumSet.of(DispatcherType.REQUEST));
 
         // Đăng ký servlet
-        context.addServlet(new ServletHolder(new Productservlet()), "/api/Products/*");
-        context.addServlet(new ServletHolder(new UsersServlet()), "/api/Users/*");
-        context.addServlet(new ServletHolder(new VoucherServlet()), "/api/Vouchers/*");
-        context.addServlet(new ServletHolder(new OrderServlet()), "/api/Orders/*");
-        context.addServlet(new ServletHolder(new ProductDetailServlet()), "/api/ProductDetail/*");
-        context.addServlet(new ServletHolder(new CategoriesServlet()), "/api/Categories/*");
-        context.addServlet(new ServletHolder(new AuthServlet()), "/api/Auth/*");
+        context.addServlet(new ServletHolder(new Productcontroller()), "/api/Products/*");
+        context.addServlet(new ServletHolder(new UsersController()), "/api/Users/*");
+        context.addServlet(new ServletHolder(new VoucherController()), "/api/Vouchers/*");
+        context.addServlet(new ServletHolder(new OrderController()), "/api/Orders/*");
+        context.addServlet(new ServletHolder(new OrderDetailController()), "/api/OrdersDetail/*");
+        context.addServlet(new ServletHolder(new ProductDetailController()), "/api/ProductDetail/*");
+        context.addServlet(new ServletHolder(new CategoriesController()), "/api/Categories/*");
+        context.addServlet(new ServletHolder(new AuthController()), "/api/Auth/*");
         // Bắt đầu server
         server.start();
 //    SendMail sendMail = new SendMail();
 //    sendMail.sendEmail();
         server.join();
+//        SwaggerGenerator generator = new SwaggerGenerator();
+//        generator.generateOpenApi();
     }
 }

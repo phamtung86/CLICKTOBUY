@@ -5,6 +5,7 @@ import Backend.DataLayer.UserReponsitoryimpl;
 import Entity.Users;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class UserServicesimpl implements IUserServices {
     public IUserReponsitory iUserReponsitory;
@@ -34,5 +35,20 @@ public class UserServicesimpl implements IUserServices {
     @Override
     public int getIdFromUserName(String userName) {
         return iUserReponsitory.getIdFromUserName(userName);
+    }
+
+    @Override
+    public int getQuantityUser() {
+        return iUserReponsitory.getQuantityUser();
+    }
+
+    @Override
+    public Map<Integer, Users> getMapUsers() {
+        return iUserReponsitory.getMapUsers();
+    }
+
+    @Override
+    public boolean updateStatusUser(int id, int status) {
+        return iUserReponsitory.updateStatusUser(id, status);
     }
 }

@@ -1,120 +1,152 @@
 .productadmin {
     position: relative;
+    margin: 0 auto; /* Căn giữa container */
 }
-.productadmin--title{
+
+.productadmin--title {
+    position: sticky;
+    top: 65px;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid black;
+    justify-content: space-between;
+    border-bottom: 1px solid rgb(170, 170, 170);
     font-size: 20px;
     font-weight: 500;
     font-family: 'Times New Roman', Times, serif;
-    padding: 10px 10px;
+    padding: 10px;
     gap: 10px;
-}
-.item--title--image{
-    width: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.item--title{
-    width: 15%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.productadmin__item{
-    display: flex;
-    padding: 10px 10px;
-    align-items: center;
-    gap: 10px;
-    border-bottom: 1px solid black;
-}
-.productadmin--element{
-    width: 15%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.productadmin__image{
-    height: 100px;
-    width: 100px;
-}
-.productadmin__name{
-  
-}
-.productadmin__price{
-    color: red;
-   
-}
-.productadmin__note{
-   
-}
-.productadmin__discount{
-  
-}
-.productadmin__unit{
+    background-color:#99b19c;
+    color: #fff;
     
 }
-.action--add--button{
+
+.item--title--image {
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.item--title {
+    flex: 1; /* Điều chỉnh để các cột cân bằng */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.productadmin__item {
+    display: flex;
+    padding: 10px 10px;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid rgb(199, 198, 198);
+    box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+    margin-bottom: 10px;
+}
+
+.productadmin--element {
+    flex: 1; /* Điều chỉnh để các cột cân bằng */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.productadmin__image {
+    height: 100px;
+    width: 100px;
+    object-fit: cover;
+}
+
+.productadmin__price {
+    color: red;
+}
+
+.productadmin__note {}
+
+.productadmin__discount {}
+
+.productadmin__unit {}
+
+.action--add--button {
     background-color: green;
     border: 1px solid green;
     font-weight: 500;
-    padding: 10px ;
+    padding: 10px;
     border-radius: 10px;
     color: #fff;
-    float: right;
+    cursor: pointer;
 }
-.action--modify--button{
+
+.action--modify--button {
     background-color: yellow;
     border: 1px solid yellow;
     font-weight: 500;
-    padding: 10px ;
+    padding: 10px;
     border-radius: 10px;
     color: #000000;
+    cursor: pointer;
 }
-.action--delete--button{
+
+.action--delete--button {
     background-color: red;
     border: 1px solid red;
     font-weight: 500;
-    padding: 10px ;
+    padding: 10px;
     border-radius: 10px;
     color: #fff;
+    cursor: pointer;
 }
-.productadmin__action{
+
+.productadmin__action {
     display: flex;
     align-items: center;
     justify-content: space-around;
     gap: 10px;
 }
-.fieldset__function{
-    background-color: rgb(233,232,240);
-    padding: 10px 10px;
+
+.fieldset__function {
+    position: sticky;
+    top: 0;
+    padding: 10px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background-color: #99b19c;
+    width: 100%;
 }
-.fieldset__form{
+
+.fieldset__form {
     display: flex;
     gap: 20px;
     width: 75%;
 }
-.fieldset__input{
-    width: 80%;
+
+.fieldset__input {
+    width: 100%; /* Chiếm hết chiều rộng */
     border: none;
-    background-color: rgb(233,232,240);
-    border-bottom: 1px solid gray ;
+    background-color: rgb(233, 232, 240);
+    border-bottom: 1px solid gray;
     border-radius: 10px;
     padding: 10px;
 }
-.search__button--click{
+
+.search__button--click {
     border: none;
-    background-color: rgb(0,183,255);
+    background-color: rgb(0, 183, 255);
     border-radius: 10px;
     font-weight: 500;
     color: #fff;
+    cursor: pointer;
 }
-.fieldset__button{
+
+.fieldset__button {
     width: 25%;
-    
+    text-align: right; /* Căn phải cho nút */
+}
+
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px; /* Đảm bảo spinner nằm giữa màn hình */
 }

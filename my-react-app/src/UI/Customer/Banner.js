@@ -31,35 +31,41 @@ const Banner = () => {
     ];
 
     return (
-        <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel">
-            <div className="carousel-indicators">
-                {dataImage.map((_, index) => (
-                    <button
-                        key={index}
-                        type="button"
-                        data-bs-target="#carouselExampleIndicators"
-                        data-bs-slide-to={index}
-                        className={index === 0 ? "active" : ""}
-                        aria-current={index === 0 ? "true" : undefined}
-                        aria-label={`Slide ${index + 1}`}
-                    ></button>
-                ))}
+        <div className="banner__ad">
+            <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel">
+                <div className="carousel-indicators">
+                    {dataImage.map((_, index) => (
+                        <button
+                            key={index}
+                            type="button"
+                            data-bs-target="#carouselExampleIndicators"
+                            data-bs-slide-to={index}
+                            className={index === 0 ? "active" : ""}
+                            aria-current={index === 0 ? "true" : undefined}
+                            aria-label={`Slide ${index + 1}`}
+                        ></button>
+                    ))}
+                </div>
+                <div className="carousel-inner">
+                    {dataImage.map((item, index) => (
+                        <div key={item.id} className={`carousel-item ${index === 0 ? "active" : ""}`}>
+                            <img src={item.imageUrl} className="image__box1" alt={item.altText} />
+                        </div>
+                    ))}
+                </div>
+                <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span className="visually-hidden">Previous</span>
+                </button>
+                <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span className="visually-hidden">Next</span>
+                </button>
             </div>
-            <div className="carousel-inner">
-                {dataImage.map((item, index) => (
-                    <div key={item.id} className={`carousel-item ${index === 0 ? "active" : ""}`}>
-                        <img src={item.imageUrl} className="d-block w-100" alt={item.altText} />
-                    </div>
-                ))}
+            <div className="banner__ad--box2">
+                <img className="image__box2" src="https://hcm.fstorage.vn/images/2024/07/mbs_online_614x397-20240715015824.jpg" alt="Banner"/>
+                <img className="image__box2" src="https://hcm.fstorage.vn/images/2024/09/resize-a1-sub-banner-614x397-20240906104623.png" alt="Banner"/>
             </div>
-            <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span className="visually-hidden">Previous</span>
-            </button>
-            <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                <span className="visually-hidden">Next</span>
-            </button>
         </div>
     );
 };

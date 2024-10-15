@@ -17,12 +17,13 @@ public class AuthReponsitoryimpl implements IAuthReponsitory {
             if (user.getUserName().equals(userName) && user.getPassword().equals(passWord)) {
                 // Tạo JWT token
                 String token = Jwts.builder()
-                        .setIssuer("CLICKTOBUY")            // Người phát hành
-                        .setSubject(user.getUserName())// Chủ thể (username)
+                        .setIssuer("CLICKTOBUY")
+                        .setSubject(user.getUserName())
                         .claim("id", user.getUserID())
-                        .claim("role", user.getRole())      // Claim bổ sung (role)
-                        .claim("fullName", user.getFullName())  // Claim bổ sung (fullname)
-                        .setIssuedAt(new Date())            // Thời gian phát hành
+                        .claim("role", user.getRole())
+                        .claim("fullName", user.getFullName())
+                        .claim("status", user.getStatus())
+                        .setIssuedAt(new Date())
                         .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) // Thời gian hết hạn
                         .signWith(SignatureAlgorithm.HS256, SECRET_KEY) // Ký với thuật toán và secret key
                         .compact();

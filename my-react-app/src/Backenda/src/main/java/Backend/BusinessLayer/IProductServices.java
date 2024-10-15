@@ -3,6 +3,7 @@ package Backend.BusinessLayer;
 import Entity.Products;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public interface IProductServices {
     public ArrayList<Products> getAllListProduct ();
@@ -12,4 +13,5 @@ public interface IProductServices {
     public boolean modifyProduct(Products product);
     public boolean insertProduct(Products product,int categoryID);
     public boolean deleteProduct(int productID);
+    public Map<Integer,Products> getProductsMap();
 }
