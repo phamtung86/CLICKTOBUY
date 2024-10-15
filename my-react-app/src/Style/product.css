@@ -1,11 +1,14 @@
-
 .product {
   width: 100%;
   height: auto;
   background-color: rgb(241, 240, 241);
-  padding: 0.5rem 1rem
+  padding: 0.5rem 1rem;
 }
-.products {
+.products{
+  display: flex;
+  flex-direction: column;
+}
+.product__items {
   border: 2px solid transparent;
   background-color: white;
   padding: 10px;
@@ -13,20 +16,48 @@
   flex-wrap: wrap;
   align-items: flex-end;
   justify-content: center;
-  border-radius: 10px;
-  position: relative;
   cursor: pointer;
+  position: relative;
+  height: 90%;
 }
 
-.products:hover {
-  border: 2px solid rgb(0, 183, 255)
+.product__items:hover {
+  box-shadow:  rgb(95, 210, 255)0px -50px 36px -28px inset;
+  transform: scale(1.01);
 }
 
 .product--image {
   height: 50%;
   width: 100%;
+  position: relative;
 }
 
+.product--click--add {
+  background-color: rgb(95, 210, 255);
+  padding: 5px 5px;
+  font-weight: 600;
+  border: none;
+  color: #fff;
+  opacity: 1;
+  z-index: 2;
+  width: 100%;
+  height: 10%;
+}
+.product--click--add:hover{
+  background-color: red;
+  
+}
+.product__discount{
+  position: absolute;
+  padding: 5px 5px;
+  background-color: red;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  color: #fff;
+  border-radius: 5px 0px 5px 0px;
+  font-size: 13px;
+}
 .image--product {
   height: 100%;
   width: 100%;
@@ -38,6 +69,7 @@
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+  
 }
 
 .product--name {
@@ -72,18 +104,6 @@
   gap: 10px;
 }
 
-.product--click--add {
-  background-color: transparent;
-  border: 2px solid rgb(0, 183, 255);
-  padding: 5px 5px;
-  font-weight: 600;
-  border-radius: 10px;
-}
-
-.product--click--add:hover {
-  color: red;
-}
-
 .product--time--days,
 .product--time--hours,
 .product--time--seconds,
@@ -106,7 +126,7 @@
   margin: auto;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 5px;
+  gap: 15px;
   margin-top: 1rem;
 }
 
@@ -162,31 +182,172 @@
   color: #fff;
   font-weight: 500;
 }
-.product--title--time {
-  height: 3rem;
-  width: 75rem;
-  margin: auto;
-  background-image: linear-gradient(90deg, rgb(0, 183, 255), rgb(255, 238, 0));
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0px 10px 0px 10px;
-  border-radius: 10px;
-}
+
 .product--title {
   height: auto;
   color: black;
   font-size: 20px;
   font-weight: 700;
 }
-.product__discount{
+/* Hình tròn giả lập sản phẩm thêm vào giỏ hàng */
+.fly-to-cart-circle {
   position: absolute;
-  padding: 5px 5px;
-  background-color: red;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background-color: rgba(255, 0, 0, 0.7); /* Màu đỏ để hiển thị rõ */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: flyToCart 2s ease forwards; /* Thực hiện hoạt ảnh */
+  z-index: 1000;
+}
+
+@keyframes flyToCart {
+  0% {
+    top: 50%;
+    left: 50%;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    top: 0;
+    left: 100%;
+    opacity: 0;
+    transform: translate(-100%, -100%) scale(0.3); /* Giảm kích thước khi di chuyển */
+  }
+}
+.box {
+  position: relative;
+  max-width: 600px;
+  width: 90%;
+  height: 400px;
+  background: #fff;
+  box-shadow: 0 0 15px rgba(0,0,0,.1);
+}
+
+/* common */
+.ribbon {
+  width: 85px;
+  height: 85px;
+  overflow: hidden;
+  position: absolute;
   z-index: 1;
-  left: 0;
-  top: 2rem;
+}
+.ribbon::before,
+.ribbon::after {
+  position: absolute;
+  z-index: -1;
+  content: '';
+  display: block;
+  border: 5px solid red;
+}
+.ribbon span {
+  position: absolute;
+  display: block;
+  width: 125px;
+  padding: 5px 0;
+  background-color: red;
+  box-shadow: 0 5px 10px rgba(0,0,0,.1);
   color: #fff;
-  border-radius: 5px 0px 5px 0px;
-  font-size: 13px;
+  font: 700 18px/1 'Lato', sans-serif;
+  text-shadow: 0 1px 1px rgba(0,0,0,.2);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* top left*/
+.ribbon-top-left {
+  top: -10px;
+  left: -10px;
+}
+.ribbon-top-left::before,
+.ribbon-top-left::after {
+  border-top-color: transparent;
+  border-left-color: transparent;
+}
+.ribbon-top-left::before {
+  top: 0;
+  right: 0;
+}
+.ribbon-top-left::after {
+  bottom: 0;
+  left: 0;
+}
+.ribbon-top-left span {
+  right: -13px;
+  top: 17px;
+  transform: rotate(-45deg);
+}
+
+/* top right*/
+.ribbon-top-right {
+  top: -10px;
+  right: -10px;
+}
+.ribbon-top-right::before,
+.ribbon-top-right::after {
+  border-top-color: transparent;
+  border-right-color: transparent;
+}
+.ribbon-top-right::before {
+  top: 0;
+  left: 0;
+}
+.ribbon-top-right::after {
+  bottom: 0;
+  right: 0;
+}
+.ribbon-top-right span {
+  left: -25px;
+  top: 30px;
+  transform: rotate(45deg);
+}
+
+/* bottom left*/
+.ribbon-bottom-left {
+  bottom: -10px;
+  left: -10px;
+}
+.ribbon-bottom-left::before,
+.ribbon-bottom-left::after {
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+}
+.ribbon-bottom-left::before {
+  bottom: 0;
+  right: 0;
+}
+.ribbon-bottom-left::after {
+  top: 0;
+  left: 0;
+}
+.ribbon-bottom-left span {
+  right: -25px;
+  bottom: 30px;
+  transform: rotate(225deg);
+}
+
+/* bottom right*/
+.ribbon-bottom-right {
+  bottom: -10px;
+  right: -10px;
+}
+.ribbon-bottom-right::before,
+.ribbon-bottom-right::after {
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+}
+.ribbon-bottom-right::before {
+  bottom: 0;
+  left: 0;
+}
+.ribbon-bottom-right::after {
+  top: 0;
+  right: 0;
+}
+.ribbon-bottom-right span {
+  left: -25px;
+  bottom: 30px;
+  transform: rotate(-225deg);
 }

@@ -85,13 +85,14 @@ const CartNew = () => {
         minOrderAmount: "",
         maxOrderAmount: "",
     });
-    const [dataOrderDetail, setDataOrderDetail] = useState({
+    const [dataOrder, setDataOrder] = useState({
         TotalAmount: "",
         totalFee: "",
         userID: "",
         voucherID: "",
     })
 
+    const [dataOrderDetail, setDataOrderDetail] = useState()
     const getDataOrder = () => {
         return new Promise((resolve, reject) => {
             const userIDSession = JSON.parse(sessionStorage.getItem("account"));
@@ -108,7 +109,7 @@ const CartNew = () => {
                 voucherID: (voucherValue.id) ? voucherValue.id : null,
             };
 
-            setDataOrderDetail(updatedDataOrderDetail);
+            setDataOrder(updatedDataOrderDetail);
             resolve(updatedDataOrderDetail); // Trả về dữ liệu order sau khi đã cập nhật
         });
     };
@@ -157,6 +158,17 @@ const CartNew = () => {
         }
     };
 
+    const insertDataIntoOrderDetail = async () => {
+        try {
+            const statusRespone = await axios.post('http://localhost:8080/api/OrdersDetail/InsertOrderDetail', {
+                value : cart,
+            });
+            console.log(statusRespone);
+        } catch (error) {
+            console.log("Lỗi khi thêm dữ liệu vào bảng orderdetail");
+        }
+        
+    }
 
     // Khởi tạo giá trị ngẫu nhiên chỉ một lần
     const [feeShip] = useState(() => Math.floor(Math.random() * 40000 + 100));
@@ -239,7 +251,11 @@ const CartNew = () => {
                         </div>
                         <Link className="pay--voucher--click" onClick={setStatusDefault}>Chọn mã voucher</Link>
                     </div>
-                    <Link className="pay--click" onClick={getAccountFromSession}>Thanh toán {(intoMoney < 0) ? 0 : (totalBill === 0) ? 0 : Math.round(intoMoney).toLocaleString('en-US', { maximumFractionDigits: 3 })} ₫</Link>
+                    <Link className="pay--click" onClick={async (event) => {
+                        await getAccountFromSession(event); // Thêm await để đợi hoàn tất quá trình kiểm tra và thanh toán
+                        await insertDataIntoOrderDetail();
+                    }}
+                    >Thanh toán {(intoMoney < 0) ? 0 : (totalBill === 0) ? 0 : Math.round(intoMoney).toLocaleString('en-US', { maximumFractionDigits: 3 })} ₫</Link>
                 </div>
             </div>
         </>

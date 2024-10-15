@@ -5,6 +5,7 @@ import Backend.DataLayer.ProductReponsitoryImpl;
 import Entity.Products;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class ProductServicesimpl implements  IProductServices {
     public IProductReponsitory iProductReponsitory;
@@ -45,5 +46,10 @@ public class ProductServicesimpl implements  IProductServices {
     @Override
     public boolean deleteProduct(int productID) {
         return iProductReponsitory.deleteProduct(productID);
+    }
+
+    @Override
+    public Map<Integer, Products> getProductsMap() {
+        return iProductReponsitory.getProductsMap();
     }
 }

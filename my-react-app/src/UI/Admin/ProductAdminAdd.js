@@ -6,6 +6,7 @@ import axios from 'axios';
 const ProductAdminAdd = ({ setStatusModify, updateProductInState, lastID }) => {
     const [imagePreview, setImagePreview] = useState(null);
     const [dataMenu, setDataMenu] = useState([]);
+    const [isSuccess, setIsSuccess] = useState(false); // Trạng thái hiển thị biểu tượng thành công
     const [productInfor, setProductInfor] = useState({
         productId: lastID + 1,
         productName: '',
@@ -13,7 +14,7 @@ const ProductAdminAdd = ({ setStatusModify, updateProductInState, lastID }) => {
         productNote: '',
         productDiscount: '',
         productUnit: '',
-        productCategoryId: '',
+        productCategoryId: '1 ',
         productImage: '',
         productOrigin: '',
         productIngredient: '',
@@ -30,8 +31,6 @@ const ProductAdminAdd = ({ setStatusModify, updateProductInState, lastID }) => {
             ...prevState,
             [name]: value,
         }));
-        console.log(lastID);
-        
     };
 
     const handleSubmit = async (e) => {
@@ -48,14 +47,16 @@ const ProductAdminAdd = ({ setStatusModify, updateProductInState, lastID }) => {
 
             const imageUrl = uploadResponse.data.secure_url;
             const productData = { ...productInfor, productImage: imageUrl };
+            console.log(productData);
             const responseProduct = await axios.post('http://localhost:8080/api/Products/InsertProduct', productData);
             if (responseProduct.status === 200) {
                 const repontDetail = await axios.post('http://localhost:8080/api/ProductDetail/InsertProductDetail', productData);
                 if (repontDetail.status === 200) {
-                    alert("Thêm thành công")
-                    setStatusModify(0);
-                    updateProductInState();
-
+                    setIsSuccess(true); // Thiết lập trạng thái thành công
+                    setTimeout(() => {
+                        setStatusModify(0);
+                        updateProductInState();
+                    }, 2000); // Chờ 2 giây trước khi chuyển trang
                 }
             }
         } catch (error) {
@@ -89,6 +90,11 @@ const ProductAdminAdd = ({ setStatusModify, updateProductInState, lastID }) => {
     return (
         <div className="productadminaddhome">
             <form className="productadminadd">
+            {isSuccess && (
+                <div className="success-animation">
+                <svg className="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" /><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" /></svg>
+            </div>
+            )}
                 <h1 className='productadminadd__title'>Thêm sản phẩm</h1>
                 <div className="productadminadd__interface">
                     <div className="productadminadd__image">

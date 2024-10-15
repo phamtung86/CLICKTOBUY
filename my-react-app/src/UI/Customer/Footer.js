@@ -5,20 +5,20 @@ const Footer = () => {
       <div className='footer'>
          <div className='footer__services--ads'>
             <div className='services--ads'>
-               <img className='ads--image' src='https://cdn-crownx.winmart.vn/images/prod/162964655378716287682220181-1--og.png' alt='Banner'/>
-               <div className='ads--title'>Sản phẩm an toàn</div>
+               <img className='ads--image' src='https://hcm.fstorage.vn/images/2024/wmt_delivery.jpg' alt='Banner'/>
+               <div className='ads--title'>Miễn phí giao hàng từ 300.000 VNĐ</div>
             </div>
             <div className='services--ads'>
-               <img className='ads--image' src='https://cdn-crownx.winmart.vn/images/prod/162964658411816287682628462-1--og.png' alt='Banner' />
-               <div className='ads--title'>Chất lượng cam kết</div>
+               <img className='ads--image' src='https://hcm.fstorage.vn/images/2024/wmt_2h.jpg' alt='Banner' />
+               <div className='ads--title'>Giao hàng nhanh 2H</div>
             </div>
             <div className='services--ads'>
-               <img className='ads--image' src='https://cdn-crownx.winmart.vn/images/prod/162964661464516287682943943-1--og.png'  alt='Banner'/>
-               <div className='ads--title'>Dịch vụ vượt trội</div>
+               <img className='ads--image' src='	https://hcm.fstorage.vn/images/2024/wmt_location.jpg'  alt='Banner'/>
+               <div className='ads--title'>63 Tỉnh thành</div>
             </div>
             <div className='services--ads'>
                <img className='ads--image' src='https://cdn-crownx.winmart.vn/images/prod/162964665580516292779811154-1--og.png'  alt='Banner'/>
-               <div className='ads--title'>Giao hàng nhanh</div>
+               <div className='ads--title'>Đặc quyền cho hội viên</div>
             </div>
          </div>
          <div className='footer__services--detail'>

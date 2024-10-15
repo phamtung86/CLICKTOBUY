@@ -5,6 +5,8 @@ import Entity.Users;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserReponsitoryimpl implements IUserReponsitory {
     @Override
@@ -29,7 +31,8 @@ public class UserReponsitoryimpl implements IUserReponsitory {
                 String address = rs.getString("Address");
                 String role = rs.getString("Role");
                 Date d = rs.getDate("CreatedAt");
-                Users user = new Users(id, userName, passWord, fullName, email, phoneNumber, address, role, d);
+                int status = rs.getInt("Status");
+                Users user = new Users(id, userName, passWord, fullName, email, phoneNumber, address, role, d,status);
                 listUsers.add(user);
             }
         } catch (SQLException e) {
@@ -100,5 +103,78 @@ public class UserReponsitoryimpl implements IUserReponsitory {
             }
         }
         return -1;
+    }
+
+    @Override
+    public int getQuantityUser() {
+        String GET_ALL_USERS_QUANTITY = "SELECT COUNT(*) as totalUser FROM users WHERE Role = 'CUSTOMER'";
+        Connection connection = null;
+        PreparedStatement psta = null;
+        ResultSet rs = null;
+        try {
+            connection = JdbcConnection.getConnection();
+            psta = connection.prepareStatement(GET_ALL_USERS_QUANTITY);
+            rs = psta.executeQuery();
+            while (rs.next()) {
+                return rs.getInt("totalUser");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return -1;
+    }
+
+    @Override
+    public Map<Integer, Users> getMapUsers() {
+        Map<Integer, Users> mapUsers = new HashMap<>();
+        String SELECT_ALL_USERS = "SELECT * FROM Users";
+        Connection connection = null;
+        PreparedStatement psta = null;
+        ResultSet rs = null;
+        try {
+
+            connection = JdbcConnection.getConnection();
+            psta = connection.prepareStatement(SELECT_ALL_USERS);
+            rs = psta.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("UserID");
+                String userName = rs.getString("UserName");
+                String passWord = rs.getString("Password");
+                String fullName = rs.getString("FullName");
+                String email = rs.getString("Email");
+                String phoneNumber = rs.getString("PhoneNumber");
+                String address = rs.getString("Address");
+                String role = rs.getString("Role");
+                Date d = rs.getDate("CreatedAt");
+                int status = rs.getInt("Status");
+                Users user = new Users(id, userName, passWord, fullName, email, phoneNumber, address, role, d,status);
+                mapUsers.put(id, user);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            JdbcConnection.closeConnection(connection, psta, rs);
+        }
+        return mapUsers;
+    }
+
+    @Override
+    public boolean updateStatusUser(int id, int status) {
+        String UPDATE_STATUS_USER = "UPDATE Users SET Status = ? WHERE UserID = ?";
+        Connection connection = null;
+        PreparedStatement psta = null;
+        try {
+            connection = JdbcConnection.getConnection();
+            psta = connection.prepareStatement(UPDATE_STATUS_USER);
+            psta.setInt(1, status);
+            psta.setInt(2, id);
+            int count = psta.executeUpdate();
+            if (count > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
     }
 }

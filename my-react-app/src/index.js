@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client'; // Đảm bảo bạn dùng ReactDOM.createRoot với React 18+
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import App from './App';
@@ -20,8 +20,27 @@ import DashBoard from './UI/Admin/Dashboard';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import ScrollToTop from './UI/Feature/Scroll'; // Đảm bảo đúng đường dẫn
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleUp, faHeadset } from '@fortawesome/free-solid-svg-icons';
 
 const Main = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  useEffect(() => {
+      const handleScroll = () => {
+          if (window.scrollY > 300) { // Hiện nút khi cuộn xuống hơn 300px
+              setIsVisible(true);
+          } else {
+              setIsVisible(false);
+          }
+      };
+
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   return (
     <BrowserRouter basename="/CLICKTOBUY">
       <AuthProvider>
@@ -49,7 +68,7 @@ const Main = () => {
 
               {/* Các Route chỉ cho quản trị viên (ADMIN) */}
               <Routes>
-                <Route path="/DashBoard" element={<ProtectedRoute role={'ADMIN'}><DashBoard /></ProtectedRoute>} />
+                <Route path="/Admin" element={<ProtectedRoute role={'ADMIN'}><DashBoard /></ProtectedRoute>} />
               </Routes>
             </ProductTypeProvider>
           </SearchProvider>

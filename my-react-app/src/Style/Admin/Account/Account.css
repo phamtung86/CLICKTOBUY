@@ -1,0 +1,210 @@
+.account{
+    background-color:#f7f8fb;
+    height: 100%;
+}
+.account__report--status{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px;
+}
+.account--status{
+    width: 20%;
+    height: 100px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.account--status--disable{
+    background-color: #8d37ff;
+}
+.account--status--active{
+    background-color: #39c449;
+}
+.account--status--warning{
+    background-color: #ffbc34;
+}
+.account--status--block{
+    background-color: #ff4c34;
+}
+.account--status--number{
+    font-size: 30px;
+    font-weight: 650;
+    color: white;
+}
+.account--status--title{
+    font-size: 22px;
+    font-weight: 600;
+    color: white;
+}
+.account__list{
+    background-color:#ffffff;
+    width: 95%;
+    margin:10px auto;
+    padding: 5px;
+    box-shadow: 0px 0px 2px 2px rgb(199, 199, 199);
+}
+.account__list--title{
+    font-size: 15px;
+    padding: 10px 10px;
+    color: gray;
+}
+.account__list--table{
+    overflow-y: auto; /* Cho phép cuộn ngang */
+    overflow-x: auto; /* Cho phép cuộn ngang */
+    display: block;
+    max-height: 500px;
+}
+.table__rows--header{
+    position: sticky;
+    top: 0;
+    background-color: rgb(107, 182, 252);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.account__list--header{
+    padding: 10px 0px;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-weight: 650;
+
+}
+.table__list--rows{
+    width: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+}
+
+.account__list--data,
+.account__list--header{
+    width: 12%;
+    text-align: left;
+    padding: 5px;
+}
+.account__list--data:first-child,
+.account__list--header:first-child{
+    width: 30px;
+}
+.account__list--data:nth-child(2),
+.account__list--header:nth-child(2){
+    width: 30px;
+}
+.account__list--data:nth-child(5),
+.account__list--header:nth-child(5){
+    width:220px ;
+    word-break: break-word;
+}
+.account__list--data:nth-child(6),
+.account__list--header:nth-child(6){
+    width:10.5% ;
+    text-align: center;
+}
+.account__list--data:nth-child(7),
+.account__list--header:nth-child(7){
+    width: 300px;
+}
+.account__list--data:nth-child(8),
+.account__list--header:nth-child(8){
+    width:10% ;
+}
+.account__list--data:last-child,
+.account__list--header:last-child{
+    text-align: center;
+}
+.table__list--rows:nth-child(even){
+    background-color: rgba(226, 226, 226, 0.671);
+}
+.account__list--action{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px;
+}
+.action__search ,
+.box__action--button{
+    width: 40%;
+    border: 1px solid rgb(218, 218, 218);
+    position: relative;
+    padding: 10px ;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.box__action--button{
+    width: 60%;
+}
+.action__search--text{
+    width: 100%;
+    padding: 5px ;
+    border: none;
+}
+.action__search--text:focus{
+    outline: none;
+}
+.action__search--title,
+.box__action--title{
+    position: absolute;
+    top:-15px ;
+    left: 20px;
+    background-color: white;
+    font-weight: 600;
+}
+.action__button{
+    padding: 5px;
+    border: none;
+    width: 120px;
+    font-weight: 600;
+    border-radius: 10px;
+}
+.action__add{
+    background-color: #39c449;
+    color: white;
+}
+.action__refresh{
+    background-color: #009efb;
+    color: white;
+}
+.action__delete{
+    background-color: darkviolet;
+    color: white;
+}
+.action__lock{
+    background-color: red;
+    color: white;
+}
+.action__warnning{
+    background-color: yellow;
+}
+.account__status__table{
+    color: white;
+    font-weight: 500;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px;
+    height: 30px;
+}
+.account__status__disable{
+    background-color: #8d37ff;
+}
+.account__status__active{
+    background-color: #39c449;
+}
+.account__status__warning{
+    background-color: yellow;
+    color: black;
+}
+.account__status__lock{
+    background-color: #ff4c34;
+}

@@ -1,8 +1,18 @@
+.banner__ad{
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 350px;
+  gap: 5px;
+  background-color: rgb(241,240,241);
+}
 .carousel-inner {
-    width: 80% !important;
+    width: 100% !important;
     overflow: hidden;
     position: relative;
-    margin: auto;
+    height: 100%;
   }
   
 .carousel-item {
@@ -11,4 +21,30 @@
     display: flex;
     align-items: center;
   }
-  
+#carouselExampleIndicators{
+    width: 50rem !important;
+    height: 100% !important;
+    background-color: #fff !important;
+    border-radius: 0 !important;
+  }
+  .carousel-indicators{
+    margin: 0 !important;
+    width: 100% !important;
+  }
+  .banner__ad--box2{
+    width: 25rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background-color: #fff !important;
+  }
+  .image__box1{
+
+    height: 100%;
+    width: 100%;
+  }
+  .image__box2{
+    height: 50%;
+    width: 100%;
+  }

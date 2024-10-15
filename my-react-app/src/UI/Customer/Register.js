@@ -36,7 +36,7 @@ const Register = () => {
     useEffect(() => {
         const getDataAccount = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/Users');
+                const response = await axios.get('http://localhost:8080/api/Users/getAllUser');
                 setDataAccount(response.data || []);
             } catch (error) {
                 console.error('Error fetching data: ', error);
@@ -169,7 +169,7 @@ const Register = () => {
         let hasError = false;
 
         // Username 
-        if (checkUserName(dataAccountRegister.userName)) {
+        if (checkUserName(dataAccountRegister.userName) <= 8) {
             setErrorInput(pre => ({
                 ...pre,
                 errorUsername: "Độ dài tên đăng nhập phải lớn hơn 8 kí tự"
