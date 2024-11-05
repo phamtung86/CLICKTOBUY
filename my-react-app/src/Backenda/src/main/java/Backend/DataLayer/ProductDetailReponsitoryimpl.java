@@ -6,10 +6,11 @@ import Ultils.JdbcConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class ProductDetailReponsitoryimpl implements IProductDetailReponsitory {
     @Override
-    public ArrayList<ProductDetail> getListAllProductDetail(ArrayList<Products> listProducts) {
+    public ArrayList<ProductDetail> getListAllProductDetail( Map<Integer,Products> mapProducts) {
         ArrayList<ProductDetail> listProductDetail = new ArrayList<>();
         String SELECT_ALL_PRODUCT_DETAIL = "SELECT * FROM product_detail";
         Connection con = null;
@@ -30,12 +31,7 @@ public class ProductDetailReponsitoryimpl implements IProductDetailReponsitory {
                 String expiry = rs.getString("expiry");
                 String note = rs.getString("Note");
                 int productID = rs.getInt("productID");
-                Products p = null;
-                for (Products products : listProducts) {
-                    if (productID == products.getProductId()) {
-                        p = products;
-                    }
-                }
+                Products p = mapProducts.get(productID);
                 ProductDetail productDetail = new ProductDetail(id, origin, ingredient, intruction, preserve, description, productDate, expiry, note, p);
                 listProductDetail.add(productDetail);
             }

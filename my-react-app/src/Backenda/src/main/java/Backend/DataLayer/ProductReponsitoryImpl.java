@@ -7,14 +7,14 @@ import Entity.Products;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProductReponsitoryImpl implements IProductReponsitory {
     @Override
-    public ArrayList<Products> getAllListProduct() {
+    public ArrayList<Products> getAllListProduct(Map<Integer, Categories> categoriesMap ) {
         ICategoriesReponsitory iCategoriesReponsitory = new CategoriesReponsitoryimpl();
-        Map<Integer, Categories> categoriesMap = iCategoriesReponsitory.getMapCategories();
-        ArrayList<Entity.Products> listProducts = new ArrayList<>();
+        ArrayList<Products> listProducts = new ArrayList<>();
         String SELECT_ALL_PRODUCT = "SELECT * FROM products";
         try (
                 Connection con = JdbcConnection.getConnection();
@@ -45,10 +45,9 @@ public class ProductReponsitoryImpl implements IProductReponsitory {
     }
 
     @Override
-    public ArrayList<Products> getListProductSale() {
+    public ArrayList<Products> getListProductSale(Map<Integer, Categories> categoriesMap) {
         ICategoriesReponsitory iCategoriesReponsitory = new CategoriesReponsitoryimpl();
         ArrayList<Entity.Products> listProductsSale = new ArrayList<>();
-        Map<Integer, Categories> categoriesMap = iCategoriesReponsitory.getMapCategories();
         String SELECT_ALL_PRODUCT_SALE = "SELECT * FROM products WHERE Discount > 0";
         try (
                 Connection con = JdbcConnection.getConnection();
@@ -80,10 +79,8 @@ public class ProductReponsitoryImpl implements IProductReponsitory {
     }
 
     @Override
-    public ArrayList<Products> getListProductType(int categoryIDType) {
-        ICategoriesReponsitory iCategoriesReponsitory = new CategoriesReponsitoryimpl();
+    public ArrayList<Products> getListProductType(int categoryIDType,Map<Integer, Categories> categoriesMap) {
         ArrayList<Products> listProductsType = new ArrayList<>();
-        Map<Integer, Categories> categoriesMap = iCategoriesReponsitory.getMapCategories();
         String SELECT_ALL_PRODUCT_TYPE = "SELECT * FROM products WHERE CategoryID = ?";
 
         // Sử dụng try-with-resources để tự động đóng các tài nguyên
@@ -103,14 +100,13 @@ public class ProductReponsitoryImpl implements IProductReponsitory {
                     int discount = rsProducts.getInt("Discount");
                     String imageLink = rsProducts.getString("ImageLink");
                     int idCategory = rsProducts.getInt("CategoryID");
-
-                    // Lấy category từ categoriesMap
                     Categories c = categoriesMap.get(idCategory);
                     if (c != null) {
                         listProductsType.add(new Products(id, productName, price, createdAt, note, unit, discount, imageLink, c));
                     }
                 }
             }
+            JdbcConnection.closeConnection(con,psProducts,null);
         } catch (SQLException e) {
             // Có thể thêm thông báo log chi tiết hơn nếu cần
             throw new RuntimeException("Lỗi khi truy vấn danh sách sản phẩm theo loại: " + e.getMessage(), e);
@@ -121,9 +117,9 @@ public class ProductReponsitoryImpl implements IProductReponsitory {
 
 
     @Override
-    public ArrayList<Products> listProductSearchByName(String productName) {
+    public ArrayList<Products> listProductSearchByName(String productName,Map<Integer, Categories> categoriesMap ) {
         ArrayList<Products> listResultProductsSearchByName = new ArrayList<>();
-        for(Products product : getAllListProduct()){
+        for(Products product : getAllListProduct(categoriesMap)){
             if(product.getProductName().toLowerCase().contains(productName.toLowerCase())){
                 listResultProductsSearchByName.add(product);
             }
@@ -200,7 +196,7 @@ public class ProductReponsitoryImpl implements IProductReponsitory {
     }
 
     @Override
-    public Map<Integer, Products> getProductsMap() {
+    public Map<Integer, Products> getProductsMap(Map<Integer,Categories> mapCategories) {
         ICategoriesReponsitory iCategoriesReponsitory = new CategoriesReponsitoryimpl();
         Map<Integer, Categories> categoriesMap = iCategoriesReponsitory.getMapCategories();
         Map<Integer,Products> mapProducts = new HashMap<>();
@@ -222,8 +218,7 @@ public class ProductReponsitoryImpl implements IProductReponsitory {
                 int discount = rs.getInt("Discount");
                 String imageLink = rs.getString("ImageLink");
                 int idCategory = rs.getInt("CategoryID");
-                Categories c = categoriesMap.get(idCategory);
-
+                Categories c = mapCategories.get(idCategory);
                 if (c != null) {
                     Products p = new Products(productID, productName, price, createdAt, note, unit, discount, imageLink, c);
                     mapProducts.put(productID, p);
@@ -232,7 +227,39 @@ public class ProductReponsitoryImpl implements IProductReponsitory {
             return mapProducts;
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            JdbcConnection.closeConnection(connection,psProducts,rs);
         }
+    }
+
+    @Override
+    public List<Products> findProductByCategoryID(int categoryID) {
+        String FIND_PRODUCT_BY_CATEGORY_ID = "SELECT * FROM products WHERE CategoryID = ?";
+        List<Products> listProducts = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement psProducts = null;
+        ResultSet rs = null;
+        try {
+            connection = JdbcConnection.getConnection();
+            psProducts = connection.prepareStatement(FIND_PRODUCT_BY_CATEGORY_ID);
+            psProducts.setInt(1,categoryID);
+            rs = psProducts.executeQuery();
+            while (rs.next()) {
+                int productID = rs.getInt("ProductID");
+                String productName = rs.getString("ProductName");
+                double price = rs.getDouble("Price");
+                Timestamp createdAt = rs.getTimestamp("CreatedAt");
+                String note = rs.getString("Note");
+                String unit = rs.getString("Unit");
+                int discount = rs.getInt("Discount");
+                String imageLink = rs.getString("ImageLink");
+                Products products = new Products(productID, productName, price, createdAt, note, unit, discount, imageLink);
+                listProducts.add(products);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return listProducts;
     }
 
 }

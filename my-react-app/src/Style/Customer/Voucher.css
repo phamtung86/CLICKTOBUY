@@ -5,7 +5,8 @@
     align-items: center; /* Căn giữa theo chiều dọc */
     height: 100vh;
     position: absolute;
-    background-color: rgba(39, 39, 39, 0.571);
+    background-color: rgba(39, 39, 39, 0.808);
+    z-index: 2;
 }
 
 .voucher__none{
@@ -15,6 +16,7 @@
     width: 50%;
     height: 50%;
     background-color: #fff;
+    overflow-y: auto;
 }
 .voucher__search{
     display: flex;
@@ -24,6 +26,8 @@
     justify-content: space-around;
     background-color:  rgb(0,183,255);
     padding: 3px 3px;
+    position: sticky;
+    top: 0;
 }
 .back__cart{
     text-decoration: none;
@@ -58,11 +62,16 @@
 }
 
 .voucher__detail__expiryDate{
+    padding: 10px;
+    display: block;
+}
+.voucher__detail__expiryDate--span{
+    background-color: rgb(255, 196, 0);
     border-radius: 10px;
-    background-color: rgb(255, 207, 48);
     text-align: center;
     font-weight: 600;
     color: #fff;
+    padding: 5px; 
 }
 .voucher__detail__Type{
     color: red;
@@ -87,3 +96,7 @@
     cursor: not-allowed; /* Con trỏ chuột sẽ thay đổi thành not-allowed */
     opacity: 0.6; /* Button sẽ mờ hơn */
   }
+.search__results{
+    max-height: 100%;
+    
+}

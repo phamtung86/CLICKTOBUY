@@ -1,130 +1,26 @@
 import { useEffect, useRef, useState } from 'react';
-import '../../Style/Admin/DashBoardAdmin.css'
+import '../../../Style/Admin/DashBoard/DashBoardAdmin.css'
+import '../Account/Account'
 import * as echarts from 'echarts';
-import ApexCharts from 'apexcharts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faDollar, faEllipsisVertical, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 const DashBoardAdmin = () => {
+    const TODAY = 'Hôm nay';
+    const MONTH = 'Tháng';
+    const YEAR = 'Năm';
     const [revenue, setRevenue] = useState();
     const [dataTopSell, setDataTopSell] = useState([]);
     const [totalSellDay, setTotalSellDay] = useState();
     const [quantityUsers, setQuantityUsers] = useState();
     const [dataTopUserOrder, setDataTopUserOrder ] = useState([]);
-    const [statusSelled, setStatusSelled] = useState('Hôm nay');
-    const [statusRevenue, setStatusRevenue] = useState('Hôm nay');
-    const [statusCustomer, setStatusCustomer] = useState('Hôm nay');
-    const [statusTopSellingProduct, setStatusTopSellingProduct] = useState('Hôm nay');
-    const [statusTopCustomerOrder, setStatusTopCustomerOrder] = useState('Hôm nay');
+    const [statusSelled, setStatusSelled] = useState(TODAY);
+    const [statusRevenue, setStatusRevenue] = useState(TODAY);
+    const [statusCustomer, setStatusCustomer] = useState(TODAY);
+    const [statusTopSellingProduct, setStatusTopSellingProduct] = useState(TODAY);
+    const [statusTopCustomerOrder, setStatusTopCustomerOrder] = useState(TODAY);
 
-
-    const getCurrentMonth = () => {
-        const date = new Date();
-        const month = date.getMonth() + 1; // Tháng 0-11, nên +1 để thành 1-12
-        return month;
-    }
-    const TrafficChart = () => {
-        const chartRef = useRef(null);
-
-        useEffect(() => {
-            if (chartRef.current) {
-                const trafficChart = echarts.init(chartRef.current);
-                trafficChart.setOption({
-                    tooltip: {
-                        trigger: 'item',
-                    },
-                    legend: {
-                        top: '5%',
-                        left: 'center',
-                    },
-                    series: [
-                        {
-                            name: 'Access From',
-                            type: 'pie',
-                            radius: ['40%', '70%'],
-                            avoidLabelOverlap: false,
-                            label: {
-                                show: false,
-                                position: 'center',
-                            },
-                            emphasis: {
-                                label: {
-                                    show: true,
-                                    fontSize: '18',
-                                    fontWeight: 'bold',
-                                },
-                            },
-                            labelLine: {
-                                show: false,
-                            },
-                            data: [
-                                { value: 1048, name: 'Search Engine' },
-                                { value: 735, name: 'Direct' },
-                                { value: 580, name: 'Email' },
-                                { value: 484, name: 'Union Ads' },
-                                { value: 300, name: 'Video Ads' },
-                            ],
-                        },
-                    ],
-                });
-
-                // Cleanup function to dispose the chart
-                return () => {
-                    trafficChart.dispose();
-                };
-            }
-        }, []);
-
-        return <div id="trafficChart" ref={chartRef} style={{ width: '100%', height: '400px' }} />;
-    };
-    const BudgetChart = () => {
-        const chartRef = useRef(null);
-
-        useEffect(() => {
-            if (chartRef.current) {
-                const budgetChart = echarts.init(chartRef.current);
-                budgetChart.setOption({
-                    legend: {
-                        data: ['Allocated Budget', 'Actual Spending'],
-                    },
-                    radar: {
-                        indicator: [
-                            { name: 'Sales', max: 6500 },
-                            { name: 'Administration', max: 16000 },
-                            { name: 'Information Technology', max: 30000 },
-                            { name: 'Customer Support', max: 38000 },
-                            { name: 'Development', max: 52000 },
-                            { name: 'Marketing', max: 25000 },
-                        ],
-                    },
-                    series: [
-                        {
-                            name: 'Budget vs spending',
-                            type: 'radar',
-                            data: [
-                                {
-                                    value: [4200, 3000, 20000, 35000, 50000, 18000],
-                                    name: 'Allocated Budget',
-                                },
-                                {
-                                    value: [5000, 14000, 28000, 26000, 42000, 21000],
-                                    name: 'Actual Spending',
-                                },
-                            ],
-                        },
-                    ],
-                });
-
-                // Cleanup function
-                return () => {
-                    budgetChart.dispose();
-                };
-            }
-        }, []);
-
-        return <div id="budgetChart" ref={chartRef} style={{ width: '100%', height: '400px' }} />;
-    };
     const getRevenue = async (revenueType) => {
         try {
             const responseRevenue = await axios.get(`http://localhost:8080/api/Orders/getTotalRevenue?type=${revenueType}`);
@@ -151,6 +47,7 @@ const DashBoardAdmin = () => {
     useEffect(() => {
         getTopSelling("DAY");
     }, [])
+
     const getTotalSelled = async (type) => {
         try {
             const responeDataTotalSellDay = await axios.get(`http://localhost:8080/api/OrdersDetail/getTotalSelled?type=${type}`);
@@ -187,6 +84,21 @@ const DashBoardAdmin = () => {
     useEffect(() => {
         getTopUserOrder("DAY");
     }, [])
+
+    const changeStatusAccount = (value) => {
+        switch (value) {
+            case -5:
+                return <span className='account__status account__status__disable'>Vô hiệu hóa</span>;
+            case 1:
+                return <span className='account__status account__status__active'>Hoạt động</span>;
+            case -9:
+                return <span className='account__status account__status__warning'>Cảnh báo</span>;
+            case -1:
+                return <span className='account__status account__status__lock'>Khóa</span>;
+            default:
+                return null;
+        }
+    }
     return (
         <main id="main" className="main">
             <div className="pagetitle">
@@ -213,16 +125,16 @@ const DashBoardAdmin = () => {
 
                                             <li><Link className="dropdown-item" href="#" 
                                             onClick={() => {
-                                                setStatusSelled('Hôm nay');
+                                                setStatusSelled(TODAY);
                                                 getTotalSelled("DAY")}}>Hôm nay</Link></li>
                                             <li><Link className="dropdown-item" href="#" 
                                             onClick={() => {
-                                                setStatusSelled('Tháng');
+                                                setStatusSelled(MONTH);
                                                 getTotalSelled("MONTH")}}
                                                 >Tháng</Link></li>
                                             <li><Link className="dropdown-item" href="#" 
                                             onClick={() => {
-                                                setStatusSelled('Năm');
+                                                setStatusSelled(YEAR);
                                                 getTotalSelled("YEAR");
                                             }}>Năm</Link></li>
                                         </ul>
@@ -236,8 +148,7 @@ const DashBoardAdmin = () => {
                                                 <FontAwesomeIcon icon={faCartShopping} style={{ color: "#74C0FC", }} />
                                             </div>
                                             <div className="ps-3">
-                                                <h6>{totalSellDay}</h6>
-                                                {/* <span className="text-success small pt-1 fw-bold">12%</span> <span className="text-muted small pt-2 ps-1">increase</span> */}
+                                                <h6>{totalSellDay}</h6>                                       
                                             </div>
                                         </div>
                                     </div>
@@ -255,18 +166,18 @@ const DashBoardAdmin = () => {
                                             </li>
                                             <li><Link className="dropdown-item" href="#" 
                                             onClick={() => {
-                                                setStatusRevenue('Hôm nay');
+                                                setStatusRevenue(TODAY);
                                                 getRevenue("DAY");
                                                 }}>Hôm nay</Link></li>
                                             <li><Link className="dropdown-item" href="#" 
                                             onClick={() => {
-                                                setStatusRevenue('Tháng');
+                                                setStatusRevenue(MONTH);
                                                 getRevenue("MONTH");
                                             }}
                                                 >Tháng</Link></li>
                                             <li><Link className="dropdown-item" href="#" 
                                             onClick={() => {
-                                                setStatusRevenue('Năm');
+                                                setStatusRevenue(YEAR);
                                                 getRevenue("YEAR");
                                             }}
                                                 >Năm</Link></li>
@@ -299,9 +210,9 @@ const DashBoardAdmin = () => {
                                                 <h6>Filter</h6>
                                             </li>
 
-                                            <li><Link className="dropdown-item" href="#" onClick={() => {setStatusCustomer('Hôm nay')}}>Hôm nay</Link></li>
-                                            <li><Link className="dropdown-item" href="#" onClick={() => {setStatusCustomer('Tháng')}}>Tháng</Link></li>
-                                            <li><Link className="dropdown-item" href="#" onClick={() => {setStatusCustomer('Năm')}}>Năm</Link></li>
+                                            <li><Link className="dropdown-item" href="#" onClick={() => {setStatusCustomer(TODAY)}}>Hôm nay</Link></li>
+                                            <li><Link className="dropdown-item" href="#" onClick={() => {setStatusCustomer(MONTH)}}>Tháng</Link></li>
+                                            <li><Link className="dropdown-item" href="#" onClick={() => {setStatusCustomer(YEAR)}}>Năm</Link></li>
                                         </ul>
                                     </div>
 
@@ -334,17 +245,17 @@ const DashBoardAdmin = () => {
 
                                             <li><Link className="dropdown-item" href="#" 
                                             onClick={() => {
-                                                setStatusTopCustomerOrder('Hôm nay');
+                                                setStatusTopCustomerOrder(TODAY);
                                                 getTopUserOrder("DAY")
                                             }}>Hôm nay</Link></li>
                                             <li><Link className="dropdown-item" href="#" 
                                             onClick={() => {
-                                                setStatusTopCustomerOrder('Tháng');
+                                                setStatusTopCustomerOrder(MONTH);
                                                 getTopUserOrder("MONTH");
                                             }}>Tháng</Link></li>
                                             <li><Link className="dropdown-item" href="#" 
                                             onClick={() => {
-                                                setStatusTopCustomerOrder('Năm');
+                                                setStatusTopCustomerOrder(YEAR);
                                                 getTopUserOrder("YEAR");
                                             }}>Năm</Link></li>
                                             
@@ -371,7 +282,9 @@ const DashBoardAdmin = () => {
                                                     <td className='top__customer--sellest--value'>{item.users.fullName}</td>
                                                     <td className='top__customer--sellest--value'>{item.users.userName}</td>
                                                     <td className='top__customer--sellest--value'>{item.TotalAmount.toLocaleString('en-US', { maximumFractionDigits: 3 })}</td>
-                                                    <td className='top__customer--sellest--value'><span className="account__status">Hoạt động</span></td>
+                                                    <td className='top__customer--sellest--value'>
+                                                        {changeStatusAccount(item.users.status)}
+                                                    </td>
                                                 </tr>   
                                                 )) 
                                             : 
@@ -401,17 +314,17 @@ const DashBoardAdmin = () => {
 
                                             <li><Link className="dropdown-item" href="#" 
                                             onClick={() => {
-                                                setStatusTopSellingProduct('Hôm nay');
+                                                setStatusTopSellingProduct(TODAY);
                                                 getTopSelling("DAY")
                                             }}>Hôm nay</Link></li>
                                             <li><Link className="dropdown-item" href="#" 
                                             onClick={() => {
-                                                setStatusTopSellingProduct('Tháng');
+                                                setStatusTopSellingProduct(MONTH);
                                                 getTopSelling("MONTH");
                                             }}>Tháng</Link></li>
                                             <li><Link className="dropdown-item" href="#" 
                                             onClick={() => {
-                                                setStatusTopSellingProduct('Năm');
+                                                setStatusTopSellingProduct(YEAR);
                                                 getTopSelling("YEAR");
                                             }}>Năm</Link></li>
                                         </ul>
@@ -465,7 +378,7 @@ const DashBoardAdmin = () => {
 
                         </div>
                     </div>
-                    <div className="col-lg-4">
+                    {/* <div className="col-lg-4">
                         <div className="card">
                             <div className="filter">
                                 <Link className="icon" href="#" data-bs-toggle="dropdown"><FontAwesomeIcon icon={faEllipsisVertical} /></Link>
@@ -474,9 +387,9 @@ const DashBoardAdmin = () => {
                                         <h6>Filter</h6>
                                     </li>
 
-                                    <li><Link className="dropdown-item" href="#">Today</Link></li>
-                                    <li><Link className="dropdown-item" href="#">This Month</Link></li>
-                                    <li><Link className="dropdown-item" href="#">This Year</Link></li>
+                                    <li><Link className="dropdown-item" href="#">{TODAY}</Link></li>
+                                    <li><Link className="dropdown-item" href="#">{MONTH}</Link></li>
+                                    <li><Link className="dropdown-item" href="#">{YEAR}</Link></li>
                                 </ul>
                             </div>
                         </div>
@@ -489,9 +402,9 @@ const DashBoardAdmin = () => {
                                         <h6>Filter</h6>
                                     </li>
 
-                                    <li><Link className="dropdown-item" href="#">Today</Link></li>
-                                    <li><Link className="dropdown-item" href="#">This Month</Link></li>
-                                    <li><Link className="dropdown-item" href="#">This Year</Link></li>
+                                    <li><Link className="dropdown-item" href="#">{TODAY}</Link></li>
+                                    <li><Link className="dropdown-item" href="#">{MONTH}</Link></li>
+                                    <li><Link className="dropdown-item" href="#">{YEAR}</Link></li>
                                 </ul>
                             </div>
 
@@ -511,9 +424,9 @@ const DashBoardAdmin = () => {
                                         <h6>Filter</h6>
                                     </li>
 
-                                    <li><a className="dropdown-item" href="#">Today</a></li>
-                                    <li><a className="dropdown-item" href="#">This Month</a></li>
-                                    <li><a className="dropdown-item" href="#">This Year</a></li>
+                                    <li><Link className="dropdown-item" href="#">{TODAY}</Link></li>
+                                    <li><Link className="dropdown-item" href="#">{MONTH}</Link></li>
+                                    <li><Link className="dropdown-item" href="#">{YEAR}</Link></li>
                                 </ul>
                             </div>
 
@@ -533,15 +446,15 @@ const DashBoardAdmin = () => {
                                         <h6>Filter</h6>
                                     </li>
 
-                                    <li><Link className="dropdown-item" href="#">Today</Link></li>
-                                    <li><Link className="dropdown-item" href="#">This Month</Link></li>
-                                    <li><Link className="dropdown-item" href="#">This Year</Link></li>
+                                    <li><Link className="dropdown-item" href="#">{TODAY}</Link></li>
+                                    <li><Link className="dropdown-item" href="#">{MONTH}</Link></li>
+                                    <li><Link className="dropdown-item" href="#">{YEAR}</Link></li>
                                 </ul>
                             </div>
 
                         </div>
 
-                    </div>
+                    </div> */}
 
                 </div>
             </section>
@@ -550,116 +463,3 @@ const DashBoardAdmin = () => {
     )
 }
 export default DashBoardAdmin
-
-                            // <div className="card-body pb-0">
-                            //     <h5 className="card-title">News &amp; Updates <span>| Today</span></h5>
-
-                            //     <div className="news">
-                            //         <div className="post-item clearfix">
-                            //             <img src="assets/img/news-1.jpg" alt="" />
-                            //             <h4><Link href="#">Nihil blanditiis at in nihil autem</Link></h4>
-                            //             <p>Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut harum...</p>
-                            //         </div>
-
-                            //         <div className="post-item clearfix">
-                            //             <img src="assets/img/news-2.jpg" alt="" />
-                            //             <h4><Link href="#">Quidem autem et impedit</Link></h4>
-                            //             <p>Illo nemo neque maiores vitae officiis cum eum turos elan dries werona nande...</p>
-                            //         </div>
-
-                            //         <div className="post-item clearfix">
-                            //             <img src="assets/img/news-3.jpg" alt="" />
-                            //             <h4><Link href="#">Id quia et et ut maxime similique occaecati ut</Link></h4>
-                            //             <p>Fugiat voluptas vero eaque accusantium eos. Consequuntur sed ipsam et totam...</p>
-                            //         </div>
-
-                            //         <div className="post-item clearfix">
-                            //             <img src="assets/img/news-4.jpg" alt="" />
-                            //             <h4><Link href="#">Laborum corporis quo dara net para</Link></h4>
-                            //             <p>Qui enim quia optio. Eligendi aut asperiores enim repellendusvel rerum cuder...</p>
-                            //         </div>
-
-                            //         <div className="post-item clearfix">
-                            //             <img src="assets/img/news-5.jpg" alt="" />
-                            //             <h4><Link href="#">Et dolores corrupti quae illo quod dolor</Link></h4>
-                            //             <p>Odit ut eveniet modi reiciendis. Atque cupiditate libero beatae dignissimos eius...</p>
-                            //         </div>
-
-                            //     </div>
-
-                            // </div>
-            // const ReportsChart = () => {
-            //     const chartRef = useRef(null);
-        
-            //     useEffect(() => {
-            //         const chart = new ApexCharts(chartRef.current, {
-            //             series: [
-            //                 {
-            //                     name: 'Sales',
-            //                     data: [31, 40, 28, 51, 42, 82, 56],
-            //                 },
-            //                 {
-            //                     name: 'Revenue',
-            //                     data: [11, 32, 45, 32, 34, 52, 41],
-            //                 },
-            //                 {
-            //                     name: 'Customers',
-            //                     data: [15, 11, 32, 18, 9, 24, 11],
-            //                 },
-            //             ],
-            //             chart: {
-            //                 height: 350,
-            //                 type: 'area',
-            //                 toolbar: {
-            //                     show: false,
-            //                 },
-            //             },
-            //             markers: {
-            //                 size: 4,
-            //             },
-            //             colors: ['#4154f1', '#2eca6a', '#ff771d'],
-            //             fill: {
-            //                 type: 'gradient',
-            //                 gradient: {
-            //                     shadeIntensity: 1,
-            //                     opacityFrom: 0.3,
-            //                     opacityTo: 0.4,
-            //                     stops: [0, 90, 100],
-            //                 },
-            //             },
-            //             dataLabels: {
-            //                 enabled: false,
-            //             },
-            //             stroke: {
-            //                 curve: 'smooth',
-            //                 width: 2,
-            //             },
-            //             xaxis: {
-            //                 type: 'datetime',
-            //                 categories: [
-            //                     '2018-09-19T00:00:00.000Z',
-            //                     '2018-09-19T01:30:00.000Z',
-            //                     '2018-09-19T02:30:00.000Z',
-            //                     '2018-09-19T03:30:00.000Z',
-            //                     '2018-09-19T04:30:00.000Z',
-            //                     '2018-09-19T05:30:00.000Z',
-            //                     '2018-09-19T06:30:00.000Z',
-            //                 ],
-            //             },
-            //             tooltip: {
-            //                 x: {
-            //                     format: 'dd/MM/yy HH:mm',
-            //                 },
-            //             },
-            //         });
-        
-            //         chart.render();
-        
-            //         // Cleanup function to destroy chart on unmount
-            //         return () => {
-            //             chart.destroy();
-            //         };
-            //     }, []);
-        
-            //     return <div id="reportsChart" ref={chartRef} style={{ width: '100%', height: '350px' }} />;
-            // };

@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import '../../Style/Register.css';
+import '../../Style/Customer/Register.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 

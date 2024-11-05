@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../../Style/located.css';
+import '../../Style/Customer/located.css';
 
 const LocatedNew = () => {
     const [change, setChange] = useState(0);

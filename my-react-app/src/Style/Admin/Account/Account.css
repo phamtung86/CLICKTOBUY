@@ -196,15 +196,15 @@
     height: 30px;
 }
 .account__status__disable{
-    background-color: #8d37ff;
+    background-color: #8d37ff !important;
 }
 .account__status__active{
-    background-color: #39c449;
+    background-color: #39c449 !important;
 }
 .account__status__warning{
-    background-color: yellow;
-    color: black;
+    background-color: yellow !important;
+    color: black !important;
 }
 .account__status__lock{
-    background-color: #ff4c34;
+    background-color: #ff4c34 !important;
 }

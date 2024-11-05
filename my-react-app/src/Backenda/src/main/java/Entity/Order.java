@@ -1,26 +1,29 @@
 package Entity;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Order {
     private int orderID;
-    private Date orderDate;
+    private Timestamp orderDate;
     private String status;
     private double TotalAmount;
     private double totalFee;
+    private Timestamp statusDate;
     private Users users;
     private Vouchers vouchers;
 
-    public Order(int orderID, Date orderDate, String status, double totalAmount, double totalFee, Users users, Vouchers vouchers) {
+    public Order(int orderID, Timestamp orderDate, String status, double totalAmount, double totalFee, Timestamp statusDate, Users users, Vouchers vouchers) {
         this.orderID = orderID;
         this.orderDate = orderDate;
         this.status = status;
         TotalAmount = totalAmount;
         this.totalFee = totalFee;
+        this.statusDate = statusDate;
         this.users = users;
         this.vouchers = vouchers;
     }
-
 
     public int getOrderID() {
         return orderID;
@@ -30,11 +33,11 @@ public class Order {
         this.orderID = orderID;
     }
 
-    public Date getOrderDate() {
+    public Timestamp getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(Timestamp orderDate) {
         this.orderDate = orderDate;
     }
 
@@ -62,6 +65,14 @@ public class Order {
         this.totalFee = totalFee;
     }
 
+    public Timestamp getStatusDate() {
+        return statusDate;
+    }
+
+    public void setStatusDate(Timestamp statusDate) {
+        this.statusDate = statusDate;
+    }
+
     public Users getUsers() {
         return users;
     }
@@ -86,6 +97,7 @@ public class Order {
                 ", status='" + status + '\'' +
                 ", TotalAmount=" + TotalAmount +
                 ", totalFee=" + totalFee +
+                ", statusDate=" + statusDate +
                 ", users=" + users +
                 ", vouchers=" + vouchers +
                 '}';

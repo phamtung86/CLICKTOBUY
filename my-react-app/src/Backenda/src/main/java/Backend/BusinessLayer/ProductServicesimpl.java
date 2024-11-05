@@ -2,9 +2,11 @@ package Backend.BusinessLayer;
 
 import Backend.DataLayer.IProductReponsitory;
 import Backend.DataLayer.ProductReponsitoryImpl;
+import Entity.Categories;
 import Entity.Products;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class ProductServicesimpl implements  IProductServices {
@@ -13,24 +15,24 @@ public class ProductServicesimpl implements  IProductServices {
         iProductReponsitory = new ProductReponsitoryImpl();
     }
     @Override
-    public ArrayList<Products> getAllListProduct() {
-        return iProductReponsitory.getAllListProduct();
+    public ArrayList<Products> getAllListProduct(Map<Integer, Categories> categoriesMap ) {
+        return iProductReponsitory.getAllListProduct(categoriesMap);
     }
 
     @Override
-    public ArrayList<Products> getListProductSale() {
-        return iProductReponsitory.getListProductSale();
+    public ArrayList<Products> getListProductSale(Map<Integer, Categories> categoriesMap) {
+        return iProductReponsitory.getListProductSale(categoriesMap);
     }
 
     @Override
-    public ArrayList<Products> getListProductType(int categoryIDType) {
-        return iProductReponsitory.getListProductType(categoryIDType);
+    public ArrayList<Products> getListProductType(int categoryIDType,Map<Integer, Categories> categoriesMap) {
+        return iProductReponsitory.getListProductType(categoryIDType,categoriesMap);
     }
 
 
     @Override
-    public ArrayList<Products> listProductSearchByName(String productName) {
-        return iProductReponsitory.listProductSearchByName(productName);
+    public ArrayList<Products> listProductSearchByName(String productName,Map<Integer, Categories> categoriesMap ) {
+        return iProductReponsitory.listProductSearchByName(productName,categoriesMap);
     }
 
     @Override
@@ -50,6 +52,13 @@ public class ProductServicesimpl implements  IProductServices {
 
     @Override
     public Map<Integer, Products> getProductsMap() {
-        return iProductReponsitory.getProductsMap();
+        ICategoriesServices iCategoriesServices = new CategoriesServices();
+        Map<Integer,Categories> mapCategories = iCategoriesServices.getMapCategories();
+        return iProductReponsitory.getProductsMap(mapCategories);
+    }
+
+    @Override
+    public List<Products> findProductByCategoryID(int categoryID) {
+        return iProductReponsitory.findProductByCategoryID(categoryID);
     }
 }

@@ -1,36 +1,24 @@
 package Backend.DataLayer;
 
-import Ultils.JdbcConnection;
-import Entity.VoucherDetail;
-import Entity.VoucherDetailType;
 import Entity.Vouchers;
+import Ultils.JdbcConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class VoucherReponsitoryimpl implements IVoucherReponsitory {
     @Override
-    public ArrayList<VoucherDetail> getListAllVoucherDetail() {
+    public ArrayList<Vouchers> getListAllVouchers() {
         String SELECT_ALL_VOUCHER = "SELECT * FROM vouchers";
-        String SELECT_ALL_VOUCHER_DETAIL_TYPE = "SELECT * FROM voucher_detail_type";
-        String SELECT_ALL_VOUCHER_DETAIL = "SELECT * FROM voucher_detail";
-        Map<Integer, Vouchers> voucherMap = new HashMap<>();
-        Map<Integer, VoucherDetailType> voucherDetailTypeMap = new HashMap<>();
-        ArrayList<VoucherDetail> listVouchersDetail = new ArrayList<>();
+        ArrayList<Vouchers> listVouchers = new ArrayList<>();
 
         try {
             Connection conn = JdbcConnection.getConnection();
             PreparedStatement psVoucher = conn.prepareStatement(SELECT_ALL_VOUCHER);
             ResultSet rsVoucher = psVoucher.executeQuery();
-            PreparedStatement psVoucherDetailType = conn.prepareStatement(SELECT_ALL_VOUCHER_DETAIL_TYPE);
-            ResultSet rsVoucherDetailType = psVoucherDetailType.executeQuery();
-            PreparedStatement psVoucherDetail = conn.prepareStatement(SELECT_ALL_VOUCHER_DETAIL);
-            ResultSet rsVoucherDetail = psVoucherDetail.executeQuery();
             while (rsVoucher.next()) {
                 Vouchers voucher = new Vouchers(
                         rsVoucher.getInt("VoucherID"),
@@ -38,43 +26,132 @@ public class VoucherReponsitoryimpl implements IVoucherReponsitory {
                         rsVoucher.getString("VoucherName"),
                         rsVoucher.getDouble("minOrderAmount"),
                         rsVoucher.getDouble("maxOrderAmount"),
-                        rsVoucher.getDate("CreatedAt"),
-                        rsVoucher.getDate("ExpiryDate")
+                        rsVoucher.getTimestamp("CreatedAt"),
+                        rsVoucher.getDate("ExpiryDate"),
+                        rsVoucher.getInt("value"),
+                        rsVoucher.getString("type"),
+                        rsVoucher.getInt("status")
                 );
-                voucherMap.put(voucher.getId(), voucher);
-            }
-
-            // Load all voucher detail types into a map
-            while (rsVoucherDetailType.next()) {
-                VoucherDetailType voucherDetailType = new VoucherDetailType(
-                        rsVoucherDetailType.getInt("id"),
-                        rsVoucherDetailType.getString("Type")
-                );
-                voucherDetailTypeMap.put(voucherDetailType.getId(), voucherDetailType);
+                listVouchers.add(voucher);
             }
 
 
-            while (rsVoucherDetail.next()) {
-                int id = rsVoucherDetail.getInt("id");
-                int value = rsVoucherDetail.getInt("value");
-                int voucherID = rsVoucherDetail.getInt("VoucherID");
-                int voucherDetailTypeID = rsVoucherDetail.getInt("Voucher_Detail_Type_ID");
-
-                Vouchers voucher = voucherMap.get(voucherID);
-                VoucherDetailType voucherDetailType = voucherDetailTypeMap.get(voucherDetailTypeID);
-
-                if (voucher != null && voucherDetailType != null) {
-                    listVouchersDetail.add(new VoucherDetail(id, value, voucher, voucherDetailType));
-                }
-            }
             JdbcConnection.closeConnection(conn, psVoucher, rsVoucher);
-            JdbcConnection.closeConnection(conn, psVoucherDetailType, rsVoucherDetail);
-            JdbcConnection.closeConnection(conn, psVoucherDetail, rsVoucherDetail);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
 
-        return listVouchersDetail;
+        return listVouchers;
     }
+
+    @Override
+    public Map<Integer, Vouchers> mapVoucherByVoucherID() {
+        Map<Integer, Vouchers> mapVoucherByVoucherID = new HashMap<>();
+        String SELECT_ALL_VOUCHER = "SELECT * FROM vouchers";
+        Connection conn = null;
+        PreparedStatement psVoucher = null;
+        ResultSet rsVoucher = null;
+        try {
+            conn = JdbcConnection.getConnection();
+            psVoucher = conn.prepareStatement(SELECT_ALL_VOUCHER);
+            rsVoucher = psVoucher.executeQuery();
+            while (rsVoucher.next()) {
+                int voucherID = rsVoucher.getInt("VoucherID");
+                String code = rsVoucher.getString("Code");
+                String voucherName = rsVoucher.getString("VoucherName");
+                double minOrderAmount = rsVoucher.getDouble("minOrderAmount");
+                double maxOrderAmount = rsVoucher.getDouble("maxOrderAmount");
+                Timestamp createdAt = rsVoucher.getTimestamp("CreatedAt");
+                Date expiryDate = rsVoucher.getDate("ExpiryDate");
+                int value = rsVoucher.getInt("value");
+                String type = rsVoucher.getString("type");
+                Vouchers voucher = new Vouchers(voucherID,code,voucherName,minOrderAmount,maxOrderAmount, createdAt,expiryDate,value,type);
+                mapVoucherByVoucherID.put(voucherID, voucher);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            JdbcConnection.closeConnection(conn, psVoucher, rsVoucher);
+        }
+        return mapVoucherByVoucherID;
+    }
+
+    @Override
+    public Vouchers findVoucherById(String voucherCode) {
+        for (Vouchers voucher : getListAllVouchers()) {
+            if (voucher.getCode().equals(voucherCode)) {
+                return voucher;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public boolean updateVoucher(Vouchers voucher) {
+        String INSERT_VOUCHER = ("UPDATE vouchers SET Code = ?, VoucherName = ?, MinOrderAmount = ?, MaxOrderAmount = ?, CreatedAt = ?, ExpiryDate = ?, value = ?, type = ? WHERE VoucherID = ?");
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = JdbcConnection.getConnection();
+            preparedStatement = connection.prepareStatement(INSERT_VOUCHER);
+            preparedStatement.setString(1, voucher.getCode());
+            preparedStatement.setString(2, voucher.getName());
+            preparedStatement.setDouble(3, voucher.getMinOrderAmount());
+            preparedStatement.setDouble(4, voucher.getMaxOrderAmount());
+            preparedStatement.setTimestamp(5,voucher.getCreateAt());
+            preparedStatement.setDate(6,voucher.getExpriryDate());
+            preparedStatement.setInt(7, voucher.getValue());
+            preparedStatement.setString(8, voucher.getType());
+            preparedStatement.setInt(9, voucher.getId());
+            return preparedStatement.executeUpdate() >0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            JdbcConnection.closeConnection(connection,preparedStatement,null);
+        }
+    }
+
+    @Override
+    public boolean createNewVoucher(Vouchers voucher) {
+        String INSERT_VOUCHER = "INSERT INTO vouchers (Code, VoucherName, MinOrderAmount, MaxOrderAmount, CreatedAt, ExpiryDate, value, type) VALUES (?, ?, ?, ?, ?, ?,?,?)";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = JdbcConnection.getConnection();
+            preparedStatement = connection.prepareStatement(INSERT_VOUCHER);
+            preparedStatement.setString(1, voucher.getCode());
+            preparedStatement.setString(2, voucher.getName());
+            preparedStatement.setDouble(3, voucher.getMinOrderAmount());
+            preparedStatement.setDouble(4, voucher.getMaxOrderAmount());
+            preparedStatement.setTimestamp(5,voucher.getCreateAt());
+            preparedStatement.setDate(6,voucher.getExpriryDate());
+            preparedStatement.setInt(7, voucher.getValue());
+            preparedStatement.setString(8, voucher.getType());
+            return preparedStatement.executeUpdate() >0;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean updateStatusVoucher(int id, int status) {
+        String INSERT_VOUCHER = ("UPDATE vouchers SET status = ? WHERE VoucherID = ?");
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = JdbcConnection.getConnection();
+            preparedStatement = connection.prepareStatement(INSERT_VOUCHER);
+            preparedStatement.setInt(1, status);
+            preparedStatement.setInt(2, id);
+            return preparedStatement.executeUpdate() >0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            JdbcConnection.closeConnection(connection,preparedStatement,null);
+        }
+    }
+
+
 }

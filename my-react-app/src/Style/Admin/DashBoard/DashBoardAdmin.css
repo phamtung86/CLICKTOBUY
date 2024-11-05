@@ -1,35 +1,10 @@
-/**
-* Template Name: NiceAdmin
-* Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-* Updated: Apr 20 2024 with Bootstrap v5.3.3
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
-
-/*--------------------------------------------------------------
-# General
---------------------------------------------------------------*/
 :root {
     scroll-behavior: smooth;
   }
-   
-  /*--------------------------------------------------------------
-  # Main
-  --------------------------------------------------------------*/
   #main {
     padding: 20px 30px;
     transition: all 0.3s;
   }
-  
-  @media (max-width: 1199px) {
-    #main {
-      padding: 20px;
-    }
-  }
-  
-  /*--------------------------------------------------------------
-  # Page Title
-  --------------------------------------------------------------*/
   .pagetitle {
     margin-bottom: 10px;
   }
@@ -40,10 +15,6 @@
     font-weight: 600;
     color: #012970;
   }
-  
-  /*--------------------------------------------------------------
-  # Back to top button
-  --------------------------------------------------------------*/
   .back-to-top {
     position: fixed;
     visibility: hidden;
@@ -73,11 +44,6 @@
     visibility: visible;
     opacity: 1;
   }
-  
-  /*--------------------------------------------------------------
-  # Override some default Bootstrap stylings
-  --------------------------------------------------------------*/
-  /* Dropdown menus */
   .dropdown-menu {
     border-radius: 4px;
     padding: 10px 0;
@@ -124,21 +90,7 @@
   .dropdown-menu .dropdown-item:hover {
     background-color: #f6f9ff;
   }
-  
-  @media (min-width: 768px) {
-    .dropdown-menu-arrow::before {
-      content: "";
-      width: 13px;
-      height: 13px;
-      background: #fff;
-      position: absolute;
-      top: -7px;
-      right: 20px;
-      transform: rotate(45deg);
-      border-top: 1px solid #eaedf1;
-      border-left: 1px solid #eaedf1;
-    }
-  }
+
   
   @keyframes dropdown-animate {
     0% {
@@ -153,8 +105,6 @@
       opacity: 0;
     }
   }
-  
-  /* Light Backgrounds */
   .bg-primary-light {
     background-color: #cfe2ff;
     border-color: #cfe2ff;
@@ -189,8 +139,6 @@
     background-color: #d3d3d4;
     border-color: #d3d3d4;
   }
-  
-  /* Card */
   .card {
     margin-bottom: 30px;
     border: none;
@@ -576,12 +524,7 @@
     box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
     background-color: #fff;
   }
-  
-  @media (max-width: 1199px) {
-    .sidebar {
-      left: -300px;
-    }
-  }
+
   
   .sidebar::-webkit-scrollbar {
     width: 5px;
@@ -591,25 +534,6 @@
   
   .sidebar::-webkit-scrollbar-thumb {
     background-color: #aab7cf;
-  }
-  
-  
-  @media (max-width: 1199px) {
-    .toggle-sidebar .sidebar {
-      left: 0;
-    }
-  }
-  
-  @media (min-width: 1200px) {
-  
-    .toggle-sidebar #main,
-    .toggle-sidebar #footer {
-      margin-left: 0;
-    }
-  
-    .toggle-sidebar .sidebar {
-      left: -300px;
-    }
   }
   
   .sidebar-nav {
@@ -876,6 +800,9 @@
   .dashboard .recent-sales {
     font-size: 14px;
   }
+  .col-lg-8{
+    width: 100% !important;
+  }
   
   .dashboard .recent-sales .table thead {
     background: #f6f6fe;
@@ -901,13 +828,6 @@
   text-decoration: none;
   color: rgb(0, 68, 255);
   font-weight: 500;
-}
-.account__status{
-  background-color: rgb(0, 175, 0) !important;
-  color: white !important;
-  padding: 5px !important;
-  font-weight: 500 !important;
-  border-radius: 8px !important;
 }
 
 .top__customer--sellest--title,
@@ -935,4 +855,11 @@
 .top__product--sellest--value:nth-child(5){
   color: red;
   font-weight: 700;
+}
+.account__status{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  color: white !important;
 }

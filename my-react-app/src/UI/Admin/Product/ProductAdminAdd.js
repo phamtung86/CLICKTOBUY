@@ -1,11 +1,12 @@
-import '../../Style/Admin/ProductAdminModify.css';
-import '../../Style/Admin/ProductAdminAdd.css';
+import '../../../Style/Admin/Product/ProductAdminModify.css';
+import '../../../Style/Admin/Product/ProductAdminAdd.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const ProductAdminAdd = ({ setStatusModify, updateProductInState, lastID }) => {
+const ProductAdminAdd = ({statusProductCRUD, updateProductInState, lastID }) => {
+    const DISPLAY_NONE = 0;
     const [imagePreview, setImagePreview] = useState(null);
-    const [dataMenu, setDataMenu] = useState([]);
+    const [dataCategory, setDataCategory] = useState([]);
     const [isSuccess, setIsSuccess] = useState(false); // Trạng thái hiển thị biểu tượng thành công
     const [productInfor, setProductInfor] = useState({
         productId: lastID + 1,
@@ -14,7 +15,7 @@ const ProductAdminAdd = ({ setStatusModify, updateProductInState, lastID }) => {
         productNote: '',
         productDiscount: '',
         productUnit: '',
-        productCategoryId: '1 ',
+        productCategoryId: '1',
         productImage: '',
         productOrigin: '',
         productIngredient: '',
@@ -32,6 +33,16 @@ const ProductAdminAdd = ({ setStatusModify, updateProductInState, lastID }) => {
             [name]: value,
         }));
     };
+
+    const insertDataIntoInventory = async () => {
+        try {
+             await axios.post(`http://localhost:8080/api/Inventorys/inventorys?productId=${lastID + 1}`)
+
+        } catch (error) {
+            console.log("Lỗi trong quá trình thêm data vào table inventory");     
+        }
+        
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -53,8 +64,9 @@ const ProductAdminAdd = ({ setStatusModify, updateProductInState, lastID }) => {
                 const repontDetail = await axios.post('http://localhost:8080/api/ProductDetail/InsertProductDetail', productData);
                 if (repontDetail.status === 200) {
                     setIsSuccess(true); // Thiết lập trạng thái thành công
+                    insertDataIntoInventory();
                     setTimeout(() => {
-                        setStatusModify(0);
+                        changeStatusDisplayCRUD()
                         updateProductInState();
                     }, 2000); // Chờ 2 giây trước khi chuyển trang
                 }
@@ -79,7 +91,7 @@ const ProductAdminAdd = ({ setStatusModify, updateProductInState, lastID }) => {
         const fetchDataMenu = async () => {
             try {
                 const responseDataMenu = await axios.get('http://localhost:8080/api/Categories');
-                setDataMenu(responseDataMenu.data);
+                setDataCategory(responseDataMenu.data);
             } catch (error) {
                 console.error('Error fetching data: ' + error);
             }
@@ -87,14 +99,20 @@ const ProductAdminAdd = ({ setStatusModify, updateProductInState, lastID }) => {
         fetchDataMenu();
     }, []);
 
+    const changeStatusDisplayCRUD = () => {
+        if (statusProductCRUD) {
+            statusProductCRUD(DISPLAY_NONE)
+        }
+    }
+
     return (
         <div className="productadminaddhome">
             <form className="productadminadd">
-            {isSuccess && (
-                <div className="success-animation">
-                <svg className="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" /><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" /></svg>
-            </div>
-            )}
+                {isSuccess && (
+                    <div className="success-animation">
+                        <svg className="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" /><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" /></svg>
+                    </div>
+                )}
                 <h1 className='productadminadd__title'>Thêm sản phẩm</h1>
                 <div className="productadminadd__interface">
                     <div className="productadminadd__image">
@@ -161,7 +179,7 @@ const ProductAdminAdd = ({ setStatusModify, updateProductInState, lastID }) => {
                         <select className="information__add--list"
                             name='productCategoryId'
                             onChange={handleChangeValue}>
-                            {dataMenu.map((item) => (
+                            {dataCategory.map((item) => (
                                 <option
                                     key={item.categoryId}
                                     value={item.categoryId}>
@@ -218,7 +236,7 @@ const ProductAdminAdd = ({ setStatusModify, updateProductInState, lastID }) => {
                         className="productadminadd__button--cancel"
                         onClick={(e) => {
                             e.preventDefault();
-                            setStatusModify(0);
+                            changeStatusDisplayCRUD();
                         }}>
                         Hủy
                     </button>

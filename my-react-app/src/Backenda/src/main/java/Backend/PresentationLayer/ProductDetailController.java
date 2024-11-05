@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
+
 @WebServlet("/api/ProductDetail")
 public class ProductDetailController extends HttpServlet {
     public IProductDetailServices iProductDetailServices;
@@ -32,20 +34,16 @@ public class ProductDetailController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         try {
-            // Lấy tham số từ URL
             String productIdParam = request.getParameter("Code");
             if (productIdParam != null && !productIdParam.isEmpty()) {
+
                 int productId = Integer.parseInt(productIdParam);
+                Map<Integer,Products> mapProducts = iProductServices.getProductsMap();
+                ArrayList<ProductDetail> listProductDetail = iProductDetailServices.getListAllProductDetail(mapProducts);
 
-                // Lấy danh sách sản phẩm và chi tiết sản phẩm
-                ArrayList<Products> listProducts = (ArrayList<Products>) iProductServices.getAllListProduct();
-                ArrayList<ProductDetail> listProductDetail = iProductDetailServices.getListAllProductDetail(listProducts);
-
-                // Tìm chi tiết sản phẩm theo ID
                 ProductDetail productDetail = iProductDetailServices.getProductDetailFromProductId(listProductDetail, productId);
 
                 if (productDetail != null) {
-                    // Trả về chi tiết sản phẩm dưới dạng JSON
                     response.getWriter().write(gson.toJson(productDetail));
                 } else {
                     response.sendError(HttpServletResponse.SC_NOT_FOUND, "Product not found");

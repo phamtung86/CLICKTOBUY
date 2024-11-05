@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from 'react';
-import '../../Style/cart.css';
+import '../../Style/Customer/cart.css';
 import Head from './Head';
 import CartContext from '../Context/CartContext';
 import { Link, useNavigate } from 'react-router-dom';
@@ -84,6 +84,7 @@ const CartNew = () => {
         value: "",
         minOrderAmount: "",
         maxOrderAmount: "",
+        code : ""
     });
     const [dataOrder, setDataOrder] = useState({
         TotalAmount: "",
@@ -91,8 +92,7 @@ const CartNew = () => {
         userID: "",
         voucherID: "",
     })
-
-    const [dataOrderDetail, setDataOrderDetail] = useState()
+    const [statusOrder, setStatusOrder] = useState(0) // trang thai dat hang 0 la chua dat 1 la da dat
     const getDataOrder = () => {
         return new Promise((resolve, reject) => {
             const userIDSession = JSON.parse(sessionStorage.getItem("account"));
@@ -114,7 +114,8 @@ const CartNew = () => {
         });
     };
 
-    const getAccountFromSession = async (event) => {
+    // dat hang
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         const accountName = sessionStorage.getItem("account");
@@ -147,10 +148,12 @@ const CartNew = () => {
 
             // Nếu thanh toán thành công
             if (postDataCart.status === 200) {
-                alert("Bạn đã thanh toán thành công");
+                alert("Bạn đã đặt hàng thành công");
+                localStorage.removeItem("cart")
                 setCart([]); // Xóa giỏ hàng sau khi thanh toán thành công
+                setStatusOrder(1)
             } else {
-                alert("Đã xảy ra lỗi khi thanh toán. Vui lòng thử lại.");
+                alert("Đã xảy ra lỗi khi đặt hàng. Vui lòng thử lại.");
             }
         } catch (error) {
             console.log("Lỗi khi xử lý thanh toán: " + error);
@@ -163,7 +166,6 @@ const CartNew = () => {
             const statusRespone = await axios.post('http://localhost:8080/api/OrdersDetail/InsertOrderDetail', {
                 value : cart,
             });
-            console.log(statusRespone);
         } catch (error) {
             console.log("Lỗi khi thêm dữ liệu vào bảng orderdetail");
         }
@@ -183,13 +185,14 @@ const CartNew = () => {
     // Tính tổng số tiền sau cùng
     const intoMoney = (voucherValue.value) ? (voucherValue.value <= 100) ? totalMoney - totalMoney * (parseInt(voucherValue.value) / 100) : totalMoney - voucherValue.value
         : totalMoney
-    const handleVoucherStatusChange = (id, value, minOrderAmount, maxOrderAmount) => {
+    const handleVoucherStatusChange = (id, value, minOrderAmount, maxOrderAmount, code) => {
         setVoucherValue({
             id: id,
             value: value,
             minOrderAmount: minOrderAmount,
-            maxOrderAmount: maxOrderAmount
-        });
+            maxOrderAmount: maxOrderAmount,
+            code : code
+        });    
         setStatusVoucher(0); // Ẩn voucher sau khi chọn
 
     };
@@ -204,7 +207,13 @@ const CartNew = () => {
 
     return (
         <>
-            <Voucher statusVoucher={statusVoucher} onStatusChange={setStatusOn} onVoucherSelect={handleVoucherStatusChange} valueBill={totalBill} />
+            <Voucher 
+                statusVoucher={statusVoucher}
+                onStatusChange={setStatusOn}
+                onVoucherSelect={handleVoucherStatusChange} 
+                valueBill={totalBill} 
+                statusOrder={statusOrder}
+              />
             <Head />
             <div className='home__back'>
                 <Link className='home__back--click' to={"/"}><i className="fa-solid fa-house"></i> Trang chủ</Link>
@@ -247,15 +256,15 @@ const CartNew = () => {
                     <div className="cart__pay--voucher">
                         <div className="pay--voucher--icon--tect">
                             <span className="cart__pay--voucher--icon"><i className="fa-solid fa-ticket"></i></span>
-                            <span className="cart__pay--voucher--text">Khuyến mại</span>
+                            <span className="cart__pay--voucher--text">{voucherValue.code ? voucherValue.code : 'Voucher'}</span>
                         </div>
                         <Link className="pay--voucher--click" onClick={setStatusDefault}>Chọn mã voucher</Link>
                     </div>
                     <Link className="pay--click" onClick={async (event) => {
-                        await getAccountFromSession(event); // Thêm await để đợi hoàn tất quá trình kiểm tra và thanh toán
+                        await handleSubmit(event); 
                         await insertDataIntoOrderDetail();
                     }}
-                    >Thanh toán {(intoMoney < 0) ? 0 : (totalBill === 0) ? 0 : Math.round(intoMoney).toLocaleString('en-US', { maximumFractionDigits: 3 })} ₫</Link>
+                    >Đặt hàng </Link>
                 </div>
             </div>
         </>

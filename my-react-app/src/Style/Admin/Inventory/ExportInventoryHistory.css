@@ -1,0 +1,80 @@
+.export__history{
+    position: absolute;
+    background-color: white;
+    width: 100%;
+    z-index: 2;
+    min-height: calc(100vh);
+}
+.export__history--title{
+    font-size: 35px;
+    font-weight: 700;
+    text-align: center;
+    padding: 10px;
+}
+.export__history--table{
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    background-color: rgb(255, 255, 255);
+}
+.export__history--button{
+    background-color: rgb(255, 255, 255);
+    height: 80px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    bottom: 0;
+}
+.table__export__header--title{
+    font-weight: 650;
+}
+.table__export__header--title,
+.table__export__rows--data{
+    text-align: center;
+    padding: 10px;
+}
+.table__export__header--title:first-child,
+.table__export__rows--data:first-child{
+    width: 7%;
+}
+.table__export__header--title:nth-child(2),
+.table__export__rows--data:nth-child(2){
+    width:15% ;
+}
+.table__export__header--title:nth-child(3),
+.table__export__rows--data:nth-child(3){
+    width:20% ;
+}
+.table__export__header--title:nth-child(4),
+.table__export__rows--data:nth-child(4){
+    width:10% ;
+}
+.table__export__header--title:nth-child(5),
+.table__export__rows--data:nth-child(5){
+    width:10% ;
+}
+.table__export__header--title:nth-child(6),
+.table__export__rows--data:nth-child(6){
+    width:15% ;
+}
+.table__export__header--title:nth-child(7),
+.table__export__rows--data:nth-child(7){
+    width:10% ;
+}
+.table__export__header--title:nth-child(8),
+.table__export__rows--data:nth-child(8){
+    width:13% ;
+}
+.export__time--select{
+    border: none;
+    outline: none;
+    margin-left: 3px;
+    border-radius: 5px;
+}
+.table__no-data{
+    text-align: center;
+    padding: 10px;
+    font-weight: 700;
+    font-size: 20px;
+}

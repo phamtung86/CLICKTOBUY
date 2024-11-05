@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class OrderDetailReponsitoryimpl implements IOrderDetailReponsitory {
@@ -44,16 +45,16 @@ public class OrderDetailReponsitoryimpl implements IOrderDetailReponsitory {
         String SELECT_TOP_SELLING = "";
         switch (type) {
             case "DAY":
-                SELECT_TOP_SELLING = "SELECT id, productID, price, SUM(quantity) AS totalQuantity FROM oder_detail od INNER JOIN orders o ON od.OrderID = o.OrderID WHERE DAY(o.OrderDate) = DAY(CURRENT_DATE) GROUP BY productID,id,price ORDER BY totalQuantity DESC LIMIT 10" ;
+                SELECT_TOP_SELLING = "SELECT DISTINCT productID, price, SUM(quantity) AS totalQuantity FROM oder_detail od INNER JOIN orders o ON od.OrderID = o.OrderID WHERE DAY(o.OrderDate) = DAY(CURRENT_DATE) GROUP BY productID,price ORDER BY totalQuantity DESC LIMIT 10" ;
                 break;
             case "MONTH":
-                SELECT_TOP_SELLING = "SELECT id, productID, price, SUM(quantity) AS totalQuantity FROM oder_detail od INNER JOIN orders o ON od.OrderID = o.OrderID WHERE MONTH(o.OrderDate) = MONTH(CURRENT_DATE) GROUP BY productID,id,price ORDER BY totalQuantity DESC LIMIT 10";
+                SELECT_TOP_SELLING = "SELECT DISTINCT productID, price, SUM(quantity) AS totalQuantity FROM oder_detail od INNER JOIN orders o ON od.OrderID = o.OrderID WHERE MONTH(o.OrderDate) = MONTH(CURRENT_DATE) GROUP BY productID,price ORDER BY totalQuantity DESC LIMIT 10";
                 break;
             case "YEAR":
-                SELECT_TOP_SELLING = "SELECT id, productID, price, SUM(quantity) AS totalQuantity FROM oder_detail od INNER JOIN orders o ON od.OrderID = o.OrderID WHERE YEAR(o.OrderDate) = YEAR(CURRENT_DATE) GROUP BY productID,id,price ORDER BY totalQuantity DESC LIMIT 10";
+                SELECT_TOP_SELLING = "SELECT DISTINCT productID, price, SUM(quantity) AS totalQuantity FROM oder_detail od INNER JOIN orders o ON od.OrderID = o.OrderID WHERE YEAR(o.OrderDate) = YEAR(CURRENT_DATE) GROUP BY productID,price ORDER BY totalQuantity DESC LIMIT 10";
                 break;
             default:
-                SELECT_TOP_SELLING = "SELECT id, productID, price, SUM(quantity) AS totalQuantity FROM oder_detail od INNER JOIN orders o ON od.OrderID = o.OrderID WHERE DAY(o.OrderDate) = DAY(CURRENT_DATE) GROUP BY productID,id,price ORDER BY totalQuantity DESC LIMIT 10";
+                SELECT_TOP_SELLING = "SELECT DISTINCT productID, price, SUM(quantity) AS totalQuantity FROM oder_detail od INNER JOIN orders o ON od.OrderID = o.OrderID WHERE DAY(o.OrderDate) = DAY(CURRENT_DATE) GROUP BY productID,price ORDER BY totalQuantity DESC LIMIT 10";
                 break;
         }
         Connection conn = null;
@@ -64,11 +65,10 @@ public class OrderDetailReponsitoryimpl implements IOrderDetailReponsitory {
             pstmt = conn.prepareStatement(SELECT_TOP_SELLING);
             rs = pstmt.executeQuery();
             while (rs.next()) {
-                int orderDetailID = rs.getInt("id");
                 int productID = rs.getInt("productID");
                 double price = rs.getDouble("price");
                 int totalQuantity = rs.getInt("totalQuantity");
-                listOrderDetails.add(new OrderDetail(orderDetailID, price, totalQuantity, productsMap.get(productID), 0));
+                listOrderDetails.add(new OrderDetail(1,price, totalQuantity, productsMap.get(productID), 0));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -111,5 +111,61 @@ public class OrderDetailReponsitoryimpl implements IOrderDetailReponsitory {
             JdbcConnection.closeConnection(conn, pstmt, rs);
         }
         return -1;
+    }
+
+    @Override
+    public Map<Integer, OrderDetail> mapOrderDetailByOrderID(Map<Integer,Products> mapProducts) {
+        String GET_MAP_ORDER_DETAIL = "SELECT * FROM oder_detail";
+        Map<Integer, OrderDetail> mapOrderDetail = new HashMap<>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = JdbcConnection.getConnection();
+            pstmt = conn.prepareStatement(GET_MAP_ORDER_DETAIL);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                int orderDetailID = rs.getInt("id");
+                double price = rs.getDouble("price");
+                int quantity = rs.getInt("quantity");
+                int productID = rs.getInt("productID");
+                Products products = mapProducts.get(productID);
+                int orderID = rs.getInt("orderID");
+                OrderDetail orderDetail = new OrderDetail(orderDetailID, price, quantity, products, orderID);
+                mapOrderDetail.put(orderID, orderDetail);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return mapOrderDetail;
+    }
+
+    @Override
+    public List<OrderDetail> listOderDetailsById(int id,Map<Integer,Products> mapProducts) {
+        List<OrderDetail> listOrderDetails = new ArrayList<>();
+        String GET_ORDER_DETAILS_BY_ID = "SELECT * FROM oder_detail od INNER JOIN orders o ON od.OrderID = o.OrderID WHERE o.OrderID = ?";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = JdbcConnection.getConnection();
+            pstmt = conn.prepareStatement(GET_ORDER_DETAILS_BY_ID);
+            pstmt.setInt(1, id);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                int orderDetailID = rs.getInt("id");
+                double price = rs.getDouble("price");
+                int quantity = rs.getInt("quantity");
+                int productID = rs.getInt("productID");
+                Products products = mapProducts.get(productID);
+                int orderID = rs.getInt("orderID");
+                listOrderDetails.add(new OrderDetail(orderDetailID, price, quantity, products, orderID));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            JdbcConnection.closeConnection(conn, pstmt, rs);
+        }
+        return listOrderDetails;
     }
 }
