@@ -1,9 +1,6 @@
 package Backend.PresentationLayer;
 
-import Backend.BusinessLayer.IOrderDetailServices;
-import Backend.BusinessLayer.IOrderServices;
-import Backend.BusinessLayer.OrderDetailServicesimpl;
-import Backend.BusinessLayer.OrderServicesimpl;
+import Backend.BusinessLayer.*;
 import Entity.OrderDetail;
 import Entity.Products;
 import com.google.gson.Gson;
@@ -17,11 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/api/OrdersDetail/*")
 public class OrderDetailController extends HttpServlet {
@@ -55,6 +50,13 @@ public class OrderDetailController extends HttpServlet {
                     String type = req.getParameter("type");
                     int totalSellDay = iOrderDetailServices.getTotalSelled(type);
                     resp.getWriter().write(gson.toJson(totalSellDay));
+                    break;
+                case "/ListOrderDetailByID" :
+                    IProductServices iProductServices = new ProductServicesimpl();
+                    Map<Integer, Products> mapProducts = iProductServices.getProductsMap();
+                    int orderDetailID = Integer.parseInt(req.getParameter("orderDetailID"));
+                    List<OrderDetail> listOrderDetais = iOrderDetailServices.listOderDetailsById(orderDetailID,mapProducts);
+                    resp.getWriter().write(gson.toJson(listOrderDetais));
                     break;
             }
         } catch (Exception e) {

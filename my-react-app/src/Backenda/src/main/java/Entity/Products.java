@@ -24,6 +24,16 @@ public class Products {
         this.productImageLink = productImageLink;
         this.categories = categories;
     }
+    public Products(int productId, String productName, double productPrice, Date productCreateAt, String productNote, String productUnit, int productDiscount, String productImageLink) {
+        this.productId = productId;
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productCreateAt = productCreateAt;
+        this.productNote = productNote;
+        this.productUnit = productUnit;
+        this.productDiscount = productDiscount;
+        this.productImageLink = productImageLink;
+    }
 
     public int getProductId() {
         return productId;

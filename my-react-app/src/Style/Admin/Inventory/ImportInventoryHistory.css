@@ -1,0 +1,28 @@
+.import__history{
+    position: absolute;
+    background-color: white;
+    width: 100%;
+    z-index: 2;
+    min-height: calc(100vh);
+}
+.import__history--title{
+    font-size: 35px;
+    font-weight: 700;
+    text-align: center;
+    padding: 10px;
+}
+.import__history--table{
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    background-color: rgb(255, 255, 255);
+}
+.import__history--button{
+    background-color: rgb(255, 255, 255);
+    height: 80px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    bottom: 0;
+}

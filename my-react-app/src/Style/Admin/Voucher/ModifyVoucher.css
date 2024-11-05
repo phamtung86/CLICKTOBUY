@@ -1,0 +1,55 @@
+.voucher__CRUD{
+    min-height: 100vh;
+    width: 100%;
+    position: absolute;
+    z-index: 2;
+    background-color: white;
+}
+.voucher__CRUD--title{
+    background-color: rgb(252, 56, 56);
+    font-weight: 700;
+    text-align: center;
+    padding: 5px;
+    color: white;
+}
+.voucher__CRUD--form{
+    height: 50vh;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 10px;
+}
+.voucher__CRUD--element{
+    border-radius: 10px;
+}
+.voucher__CRUD--element--input{
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+}
+.voucher__CRUD--button{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.voucher__CRUD--button--close{
+    width: 150px;
+    background-color: rgb(255, 230, 0);
+    color: rgb(0, 0, 0);
+    border-radius: 10px;
+    border: none;
+    padding: 5px;
+    font-weight: 650;
+    font-size: 18px;
+}
+.voucher__CRUD--button--submit{
+    width: 150px;
+    background-color: green;
+    color: rgb(255, 255, 255);
+    border-radius: 10px;
+    border: none;
+    padding: 5px;
+    font-weight: 650;
+    font-size: 18px;
+}

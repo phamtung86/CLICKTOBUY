@@ -4,9 +4,10 @@ import Entity.ProductDetail;
 import Entity.Products;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public interface IProductDetailReponsitory {
-    public ArrayList<ProductDetail> getListAllProductDetail(ArrayList<Products> listProducts);
+    public ArrayList<ProductDetail> getListAllProductDetail(Map<Integer,Products> mapProducts);
     public ProductDetail getProductDetailFromProductId(ArrayList<ProductDetail> listProductDetail,int id);
     public boolean insertProductDetail(ProductDetail productDetail,int productID);
 }

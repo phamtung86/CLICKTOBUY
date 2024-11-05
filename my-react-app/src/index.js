@@ -16,12 +16,11 @@ import reportWebVitals from './reportWebVitals';
 import { ProductTypeProvider } from './UI/Context/ProductTypeContext';
 import { AuthProvider } from './UI/Context/AuthContext';
 import ProtectedRoute from './UI/Customer/ProtectedRoute';
-import DashBoard from './UI/Admin/Dashboard';
+import DashBoard from './UI/Admin/Dashboard/Dashboard';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import ScrollToTop from './UI/Feature/Scroll'; // Đảm bảo đúng đường dẫn
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleUp, faHeadset } from '@fortawesome/free-solid-svg-icons';
+import { ProductProvider } from './UI/Context/ProductContext';
 
 const Main = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -44,6 +43,7 @@ const Main = () => {
   return (
     <BrowserRouter basename="/CLICKTOBUY">
       <AuthProvider>
+        <ProductProvider>
         <CartProvider>
           <SearchProvider>
             <ProductTypeProvider>
@@ -69,10 +69,12 @@ const Main = () => {
               {/* Các Route chỉ cho quản trị viên (ADMIN) */}
               <Routes>
                 <Route path="/Admin" element={<ProtectedRoute role={'ADMIN'}><DashBoard /></ProtectedRoute>} />
+
               </Routes>
             </ProductTypeProvider>
           </SearchProvider>
         </CartProvider>
+        </ProductProvider>
       </AuthProvider>
     </BrowserRouter>
   );

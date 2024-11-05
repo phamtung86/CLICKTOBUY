@@ -1,0 +1,51 @@
+.import__inventory{
+    position: absolute;
+    min-height: calc(100vh + 90px);
+    background-color: white;
+    width: 100%;
+    z-index: 2;
+}
+.import__inventory--title{
+    font-size: 35px;
+    font-weight: 700;
+    text-align: center;
+    padding: 10px;
+}
+.import__inventory--form{
+    margin: auto;
+    width: 70%;
+}
+.import__form--label--data{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px;
+}
+.import--form--input{
+    padding: 10px;
+}
+.import__form--button{
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    justify-content: space-around;
+}
+.import__form--button--close{
+    width: 100px;
+    padding: 5px;
+    border-radius: 10px;
+    border: none;
+    background-color: rgb(229, 243, 34);
+    font-size: 17px;
+    font-weight: 650;
+}
+.import__form--button--submit{
+    width: 100px;
+    padding: 5px;
+    border-radius: 10px;
+    border: none;
+    background-color: green;
+    font-size: 17px;
+    font-weight: 650;
+    color: white;
+}

@@ -1,9 +1,9 @@
 package Backend.PresentationLayer;
 
-import Backend.BusinessLayer.IOrderServices;
-import Backend.BusinessLayer.OrderServicesimpl;
+import Backend.BusinessLayer.*;
 import Entity.Order;
-import Entity.Products;
+import Entity.Users;
+import Entity.Vouchers;
 import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/api/Orders/*")
 public class OrderController extends HttpServlet {
@@ -54,7 +54,20 @@ public class OrderController extends HttpServlet {
                     double revenueDay = iOrderServices.getTotalRevenue(type);
                     resp.getWriter().write(gson.toJson(revenueDay));
                     break;
-
+                case "/ListOrderByStatus":
+                    IUserServices iUserServices = new UserServicesimpl();
+                    IVoucherServices iVoucherServices = new VoucherServicesimpl();
+                    String status = req.getParameter("status");
+                    String listOrderByStatusType = req.getParameter("type");
+                    Map<Integer, Users> mapUsers = iUserServices.getMapUsers();
+                    Map<Integer, Vouchers> mapVouchers = iVoucherServices.mapVoucherByVoucherID();
+                    if (status == null || status.isEmpty()) {
+                        resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing or empty 'status' parameter");
+                    } else {
+                        List<Order> listOrderByStatus = iOrderServices.listOrderByStatus(status, listOrderByStatusType);
+                        resp.getWriter().write(gson.toJson(listOrderByStatus));
+                    }
+                    break;
                 default:
                     resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Action not found");
                     break;
@@ -98,6 +111,38 @@ public class OrderController extends HttpServlet {
                     break;
             }
         } catch (IOException | JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String pathInfo = req.getPathInfo();
+        try {
+            if (pathInfo == null || pathInfo.equals("/")) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing action");
+            } else {
+                StringBuilder jsonString = new StringBuilder();
+                String line;
+                try (BufferedReader reader = req.getReader()) {
+                    while ((line = reader.readLine()) != null) {
+                        jsonString.append(line);
+                    }
+                }
+                switch (pathInfo) {
+                    case "/UpdateStatusOrder":
+                        String status = req.getParameter("status");
+                        int orderId = Integer.parseInt(req.getParameter("orderID"));
+                        boolean updateResult = iOrderServices.updateStatusOrder(status, orderId);
+                        if (updateResult) {
+                            resp.setStatus(HttpServletResponse.SC_OK);
+                        }
+                        break;
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (NumberFormatException e) {
             throw new RuntimeException(e);
         }
     }

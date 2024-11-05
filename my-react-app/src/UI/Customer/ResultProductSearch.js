@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import '../../Style/product.css';
+import '../../Style/Customer/product.css';
 import { Link } from 'react-router-dom';
 import SearchContext from '../Context/SearchContext'; // Đổi tên thành SearchContext
 import Head from './Head';

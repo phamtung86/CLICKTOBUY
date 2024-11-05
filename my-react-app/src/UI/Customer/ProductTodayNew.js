@@ -1,31 +1,37 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect, useMemo,useContext } from 'react';
 import CountdownTime from './CountdownTime'; // Import CountdownTimer
-import '../../Style/product.css';
+import '../../Style/Customer/product.css';
 import Product from './Product';
+import ProductContext from '../Context/ProductContext';
 
 const ProductTodayNew = ({ cart, setCart }) => {
-  const [dataProductToday, setDataProductToday] = useState([]);
+  const [startIndex, setStartIndex] = useState(0);
+  const {dataProducts}= useContext(ProductContext)
   const targetDate = new Date(2024, 11, 20, 12, 0, 0, 0);
   targetDate.setHours(targetDate.getHours() + 1);
 
+  // Lấy 10 sản phẩm tiếp theo từ danh sách
+  const paginatedProducts = useMemo(() => {
+    const productsToday = dataProducts.filter(
+      (item) =>  item.currentQuantity > 0
+    );;
+    const slicedProducts = productsToday.slice(startIndex, startIndex + 10);
+    return slicedProducts;
+  }, [dataProducts, startIndex]);
+
+  // Set interval 1 tiếng để di chuyển vị trí slice
   useEffect(() => {
-    const fetchDataProductToday = async () => {
-      try {
-        const response = await axios.get('http://localhost:8080/api/Products/getDataProducts');
-        setDataProductToday(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        alert("Không thể lấy dữ liệu sản phẩm. Vui lòng thử lại.");
-      }
-    };
-    fetchDataProductToday();
-  }, []);
-  // Sử dụng useMemo để random sản phẩm chỉ một lần
-  const randomProducts = useMemo(() => {
-    const shuffled = [...dataProductToday].sort(() => Math.random() - 0.5);
-    return shuffled.slice(0, 10); // Lấy 10 sản phẩm ngẫu nhiên
-  }, [dataProductToday]);
+    const intervalId = setInterval(() => {
+      setStartIndex((prevIndex) => {
+        if (prevIndex + 10 >= dataProducts.length) {
+          return 0; // Quay lại đầu mảng khi đã chạy hết
+        }
+        return prevIndex + 10; // Di chuyển tiếp 10 sản phẩm
+      });
+    }, 1800000); // 1 tiếng = 3600000 ms
+
+    return () => clearInterval(intervalId); // Xóa interval khi component unmount
+  }, [dataProducts.length]);
 
   return (
     <div className="product">
@@ -37,21 +43,23 @@ const ProductTodayNew = ({ cart, setCart }) => {
         </div>
       </div>
       <div className='product--sell'>
-        {randomProducts.map(product => (
-          <Product
-            key={product.productId}
-            id={product.productId}
-            Image={product.productImageLink}
-            name={product.productName}
-            price={product.productPrice}
-            note={product.productNote}
-            unit={product.productUnit}
-            sale={product.productDiscount}
-            priceSale={product.productPrice - (product.productPrice * product.productDiscount / 100)}
-            cart={cart}
-            setCart={setCart}
-          />
-        ))}
+        {paginatedProducts
+          .map(item => (
+            <Product
+              key={item.products.productId}
+              id={item.products.productId}
+              Image={item.products.productImageLink}
+              name={item.products.productName}
+              price={item.products.productPrice}
+              note={item.products.productNote}
+              unit={item.products.productUnit}
+              sale={item.products.productDiscount}
+              priceSale={item.products.productPrice - (item.products.productPrice * item.products.productDiscount / 100)}
+              quantity={item.currentQuantity}
+              cart={cart}
+              setCart={setCart}
+            />
+          ))}
       </div>
     </div>
   );

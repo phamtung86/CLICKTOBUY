@@ -1,16 +1,18 @@
 package Backend.DataLayer;
 
 import Backend.BusinessLayer.IUserServices;
+import Backend.BusinessLayer.IVoucherServices;
 import Backend.BusinessLayer.UserServicesimpl;
-import Entity.OrderDetail;
+import Backend.BusinessLayer.VoucherServicesimpl;
 import Entity.Users;
+import Entity.Vouchers;
 import Ultils.JdbcConnection;
 import Entity.Order;
+import org.eclipse.jetty.server.Authentication;
 
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Date;
-import java.util.Map;
 
 public class OrderReponsitoryimpl implements IOrderReponsitory {
 
@@ -59,6 +61,8 @@ public class OrderReponsitoryimpl implements IOrderReponsitory {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }finally {
+            JdbcConnection.closeConnection(connection,ps,rs);
         }
         return -1;
     }
@@ -78,6 +82,8 @@ public class OrderReponsitoryimpl implements IOrderReponsitory {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }finally {
+            JdbcConnection.closeConnection(connection,ps,rs);
         }
         return -1;
     }
@@ -114,7 +120,8 @@ public class OrderReponsitoryimpl implements IOrderReponsitory {
             while (rs.next()) {
                 int userID = rs.getInt(1);
                 double totalAmount = rs.getDouble(2);
-                Order order = new Order(0, new Date(), "", totalAmount, 0, mapUsers.get(userID), null);
+                Timestamp orderDate = new Timestamp(System.currentTimeMillis());
+                Order order = new Order(0, orderDate, "", totalAmount, 0, orderDate, mapUsers.get(userID), null);
                 listOrders.add(order);
             }
         } catch (SQLException e) {
@@ -127,28 +134,14 @@ public class OrderReponsitoryimpl implements IOrderReponsitory {
 
 
     @Override
-    public double getTotalRevenue(String type) {
-        String SELECT_REVALUE = "";
-        switch (type) {
-            case "DAY":
-                SELECT_REVALUE = "SELECT SUM(TotalAmount) FROM orders WHERE DAY(OrderDate) = DAY(CURRENT_DATE) ";
-                break;
-            case "MONTH":
-                SELECT_REVALUE = "SELECT SUM(TotalAmount) FROM orders WHERE MONTH(OrderDate) = MONTH(CURRENT_DATE) ";
-                break;
-            case "YEAR":
-                SELECT_REVALUE = "SELECT SUM(TotalAmount) FROM orders WHERE YEAR(OrderDate) = YEAR(CURRENT_DATE) ";
-                break;
-            default:
-                SELECT_REVALUE = "SELECT SUM(TotalAmount) FROM orders WHERE DAY(OrderDate) = DAY(CURRENT_DATE) ";
-                break;
-        }
+    public double getTotalRevenue(String type, String sql) {
+
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
             connection = JdbcConnection.getConnection();
-            ps = connection.prepareStatement(SELECT_REVALUE);
+            ps = connection.prepareStatement(sql);
             rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getDouble(1);
@@ -159,5 +152,85 @@ public class OrderReponsitoryimpl implements IOrderReponsitory {
             JdbcConnection.closeConnection(connection, ps, rs);
         }
         return -1;
+    }
+
+    @Override
+    public List<Order> listOrderByStatus(String sql,String status, String type,Map<Integer, Users> mapUsers, Map<Integer,Vouchers> mapVouchers) {
+        IVoucherServices iVoucherServices = new VoucherServicesimpl();
+        List<Order> listOrders = new ArrayList<>();
+
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            connection = JdbcConnection.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, status);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int orderID = rs.getInt("OrderID");
+                Timestamp orderDate = rs.getTimestamp("OrderDate");
+                String orderStatus = rs.getString("Status");
+                double totalAmount = rs.getDouble("TotalAmount");
+                double totalFee = rs.getDouble("totalFee");
+                Timestamp statusDate = rs.getTimestamp("StatusDate");
+                Users user = mapUsers.get(rs.getInt("UserID"));
+                Vouchers vouchers = mapVouchers.get(rs.getInt("VoucherID"));
+                Order order = new Order(orderID, orderDate, orderStatus, totalAmount, totalFee, statusDate, user, vouchers);
+                listOrders.add(order);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            JdbcConnection.closeConnection(connection,ps,rs);
+        }
+        return listOrders;
+    }
+
+    @Override
+    public boolean updateStatusOrder(String status, int OrderID) {
+        String UPDATE_STATUS_ORDER = "UPDATE orders SET Status = ?, StatusDate = current_timestamp() WHERE OrderID = ?";
+        Connection connection = null;
+        PreparedStatement ps = null;
+        try {
+            connection = JdbcConnection.getConnection();
+            ps = connection.prepareStatement(UPDATE_STATUS_ORDER);
+            ps.setString(1, status);
+            ps.setInt(2, OrderID);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            JdbcConnection.closeConnection(connection, ps, null);
+        }
+    }
+
+    @Override
+    public Map<Integer, Order> getMapOrders(Map<Integer,Users> mapUsers,Map<Integer, Vouchers> mapVouchers) {
+        Map<Integer, Order> mapOrders = new HashMap<>();
+        String GET_MAP_ORDERS = "SELECT * FROM orders";
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            connection = JdbcConnection.getConnection();
+            ps = connection.prepareStatement(GET_MAP_ORDERS);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int orderID = rs.getInt("OrderID");
+                Timestamp orderDate = rs.getTimestamp("OrderDate");
+                String orderStatus = rs.getString("Status");
+                double totalAmount = rs.getDouble("TotalAmount");
+                double totalFee = rs.getDouble("totalFee");
+                Timestamp statusDate = rs.getTimestamp("StatusDate");
+                Users user = mapUsers.get(rs.getInt("UserID"));
+                Vouchers voucher = mapVouchers.get(rs.getInt("VoucherID"));
+                Order order = new Order(orderID, orderDate, orderStatus, totalAmount, totalFee, statusDate, user, voucher);
+                mapOrders.put(orderID, order);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return mapOrders;
     }
 }

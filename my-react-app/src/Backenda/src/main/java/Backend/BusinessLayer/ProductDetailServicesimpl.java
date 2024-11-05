@@ -7,6 +7,7 @@ import Backend.DataLayer.ProductDetailReponsitoryimpl;
 
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class ProductDetailServicesimpl implements  IProductDetailServices {
     public IProductDetailReponsitory iProductDetailReponsitory;
@@ -14,8 +15,8 @@ public class ProductDetailServicesimpl implements  IProductDetailServices {
         iProductDetailReponsitory = new ProductDetailReponsitoryimpl();
     }
     @Override
-    public ArrayList<ProductDetail> getListAllProductDetail(ArrayList<Products> listProducts) {
-        return iProductDetailReponsitory.getListAllProductDetail(listProducts);
+    public ArrayList<ProductDetail> getListAllProductDetail( Map<Integer,Products> mapProducts) {
+        return iProductDetailReponsitory.getListAllProductDetail(mapProducts);
     }
 
     @Override

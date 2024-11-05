@@ -174,6 +174,8 @@ public class UserReponsitoryimpl implements IUserReponsitory {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            JdbcConnection.closeConnection(connection,psta,null);
         }
         return false;
     }

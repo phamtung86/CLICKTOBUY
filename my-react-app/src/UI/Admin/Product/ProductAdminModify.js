@@ -1,10 +1,10 @@
-import '../../Style/Admin/ProductAdminModify.css';
+import '../../../Style/Admin/Product/ProductAdminModify.css';
 import { useState } from 'react';
 import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 
-const ProductAdminmodify = ({ dataProduct, setStatusModify, valueSearch,updateProductInState , updateProductInSearch}) => {
+
+const ProductAdminmodify = ({ dataProduct, statusProductCRUD, valueSearch,updateProductInState , updateProductInSearch}) => {
+    const DISPLAY_NONE = 0;
     const [categoryID, setCategoryID] = useState(dataProduct.categoryID);
     const [productImage, setProductImage] = useState(dataProduct.productImageLink);
     const [productId, setProductId] = useState(dataProduct.productId);
@@ -16,7 +16,6 @@ const ProductAdminmodify = ({ dataProduct, setStatusModify, valueSearch,updatePr
     const [statusSuggess, setStatusSuggess] = useState(false);
 
     const handleSave = async () => {
-        console.log(updateProductInState);
         const updatedProduct = {
             categoryID,
             productId,
@@ -27,7 +26,6 @@ const ProductAdminmodify = ({ dataProduct, setStatusModify, valueSearch,updatePr
             productDiscount,
             productUnit
         };
-        console.log(updatedProduct);
         const url = `http://localhost:8080/api/Products/updateProduct`;
         try {
             const response = await axios.put(url, updatedProduct);
@@ -35,15 +33,19 @@ const ProductAdminmodify = ({ dataProduct, setStatusModify, valueSearch,updatePr
                 setStatusSuggess(true);
                 setTimeout(() => {
                     setStatusSuggess(false);
-                    setStatusModify(0); // Quay lại trạng thái ban đầu
-                    // updateProductInState(); // Cập nhật lại danh sách sản phẩm
+                    changeStatusDisplayCRUD();
                     {valueSearch ? updateProductInSearch(valueSearch) : updateProductInState()}
-                }, 2000);
+                }, 500);
             }
         } catch (error) {
             console.error("Lỗi khi cập nhật sản phẩm:", error);
         }
     };
+    const changeStatusDisplayCRUD = () => {
+        if (statusProductCRUD) {
+            statusProductCRUD(DISPLAY_NONE)
+        }
+    }
 
     return (
         <div className="productadminmodifyhome">
@@ -106,7 +108,7 @@ const ProductAdminmodify = ({ dataProduct, setStatusModify, valueSearch,updatePr
                     </div>
                 </div>
                 <div className='productadminmodify__button'>
-                    <button className='productadminmodify__button--cancel' onClick={() => setStatusModify(0)}>Hủy</button>
+                    <button className='productadminmodify__button--cancel' onClick={() => changeStatusDisplayCRUD()}>Hủy</button>
                     <button className='productadminmodify__button--save' onClick={handleSave}>Lưu thay đổi</button>
                 </div>
             </div>

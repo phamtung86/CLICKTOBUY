@@ -11,7 +11,6 @@ export const SearchProvider = ({ children }) => {
     const getValueSearchFromSession = () => {
         try {
             const storedValueSearch = sessionStorage.getItem('valueSearch');
-            console.log(storedValueSearch);
             return storedValueSearch || ''; // Trả về chuỗi rỗng nếu không có giá trị trong sessionStorage
         } catch (error) {
             console.error("Lỗi khi lấy giá trị từ sessionStorage:", error);
@@ -28,7 +27,6 @@ export const SearchProvider = ({ children }) => {
     // Tìm kiếm sản phẩm khi giá trị tìm kiếm thay đổi
     useEffect(() => {
         if (valueSearch) {
-            console.log(valueSearch);
             const getDataSearch = async () => {
                 try {
                     const url = `http://localhost:8080/api/Products/getDataProductsSearch?productName=${valueSearch}`;
@@ -53,7 +51,7 @@ export const SearchProvider = ({ children }) => {
     };
 
     return (
-        <SearchContext.Provider value={{ valueSearch, dataResultProductsSearch, handleInputChange }}>
+        <SearchContext.Provider value={{ valueSearch,setValueSearch, dataResultProductsSearch, handleInputChange }}>
             {children}
         </SearchContext.Provider>
     );

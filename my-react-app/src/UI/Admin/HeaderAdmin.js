@@ -1,9 +1,6 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
-import '../../Style/header.css';
-import axios from "axios";
+import React, { useEffect, useState } from "react";
+import '../../Style/Customer/header.css';
 import { Link, useNavigate } from "react-router-dom";
-import CartContext from "../Context/CartContext";
-import SearchContext from "../Context/SearchContext";
 
 const HeaderAdmin = () => {
   const [dataProduct, setDataProduct] = useState([]);

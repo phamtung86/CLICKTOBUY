@@ -1,30 +1,37 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import '../../Style/product.css';
-import axios from 'axios';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../../Style/Customer/product.css';
+import ProductContext from '../Context/ProductContext';
 import Product from './Product';
 
 // Component ProductSaleTetNew
 const ProductMilk = ({ cart, setCart }) => {
-  const [dataProductsMilk, setDataProductMilk] = useState([]);
+  const MILK = 1;
+  const [startIndex, setStartIndex] = useState(0);
   const navigate = useNavigate();
-  useEffect(() => {
-    const fetchDataProductMilk = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8080/api/Products/getDataProductsType?CategoryID=${1}`);
-        setDataProductMilk(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchDataProductMilk();
-  }, []);
+  const {dataProducts} = useContext(ProductContext)
+  // Lấy 10 sản phẩm tiếp theo từ danh sách
+  const paginatedProducts = useMemo(() => {
+    const milkProducts = dataProducts.filter(
+      (item) => item.products.categories.categoryId === MILK && item.currentQuantity > 0
+    );
+    const slicedProducts = milkProducts.slice(startIndex, startIndex + 10);
+    return slicedProducts;
+  }, [dataProducts, startIndex]);
 
-  // Sử dụng useMemo để random sản phẩm chỉ một lần
-  const randomProducts = useMemo(() => {
-    const shuffled = [...dataProductsMilk].sort(() => Math.random() - 0.5);
-    return shuffled.slice(0, 10); // Lấy 10 sản phẩm ngẫu nhiên
-  }, [dataProductsMilk]);
+  // Set interval 1 tiếng để di chuyển vị trí slice
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setStartIndex((prevIndex) => {
+        if (prevIndex + 10 >= dataProducts.length) {
+          return 0; // Quay lại đầu mảng khi đã chạy hết
+        }
+        return prevIndex + 10; // Di chuyển tiếp 10 sản phẩm
+      });
+    }, 1800000); // 1 tiếng = 3600000 ms
+
+    return () => clearInterval(intervalId); // Xóa interval khi component unmount
+  }, [dataProducts.length]);
 
   return (
     <div className="product">
@@ -36,21 +43,23 @@ const ProductMilk = ({ cart, setCart }) => {
         }}>Xem thêm</button>
       </div>
       <div className='product--sell'>
-        {randomProducts.map(product => (
-          <Product
-            key={product.productId}
-            id={product.productId}
-            Image={product.productImageLink}
-            name={product.productName}
-            price={product.productPrice}
-            note={product.productNote}
-            unit={product.productUnit}
-            sale={product.productDiscount}
-            priceSale={product.productPrice - (product.productPrice * product.productDiscount / 100)}
-            cart={cart}
-            setCart={setCart}
-          />
-        ))}
+        {paginatedProducts
+          .map(item => (
+            <Product
+              key={item.products.productId}
+              id={item.products.productId}
+              Image={item.products.productImageLink}
+              name={item.products.productName}
+              price={item.products.productPrice}
+              note={item.products.productNote}
+              unit={item.products.productUnit}
+              sale={item.products.productDiscount}
+              priceSale={item.products.productPrice - (item.products.productPrice * item.products.productDiscount / 100)}
+              quantity={item.currentQuantity}
+              cart={cart}
+              setCart={setCart}
+            />
+          ))}
       </div>
     </div>
   );

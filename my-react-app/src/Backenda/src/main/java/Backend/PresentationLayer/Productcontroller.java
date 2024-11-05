@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 @WebServlet("/api/Products/*")
 public class Productcontroller extends HttpServlet {
     private final IProductServices iProductServices;
@@ -37,7 +38,7 @@ public class Productcontroller extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String pathInfo = req.getPathInfo();
         resp.setContentType("application/json");
-
+        Map<Integer, Categories> categoriesMap = iCategoriesServices.getMapCategories();
         try {
             if (pathInfo == null || pathInfo.equals("/")) {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing action");
@@ -46,20 +47,30 @@ public class Productcontroller extends HttpServlet {
 
             switch (pathInfo) {
                 case "/getDataProducts":
-                    List<Products> listProducts = iProductServices.getAllListProduct();
+                    List<Products> listProducts = iProductServices.getAllListProduct(categoriesMap);
                     resp.getWriter().write(gson.toJson(listProducts));
                     break;
 
                 case "/getDataProductsSale":
-                    List<Products> listProductsSale = iProductServices.getListProductSale();
+
+                    List<Products> listProductsSale = iProductServices.getListProductSale(categoriesMap);
                     resp.getWriter().write(gson.toJson(listProductsSale));
                     break;
                 case "/getDataProductsType":
                     int id = Integer.parseInt(req.getParameter("CategoryID"));
-                    List<Products> listProductsType = iProductServices.getListProductType(id);
+                    List<Products> listProductsType = iProductServices.getListProductType(id, categoriesMap);
                     resp.getWriter().write(gson.toJson(listProductsType));
                     break;
-
+                case "/ProductsByCategoryId":
+                    int categoryID = Integer.parseInt(req.getParameter("CategoryID"));
+                    List<Products> listProductByCategoryId = iProductServices.findProductByCategoryID(categoryID);
+                    resp.getWriter().write(gson.toJson(listProductByCategoryId));
+                    break;
+                case "/getDataProductsSearch":
+                    String productName = req.getParameter("productName");
+                    List<Products> listResultProductsSearchByName = iProductServices.listProductSearchByName(productName, categoriesMap);
+                    resp.getWriter().write(gson.toJson(listResultProductsSearchByName));
+                    break;
                 default:
                     resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Action not found");
                     break;
@@ -98,12 +109,6 @@ public class Productcontroller extends HttpServlet {
                         Products p = new Products(productId, Name, Price, timestamp, Note, Unit, Discount, ImageLink, null);
                         boolean isInsert = iProductServices.insertProduct(p, categoryID);
                         break;
-                    case "/getDataProductsSearch":
-                        String productName = req.getParameter("productName");
-                        List<Products> listResultProductsSearchByName = iProductServices.listProductSearchByName(productName);
-                        resp.getWriter().write(gson.toJson(listResultProductsSearchByName));
-                        break;
-
                 }
             }
 

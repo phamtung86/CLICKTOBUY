@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import '../../Style/ProductDetail.css'
+import '../../Style/Customer/ProductDetail.css'
 import Head from './Head'
 import Services from './Services'
 import Footer from './Footer'
@@ -7,8 +7,10 @@ import { useEffect, useState } from 'react'
 import { format } from 'date-fns'
 import { vi } from 'date-fns/locale'
 import { getInformationProduct } from './CartNew';
+import axios from 'axios'
 
 const ProductDetail = () => {
+    const [dataProductsFromInventory, setDataProductsFromInventory] = useState([]);
     const [cart, setCart] = useState(() => {
         const savedCart = localStorage.getItem("cart");
         try {
@@ -19,12 +21,30 @@ const ProductDetail = () => {
         }
     });
 
-
     // lấy data thông tin sản phẩm từ session
     const [dataProductDetail, setDataProductDetail] = useState(() => {
         const savedData = sessionStorage.getItem("dataProductDetail");
         return savedData ? JSON.parse(savedData) : {};
     });
+    const fetchDataProductFromInventory = async (productID) => {
+        try {
+            const result = await axios.get(`http://localhost:8080/api/Inventorys/InventorysByProductID?productID=${productID}`);
+            setDataProductsFromInventory(result.data);
+        } catch (error) {
+            console.log("Lỗi trong quá trình lấy sản phẩm");
+        }
+    };
+    useEffect(() => {
+        fetchDataProductFromInventory(dataProductDetail.products.productId)    
+    }, [dataProductDetail.products.productId])
+
+    const checkStatusProduct = (currentQuantity) => {
+        if (currentQuantity > 0) {
+            return "Còn hàng"
+        } else {
+            return "Hết hàng"
+        }
+    }
 
     // check sự thay đổi của session sau mỗi 0.2s
     useEffect(() => {
@@ -39,13 +59,13 @@ const ProductDetail = () => {
                 console.error("Failed to parse data from sessionStorage:", error);
             }
         };
-    
+
         checkSessionStorage();
         const intervalId = setInterval(checkSessionStorage, 200);
-    
+
         return () => clearInterval(intervalId);
     }, []);
-    
+
     // State quản lý số lượng sản phẩm
     const [quantity, setQuantity] = useState(1);
 
@@ -104,7 +124,7 @@ const ProductDetail = () => {
                     </div>
                     <div className='product__info--status'>
                         <div className='product__info--status--title'>Tình trạng</div>
-                        <div className='product__info--status--value'>Còn hàng</div>
+                        <div className='product__info--status--value'>{checkStatusProduct(dataProductsFromInventory.currentQuantity)}</div>
                     </div>
                     <div className='product__info--ship'>
                         <div className='product__info--ship--title'>Vận chuyển </div>
@@ -124,9 +144,16 @@ const ProductDetail = () => {
                     </div>
                     <div className='product__info--button'>
                         <div className='product__info--button--title'>Số lượng</div>
-                        <button className='button--plus' onClick={() => setQuantity(quantity + 1)}> + </button>
-                        <span className='quantity'>{quantity}</span>
                         <button className='button--minus' onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)}> - </button>
+                        <span className='quantity'>{quantity}</span>
+                        <button className='button--plus' onClick={() => {
+                            setQuantity(quantity + 1);
+                            if (quantity > dataProductsFromInventory.currentQuantity) {
+                                alert("Sản phẩm không đủ số lượng bạn yêu cầu")
+                                setQuantity(dataProductsFromInventory.currentQuantity)
+                            }
+
+                        }}> + </button>
                     </div>
                     <button className='button--add--cart' onClick={handleAddToCart}>
                         <i className="fa-solid fa-cart-plus"></i> Thêm vào giỏ hàng

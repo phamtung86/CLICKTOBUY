@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../../Style/Admin/ProductAdmin.css';
+import '../../../Style/Admin/Product/ProductAdmin.css';
 import axios from 'axios';
 import ProductAdminModify from './ProductAdminModify.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -9,13 +9,16 @@ import { faSpinner, faSquarePlus, faTrashCan, faPenToSquare } from '@fortawesome
 import _ from 'lodash'; // Sử dụng lodash để debounce
 
 const ProductAdmin = () => {
+    const DISPLAY_NONE_CRUD = 0;
+    const DISPLAY_MODIFY = 1;
+    const DISPLAY_ADD = 2;
     const [dataProduct, setDataProduct] = useState([]);
-    const [statusProductModify, setStatusModify] = useState(0); // Khởi tạo 0 là ẩn
+    const [statusProductCRUD, setStatusCRUD] = useState(DISPLAY_NONE_CRUD); 
     const [productInforSend, setProductInforSend] = useState();
     const [getLastIDInArray, setGetLastIdInArray] = useState(0);
     const [valueSearch, setValueSearch] = useState(''); // Giá trị tìm kiếm
     const [resultProductSearchByName, setResultProductSearchByName] = useState([]);
-    const [isLoading, setIsLoading] = useState(true); // Thêm state loading
+    const [isLoading, setIsLoading] = useState(true); 
 
     useEffect(() => {
         fetchDataProduct();
@@ -44,7 +47,7 @@ const ProductAdmin = () => {
     const handleDelete = async (productID) => {
         try {
             const responseDelete = await axios.delete(`http://localhost:8080/api/Products/DeleteProduct?ID=${productID}`);
-            setStatusModify(0);
+            setStatusCRUD(DISPLAY_NONE_CRUD);
             if(responseDelete.status === 200) {
                 setValueSearch('')
                 {valueSearch ? debouncedSearch() : fetchDataProduct()}
@@ -59,7 +62,7 @@ const ProductAdmin = () => {
     const debouncedSearch = _.debounce(async (searchValue) => {
         if (searchValue) {
             try {
-                const response = await axios.post(`http://localhost:8080/api/Products/getDataProductsSearch?productName=${searchValue}`);
+                const response = await axios.get(`http://localhost:8080/api/Products/getDataProductsSearch?productName=${searchValue}`);
                 setResultProductSearchByName(response.data);
             } catch (error) {
                 console.log("Lỗi khi tìm kiếm sản phẩm: " + error);
@@ -79,20 +82,24 @@ const ProductAdmin = () => {
     // Xác định sản phẩm nào sẽ hiển thị (kết quả tìm kiếm hoặc toàn bộ sản phẩm)
     const productsToDisplay = resultProductSearchByName.length > 0 ? resultProductSearchByName : dataProduct;
 
+    const changeStatusCRUD = (value) => {
+        setStatusCRUD(value)
+    }
+
     return (
         <div className="productadmin">
-            {statusProductModify === 1 && (
+            {statusProductCRUD === DISPLAY_MODIFY && (
                 <ProductAdminModify
                     dataProduct={productInforSend}
-                    setStatusModify={setStatusModify}
+                    statusProductCRUD={changeStatusCRUD}
                     valueSearch={valueSearch}
                     updateProductInState={fetchDataProduct}
                     updateProductInSearch={debouncedSearch}
                 />
             )}
-            {statusProductModify === 2 && (
+            {statusProductCRUD === DISPLAY_ADD && (
                 <ProductAdminAdd
-                    setStatusModify={setStatusModify}
+                statusProductCRUD={changeStatusCRUD}
                     updateProductInState={fetchDataProduct}
                     lastID={getLastIDInArray}
                 />
@@ -109,7 +116,7 @@ const ProductAdmin = () => {
                     />
                 </div>
                 <div className='fieldset__button'>
-                    <button className='action--add--button' onClick={() => setStatusModify(2)}>
+                    <button className='action--add--button' onClick={() => setStatusCRUD(DISPLAY_ADD)}>
                         <FontAwesomeIcon icon={faSquarePlus} /> Thêm sản phẩm mới
                     </button>
                 </div>
@@ -148,7 +155,7 @@ const ProductAdmin = () => {
                                         <FontAwesomeIcon icon={faTrashCan} /> Xóa
                                     </button>
                                     <button className='action--modify--button' onClick={() => {
-                                        setStatusModify(1);
+                                        setStatusCRUD(DISPLAY_MODIFY);
                                         const product = {
                                             productId: item.productId,
                                             productImageLink: item.productImageLink,

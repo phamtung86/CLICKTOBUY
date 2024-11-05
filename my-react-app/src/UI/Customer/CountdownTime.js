@@ -1,6 +1,6 @@
 // CountdownTimer.js
 import React, { useState, useEffect } from 'react';
-import "../../Style/product.css"
+import "../../Style/Customer/product.css"
 const CountdownTimer = ({ targetDate }) => {
     const [timeLeft, setTimeLeft] = useState(getTimeRemaining(targetDate));
 

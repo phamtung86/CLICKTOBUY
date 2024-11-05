@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import '../../Style/carthover.css'
+import '../../Style/Customer/carthover.css'
 import { Link } from 'react-router-dom';
 import CartContext from '../Context/CartContext';
 
