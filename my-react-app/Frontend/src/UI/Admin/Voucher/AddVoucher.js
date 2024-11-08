@@ -1,6 +1,6 @@
 import axios from 'axios';
+import { useState } from 'react';
 import '../../../Style/Admin/Voucher/ModifyVoucher.css';
-import { useEffect, useState } from 'react';
 
 const AddVoucher = ({ statusDisplay, reloadData }) => {
     const [dataNewVoucher, setDataNewVoucher] = useState({

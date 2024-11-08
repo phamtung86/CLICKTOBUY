@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useMemo,useContext } from 'react';
-import CountdownTime from './CountdownTime'; // Import CountdownTimer
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import '../../Style/Customer/product.css';
-import Product from './Product';
 import ProductContext from '../Context/ProductContext';
+import CountdownTime from './CountdownTime'; // Import CountdownTimer
+import Product from './Product';
 
 const ProductTodayNew = ({ cart, setCart }) => {
   const [startIndex, setStartIndex] = useState(0);

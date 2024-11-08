@@ -1,9 +1,7 @@
-import { format, min } from 'date-fns';
-import { vi } from 'date-fns/locale';
-import '../../Style/Customer/Voucher.css';
-import { useEffect, useState } from "react";
 import axios from 'axios';
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import '../../Style/Customer/Voucher.css';
 
 const Voucher = ({ statusVoucher, onStatusChange, onVoucherSelect, valueBill, statusOrder }) => {
     const VOUCHER_ACTIVE = 1;

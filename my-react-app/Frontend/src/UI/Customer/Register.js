@@ -1,7 +1,7 @@
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../../Style/Customer/Register.css';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -136,6 +136,12 @@ const Register = () => {
         return userName.trim().length;
     }
 
+    const checkLengthPassword = (password) => {
+        const hasLetter = /[a-zA-Z]/.test(password);
+        const hasNumber = /\d/.test(password);
+        const hasSpecialChar = /[^a-zA-Z0-9]/.test(password);
+        return hasLetter && hasNumber && hasSpecialChar;
+    }
     const isValidPhoneNumber = (phoneNumber) => {
         const phoneRegex = /^\d{10,11}$/;
         return phoneRegex.test(phoneNumber);
@@ -146,12 +152,6 @@ const Register = () => {
         return gmailRegex.test(email);
     }
 
-    const checkLengthPassword = (password) => {
-        const hasLetter = /[a-zA-Z]/.test(password);
-        const hasNumber = /\d/.test(password);
-        const hasSpecialChar = /[^a-zA-Z0-9]/.test(password);
-        return hasLetter && hasNumber && hasSpecialChar;
-    }
 
     const checkPhoneNumberExists = async (phoneNumber) => {
         // try {

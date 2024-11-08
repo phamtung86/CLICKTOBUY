@@ -1,10 +1,10 @@
+import { faLock, faPenToSquare, faPlus, faRotate } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import '../../../Style/Admin/Voucher/Voucher.css';
-import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLock, faPenToSquare, faPlus, faRotate } from '@fortawesome/free-solid-svg-icons';
-import ModifyVoucher from './ModifyVoucher';
 import AddVoucher from './AddVoucher';
+import ModifyVoucher from './ModifyVoucher';
 
 const Voucher = () => {
     const VOUCHER_ACTIVE = 1;
@@ -78,8 +78,16 @@ const Voucher = () => {
     };
 
     const checkDateExpiryVoucher = (expiryDate) => {
-        return new Date(expiryDate) > new Date() ?"voucher__admin--table--rows":"voucher__admin--table--rows--disable"   
-    }
+        // Lấy ngày hiện tại với thời gian được đặt về 0 giờ 0 phút 0 giây
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+    
+        // Lấy ngày hết hạn và so sánh
+        return new Date(expiryDate) >= today
+            ? "voucher__admin--table--rows"
+            : "voucher__admin--table--rows--disable";
+    };
+    
     return (
         <div className='voucher__admin'>
             {statusDisplayCRUDVoucher === 1 &&

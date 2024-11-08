@@ -1,7 +1,7 @@
-import '../../../Style/Admin/Product/ProductAdminModify.css';
-import '../../../Style/Admin/Product/ProductAdminAdd.css';
-import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
+import '../../../Style/Admin/Product/ProductAdminAdd.css';
+import '../../../Style/Admin/Product/ProductAdminModify.css';
 
 const ProductAdminAdd = ({statusProductCRUD, updateProductInState, lastID }) => {
     const DISPLAY_NONE = 0;

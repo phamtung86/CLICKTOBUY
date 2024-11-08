@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useMemo, useContext } from 'react';
-import '../../Style/Customer/product.css';
-import axios from 'axios';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Product from './Product';
+import '../../Style/Customer/product.css';
 import ProductContext from '../Context/ProductContext';
+import Product from './Product';
 
 const ProductCleanChemical = ({ cart, setCart }) => {
   const CLEAN_CHEMICAL = 3

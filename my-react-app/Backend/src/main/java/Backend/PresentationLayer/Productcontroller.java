@@ -42,7 +42,7 @@ public class Productcontroller extends HttpServlet {
         try {
             if (pathInfo == null || pathInfo.equals("/")) {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing action");
-                return;
+                return ;
             }
 
             switch (pathInfo) {

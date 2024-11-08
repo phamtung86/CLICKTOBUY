@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import '../../../Style/Admin/Inventory/Inventory.css';
-import axios from 'axios';
 import { faBoxesPacking, faEye, faPeopleCarryBox, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import '../../../Style/Admin/Inventory/Inventory.css';
+import ExportInventoryHistory from './ExportInventoryHistory';
 import ImportInventory from './ImportInventory';
 import ImportInventoryHistory from './ImportInventoryHistory';
-import ExportInventoryHistory from './ExportInventoryHistory';
 
 const Inventory = () => {
     const DISPLAY_NONE = 0;

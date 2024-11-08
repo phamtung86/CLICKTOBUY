@@ -1,13 +1,13 @@
-import { Link } from 'react-router-dom'
-import '../../Style/Customer/ProductDetail.css'
-import Head from './Head'
-import Services from './Services'
-import Footer from './Footer'
-import { useEffect, useState } from 'react'
+import axios from 'axios'
 import { format } from 'date-fns'
 import { vi } from 'date-fns/locale'
-import { getInformationProduct } from './CartNew';
-import axios from 'axios'
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import '../../Style/Customer/ProductDetail.css'
+import { getInformationProduct } from './CartNew'
+import Footer from './Footer'
+import Head from './Head'
+import Services from './Services'
 
 const ProductDetail = () => {
     const [dataProductsFromInventory, setDataProductsFromInventory] = useState([]);

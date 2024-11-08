@@ -1,0 +1,73 @@
+.otp{
+    position: absolute;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: rgba(14, 14, 14, 0.842);
+    z-index: 2;
+}
+.otp__form{
+    width: 35rem;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    gap: 20px;
+    padding: 10px;
+    background-color: rgb(197, 230, 250);
+    border-radius: 10px;
+}
+.otp__header{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.otp__notice,.otp__title{
+    text-align: center;
+}
+.otp-field{
+    width: 100%;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.otp__input{
+    width: 70%;
+    padding: 5px;
+    border-radius: 5px;
+}
+.otp-field .otp__input:focus{
+    border: 1px solid aqua;
+}
+.otp__button{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin: 10px;
+}
+.otp__button--submit{
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 650;
+    color: white;
+    background-color: rgb(78, 175, 255);
+    width: 30%;
+}
+.otp__button--close{
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 650;
+    color: white;
+    background-color: rgb(255, 0, 0);
+    width: 30%;
+}

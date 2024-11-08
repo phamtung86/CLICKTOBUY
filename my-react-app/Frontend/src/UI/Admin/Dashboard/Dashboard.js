@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import { faBox, faCircleUp, faTicket, faUser, faWarehouse } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../../../Style/Admin/DashBoard/DashBoard.css';
-import ProductAdmin from '../Product/ProductAdmin';
-import HeaderAdmin from '../HeaderAdmin';
-import { faBox, faCircleUp, faTicket, faUser, faWarehouse} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import DashBoardAdmin from './DashBoardAdmin';
 import Account from '../Account/Account';
-import Order from '../Order/Order';
-import Voucher from '../Voucher/Voucher';
+import HeaderAdmin from '../HeaderAdmin';
 import Inventory from '../Inventory/Inventory';
+import Order from '../Order/Order';
+import ProductAdmin from '../Product/ProductAdmin';
+import Voucher from '../Voucher/Voucher';
+import DashBoardAdmin from './DashBoardAdmin';
 
 const DashBoard = () => {
     const DISPLAY_DASHBOARD = 1;
