@@ -1,5 +1,5 @@
 import React from "react";
-import '../../Style/Customer/banner.css'
+import '../../Style/Customer/banner.css';
 
 const Banner = () => {
     const dataImage = [

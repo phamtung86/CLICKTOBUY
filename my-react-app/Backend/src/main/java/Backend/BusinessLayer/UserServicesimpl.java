@@ -5,6 +5,7 @@ import Backend.DataLayer.UserReponsitoryimpl;
 import Entity.Users;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class UserServicesimpl implements IUserServices {
@@ -50,5 +51,15 @@ public class UserServicesimpl implements IUserServices {
     @Override
     public boolean updateStatusUser(int id, int status) {
         return iUserReponsitory.updateStatusUser(id, status);
+    }
+
+    @Override
+    public List<Users> getListUsersWithPaging(int page, int size) {
+        return iUserReponsitory.getListUsersWithPaging(page, size);
+    }
+
+    @Override
+    public boolean updateForgotPassword(String newPassword, String username) {
+        return iUserReponsitory.updateForgotPassword(newPassword, username);
     }
 }

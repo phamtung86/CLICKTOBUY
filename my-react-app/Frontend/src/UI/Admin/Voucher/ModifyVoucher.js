@@ -1,6 +1,6 @@
 import axios from 'axios';
-import '../../../Style/Admin/Voucher/ModifyVoucher.css';
 import { useEffect, useState } from 'react';
+import '../../../Style/Admin/Voucher/ModifyVoucher.css';
 
 const ModifyVoucher = ({ statusDisplay, voucherCode, reloadData }) => {
     const [dataVoucherByVoucherCode, setDataVoucherByVoucherCode] = useState({});

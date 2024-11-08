@@ -25,7 +25,7 @@ import java.util.Map;
 @WebServlet("/api/ImportInventorys/*")
 public class ImportInventoryController extends HttpServlet {
     public Gson gson = new Gson();
-    private IImportInventoryServices iImportInventoryServices;
+    private final IImportInventoryServices iImportInventoryServices;
 
     public ImportInventoryController() {
         iImportInventoryServices = new ImportInventoryServicesimpl();

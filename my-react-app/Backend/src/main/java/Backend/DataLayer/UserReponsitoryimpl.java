@@ -6,6 +6,7 @@ import Entity.Users;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserReponsitoryimpl implements IUserReponsitory {
@@ -179,4 +180,64 @@ public class UserReponsitoryimpl implements IUserReponsitory {
         }
         return false;
     }
+
+    @Override
+    public List<Users> getListUsersWithPaging(int page, int size) {
+        String GET_ALL_USER_PAGING = "SELECT * FROM Users WHERE role = 'CUSTOMER' LIMIT ? OFFSET ?";
+        List<Users> users = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement psta = null;
+        ResultSet rs = null;
+        try {
+            connection = JdbcConnection.getConnection();
+            psta = connection.prepareStatement(GET_ALL_USER_PAGING);
+            psta.setInt(1, size);
+            psta.setInt(2, (page - 1) * size);
+            rs = psta.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("UserID");
+                String userName = rs.getString("UserName");
+                String passWord = rs.getString("Password");
+                String fullName = rs.getString("FullName");
+                String email = rs.getString("Email");
+                String phoneNumber = rs.getString("PhoneNumber");
+                String address = rs.getString("Address");
+                String role = rs.getString("Role");
+                Date d = rs.getDate("CreatedAt");
+                int status = rs.getInt("Status");
+
+                Users user = new Users(id, userName, passWord, fullName, email, phoneNumber, address, role, d, status);
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            // Đảm bảo đóng ResultSet, PreparedStatement và Connection sau khi sử dụng xong
+            try {
+                if (rs != null) rs.close();
+                if (psta != null) psta.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return users;
+    }
+
+    @Override
+    public boolean updateForgotPassword(String newPassword, String username) {
+        String UPDATE_PASSWORD = "UPDATE users SET Password = ? WHERE username = ?";
+        Connection connection = null;
+        PreparedStatement psta = null;
+        try {
+            connection = JdbcConnection.getConnection();
+            psta = connection.prepareStatement(UPDATE_PASSWORD);
+            psta.setString(1, newPassword);
+            psta.setString(2, username);
+            return psta.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

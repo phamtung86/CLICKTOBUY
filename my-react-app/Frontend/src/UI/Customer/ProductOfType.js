@@ -1,12 +1,12 @@
+import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import CartContext from '../Context/CartContext';
+import ProductTypeContext from '../Context/ProductTypeContext';
 import Footer from './Footer';
 import Head from './Head';
-import Services from './Services';
 import Product from './Product';
-import ProductTypeContext from '../Context/ProductTypeContext';
+import Services from './Services';
 
 const ProductOfType = () => {
     const { cart, setCart } = useContext(CartContext);

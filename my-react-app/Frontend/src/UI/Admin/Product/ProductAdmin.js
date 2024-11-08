@@ -1,12 +1,12 @@
+import { faPenToSquare, faSpinner, faSquarePlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import _ from 'lodash'; // Sử dụng lodash để debounce
 import React, { useEffect, useState } from 'react';
 import '../../../Style/Admin/Product/ProductAdmin.css';
-import axios from 'axios';
-import ProductAdminModify from './ProductAdminModify.js';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import ProductAdminAdd from './ProductAdminAdd.js';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner, faSquarePlus, faTrashCan, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
-import _ from 'lodash'; // Sử dụng lodash để debounce
+import ProductAdminModify from './ProductAdminModify.js';
 
 const ProductAdmin = () => {
     const DISPLAY_NONE_CRUD = 0;

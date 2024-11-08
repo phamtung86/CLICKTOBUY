@@ -1,7 +1,7 @@
-import React, { useContext, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import '../../Style/Customer/carthover.css'
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import '../../Style/Customer/carthover.css';
 import CartContext from '../Context/CartContext';
 
 const CartHover = () => {

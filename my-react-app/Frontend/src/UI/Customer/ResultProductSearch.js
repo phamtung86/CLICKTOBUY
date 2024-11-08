@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
-import '../../Style/Customer/product.css';
 import { Link } from 'react-router-dom';
-import SearchContext from '../Context/SearchContext'; // Đổi tên thành SearchContext
-import Head from './Head';
-import Services from './Services';
-import Footer from './Footer';
+import '../../Style/Customer/product.css';
 import CartContext from '../Context/CartContext';
+import SearchContext from '../Context/SearchContext'; // Đổi tên thành SearchContext
+import Footer from './Footer';
+import Head from './Head';
 import Product from './Product';
+import Services from './Services';
 // Component hiển thị kết quả tìm kiếm
 const ResultProductSearch = () => {
   const { cart, setCart } = useContext(CartContext);

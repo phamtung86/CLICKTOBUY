@@ -3,6 +3,7 @@ package Backend.BusinessLayer;
 import Entity.Users;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public interface IUserServices {
@@ -14,4 +15,6 @@ public interface IUserServices {
     public int getQuantityUser();
     public Map<Integer,Users> getMapUsers();
     public boolean updateStatusUser(int id, int status);
+    public List<Users> getListUsersWithPaging(int page, int size);
+    public boolean updateForgotPassword(String newPassword, String username);
 }

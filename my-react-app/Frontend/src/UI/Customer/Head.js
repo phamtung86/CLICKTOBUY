@@ -1,10 +1,10 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
-import CartHover from "./CartHover";
-import '../../Style/Customer/header.css';
 import axios from "axios";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import '../../Style/Customer/header.css';
 import CartContext from "../Context/CartContext";
 import SearchContext from "../Context/SearchContext";
+import CartHover from "./CartHover";
 
 const Head = () => {
   const [dataProduct, setDataProduct] = useState([]);

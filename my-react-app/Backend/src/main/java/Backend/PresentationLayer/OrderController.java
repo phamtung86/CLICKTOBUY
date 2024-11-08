@@ -36,7 +36,6 @@ public class OrderController extends HttpServlet {
         try {
             if (pathInfo == null || pathInfo.equals("/")) {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing action");
-                return;
             }
 
             switch (pathInfo) {
@@ -49,7 +48,6 @@ public class OrderController extends HttpServlet {
                     String type = req.getParameter("type");
                     if (type == null || type.isEmpty()) {
                         resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing or empty 'type' parameter");
-                        return;
                     }
                     double revenueDay = iOrderServices.getTotalRevenue(type);
                     resp.getWriter().write(gson.toJson(revenueDay));

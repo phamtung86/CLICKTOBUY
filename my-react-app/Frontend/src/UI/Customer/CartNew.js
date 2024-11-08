@@ -1,10 +1,10 @@
-import React, { useCallback, useContext, useState } from 'react';
-import '../../Style/Customer/cart.css';
-import Head from './Head';
-import CartContext from '../Context/CartContext';
-import { Link, useNavigate } from 'react-router-dom';
-import Voucher from './Voucher';
 import axios from 'axios';
+import React, { useCallback, useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import '../../Style/Customer/cart.css';
+import CartContext from '../Context/CartContext';
+import Head from './Head';
+import Voucher from './Voucher';
 
 const getInformationProduct = (product, cart, setCart) => {
     const { id, Image, name, unit, price, priceSale = price, note, sale, quantity = 1 } = product;
@@ -271,5 +271,5 @@ const CartNew = () => {
     );
 };
 
-export { getInformationProduct, CartProduct };
+export { CartProduct, getInformationProduct };
 export default CartNew;

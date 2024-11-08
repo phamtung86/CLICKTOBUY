@@ -1,6 +1,6 @@
+import axios from 'axios';
 import { useState } from 'react';
 import '../../../Style/Admin/Inventory/ImportInventory.css';
-import axios from 'axios';
 
 const ImportInventory = ({ productID,productPrice, manageStatusDisplay, reloadDataProduct }) => {
     const DISPLAY_NONE = 0;
